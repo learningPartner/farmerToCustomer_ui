@@ -1,0 +1,217 @@
+<div class="product-page">
+  <div class="product-hero">
+    <div class="product-hero-content">
+      <div class="section-label">Inventory</div>
+      <h1 class="product-title"><i class="bi bi-basket2-fill me-2"></i>Product Management</h1>
+      <p class="product-subtitle">
+        Create, update, review, and remove farmer product listings with the same admin flow used in
+        master management.
+      </p>
+    </div>
+  </div>
+
+  <div class="product-content">
+    <div class="section-header">
+      <div>
+        <div class="section-label">Crud Workspace</div>
+        <h2 class="section-title">Farmer Product CRUD</h2>
+        <p class="section-description">
+          Maintain product pricing, stock quantity, available date, and listing status from one
+          place.
+        </p>
+      </div>
+      <button class="btn-add-new" type="button" (click)="resetForm()">
+        <i class="bi bi-plus-lg me-2"></i>Add New Product
+      </button>
+    </div>
+
+    <div class="product-layout">
+      <div class="form-card">
+        <div class="card-head">
+          <div>
+            <div class="card-kicker">Form Panel</div>
+            <h3>{{ productForm.controls['farmerProductId'].value === 0 ? 'Create Product' : 'Edit Product' }}</h3>
+          </div>
+          <span class="status-chip" [ngClass]="productForm.controls['farmerProductId'].value === 0 ? 'fresh' : 'edit'">
+            {{ productForm.controls['farmerProductId'].value === 0 ? 'New Entry' : 'Update Mode' }}
+          </span>
+        </div>
+
+        <form class="product-form" [formGroup]="productForm">
+          <div class="form-grid">
+            <!-- <div class="form-group">
+              <label class="form-label" for="farmerId">Farmer ID</label>
+              <input id="farmerId" class="form-control" type="number" formControlName="farmerId" />
+            </div> -->
+
+            <div class="form-group">
+              <label class="form-label" for="productId">Product ID</label>
+              <select formControlName="productId" class="form-select">
+                @for (item of productMasterList(); track $index) {
+                <option [value]="item.productId"> {{item.name}}</option>
+                }
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="pricePerKg">Price Per Kg</label>
+              <input id="pricePerKg" class="form-control" type="number" min="0" step="0.01"
+                formControlName="pricePerKg" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="availableQuantity">Available Quantity</label>
+              <input id="availableQuantity" class="form-control" type="number" min="0" step="0.01"
+                formControlName="availableQuantity" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="availableDate">Available Date</label>
+              <input id="availableDate" class="form-control" type="datetime-local" formControlName="availableDate" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="status">Status</label>
+              <select id="status" class="form-control" formControlName="status">
+                <option value="Available">Available</option>
+                <option value="Out of Stock">Out of Stock</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            @if (productForm.controls['farmerProductId'].value === 0) {
+            <button class="btn-primary-green btn" type="button" [disabled]="isSubmitting()" (click)="onSaveProduct()">
+              <i class="bi bi-check2-circle"></i>Save Product
+            </button>
+            } @else {
+            <button class="btn-primary-green btn" type="button" [disabled]="isSubmitting()" (click)="onUpdateProduct()">
+              <i class="bi bi-arrow-repeat"></i>Update Product
+            </button>
+            }
+
+            <button class="btn-secondary btn" type="button" (click)="resetForm()">
+              <i class="bi bi-x-circle"></i>Reset
+            </button>
+          </div>
+        </form>
+
+        <div class="payload-preview">
+          <div class="preview-title">Payload Preview</div>
+          <pre>{{ mapFormToPayload() | json }}</pre>
+        </div>
+      </div>
+
+      <div class="stats-card">
+        <div class="card-kicker">Overview</div>
+        <h3>Listing Snapshot</h3>
+
+        <div class="metric-grid">
+          <div class="metric-box">
+            <span>Total Listings</span>
+            <strong>{{ productList().length }}</strong>
+          </div>
+          <div class="metric-box">
+            <span>Available</span>
+            <strong>{{ getAvailableProductsCount() }}</strong>
+          </div>
+          <div class="metric-box">
+            <span>Farmer ID</span>
+            <strong>{{ currentFarmerId() || productForm.controls['farmerId'].value }}</strong>
+          </div>
+          <div class="metric-box">
+            <span>Form State</span>
+            <strong>{{ productForm.controls['farmerProductId'].value === 0 ? 'Create' : 'Edit' }}</strong>
+          </div>
+        </div>
+
+        <div class="helper-note">
+          Use the edit icon from the table to load an existing record back into this form for update.
+        </div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="card-head">
+        <div>
+          <div class="card-kicker">Data Grid</div>
+          <h3>Product Listings</h3>
+        </div>
+        <button class="btn-filter" type="button" (click)="getAllProducts()">
+          <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <!-- @if (loggedInUser.roleId ==1) {
+              <th>Farmer</th>
+              } -->
+              <th hideForFarmer>Farmer</th>
+              <th>Product</th>
+              <th>Price/Kg</th>
+              <th>Quantity</th>
+              <th>Available Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of productList(); track trackByProductId($index, item)) {
+            <tr>
+              <td class="font-weight-bold">{{ item.farmerProductId || $index + 1 }}</td>
+              <!-- @if (loggedInUser.roleId ==1) {
+              <td>
+                <div class="id-stack">
+                  <strong> {{ item.farmerName }}</strong>
+                </div>
+              </td>
+              } -->
+               <td hideForFarmer>
+                <div class="id-stack">
+                  <strong> {{ item.farmerName }}</strong>
+                </div>
+              </td>
+              <td>
+                <div class="id-stack">
+                  <strong> {{ item.productName }}</strong>
+                </div>
+              </td>
+              <td class="price-text">{{ item.pricePerKg | number:'1.0-2' }}</td>
+              <td>{{ item.availableQuantity | number:'1.0-2' }} kg</td>
+              <td>{{ item.availableDate | date:'dd MMM yyyy, hh:mm a' }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="{
+                    'active': item.status === 'Available',
+                    'inactive': item.status !== 'Available'
+                  }">
+                  <i class="bi bi-circle-fill"></i>{{ item.status }}
+                </span>
+              </td>
+              <td class="action-buttons">
+                <button class="btn-icon-sm edit" title="Edit" type="button" (click)="onEditProduct(item)">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button class="btn-icon-sm delete" title="Delete" type="button" (click)="onDeleteProduct(item)">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="8" class="empty-state">
+                <i class="bi bi-inboxes-fill"></i>
+                <span>No product records found yet.</span>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

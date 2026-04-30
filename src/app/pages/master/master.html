@@ -1,0 +1,201 @@
+<div class="master-container">
+    <!-- HEADER SECTION -->
+    <div class="master-header">
+        <div class="master-header-content">
+            <h1 class="master-title"><i class="bi bi-gear-fill me-2"></i>Management Center</h1>
+            <p class="master-subtitle">Manage roles and product categories for your platform</p>
+        </div>
+    </div>
+
+    <!-- TAB NAVIGATION -->
+    <div class="master-tabs-wrapper">
+        <div class="master-tabs">
+            <button class="tab-btn" [class.active]="currentTabVisiable() == 'Role'" data-tab="roles"
+                (click)="toggleForm('Role')">
+                <i class="bi bi-shield-lock me-2"></i>Roles Management
+            </button>
+            <button class="tab-btn" [class.active]="currentTabVisiable() == 'Category'" data-tab="categories"
+                (click)="toggleForm('Category')">
+                <i class="bi bi-folder-fill me-2"></i>Categories Management
+            </button>
+        </div>
+    </div>
+
+    @if (currentTabVisiable() == 'Role') {
+        <div id="roles" class="tab-content active"  >
+        <div class="master-content">
+            <!-- ROLES HEADER WITH ACTION -->
+            <div class="section-header">
+                <div>
+                    <div class="section-label">Administration</div>
+                    <h2 class="section-title">Role Management</h2>
+                    <p class="section-description">Create, edit, and manage user roles in your system</p>
+                </div>
+                <button class="btn-add-new">
+                    <i class="bi bi-plus-lg me-2"></i>Add New Role
+                </button>
+            </div>
+
+            <!-- SEARCH AND FILTER -->
+            <div class="search-filter-bar" [formGroup]="roleForm">
+                <div class="search-input-wrapper">
+                    <i class="bi bi-search"></i>
+                    <input type="text" focusInDir formControlName="roleName" placeholder="Enter Role" />
+                </div>
+                @if (roleForm.controls['roleId'].value == 0) {
+                <button class="btn-filter" (click)="onSaveRole()">
+                    <i class="bi bi-funnel me-1"></i>Save Role
+                </button>
+                } @else {
+                <button class="btn-filter" (click)="onUpdateRole()">
+                    <i class="bi bi-funnel me-1"></i>Update Role
+                </button>
+                }
+
+
+
+            </div>
+
+            <!-- ROLES TABLE -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Role ID</th>
+                            <th>Role Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (item of roleList(); track $index) {
+                        <tr>
+                            <td class="font-weight-bold">{{$index+1}}</td>
+                            <td>
+                                <span class="role-badge admin">
+                                    <i class="bi bi-shield-check me-1"></i>{{item.roleName}}
+                                </span>
+                            </td>
+
+                            <td class="action-buttons">
+                                <button class="btn-icon-sm edit" title="Edit" (click)="onRoleEdit(item)">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                                <button class="btn-icon-sm delete" title="Delete">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        }
+
+
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- PAGINATION -->
+            <div class="pagination-wrapper">
+                <div class="pagination-info">
+                    Showing <span class="font-weight-bold">1</span> to
+                    <span class="font-weight-bold">4</span> of
+                    <span class="font-weight-bold">4</span> entries
+                </div>
+                <div class="pagination">
+                    <button class="page-btn disabled"><i class="bi bi-chevron-left"></i></button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn disabled"><i class="bi bi-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    } @else {
+         <div id="categories" class="tab-content active"  >
+        <div class="master-content">
+            <!-- CATEGORIES HEADER WITH ACTION -->
+            <div class="section-header">
+                <div>
+                    <div class="section-label">Inventory</div>
+                    <h2 class="section-title">Category Management</h2>
+                    <p class="section-description">Create, edit, and manage product categories</p>
+                </div>
+                <button class="btn-add-new" onclick="openCategoryModal()">
+                    <i class="bi bi-plus-lg me-2"></i>Add New Category
+                </button>
+            </div>
+
+            <!-- SEARCH AND FILTER -->
+            <div class="search-filter-bar" [formGroup]="categoryForm">
+                <div class="search-input-wrapper">
+                    <i class="bi bi-search"></i>
+                    <input type="text" focusInDir placeholder="Entter Category" formControlName="name" />
+                </div>
+                @if (categoryForm.controls['categoryId'].value == 0) {
+                <button class="btn-filter" (click)="onSaveCategory()">
+                    <i class="bi bi-funnel me-1"></i>Save Category
+                </button>
+                } @else {
+                <button class="btn-filter" (click)="onUpdateCategory()">
+                    <i class="bi bi-funnel me-1"></i>Update Category
+                </button>
+                }
+
+
+            </div>
+
+            <!-- CATEGORIES TABLE -->
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" /></th>
+                            <th>Category ID</th>
+                            <th>Category Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (item of categoryList(); track $index) {
+                        <tr>
+                            <td class="font-weight-bold">{{$index+1}}</td>
+                            <td>
+                                <span class="role-badge admin">
+                                    <i class="bi bi-shield-check me-1"></i>{{item.name}}
+                                </span>
+                            </td>
+
+                            <td class="action-buttons">
+                                <button class="btn-icon-sm edit" title="Edit" (click)="onEditCat(item)">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                                <button class="btn-icon-sm delete" title="Delete">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- PAGINATION -->
+            <div class="pagination-wrapper">
+                <div class="pagination-info">
+                    Showing <span class="font-weight-bold">1</span> to
+                    <span class="font-weight-bold">5</span> of
+                    <span class="font-weight-bold">5</span> entries
+                </div>
+                <div class="pagination">
+                    <button class="page-btn disabled"><i class="bi bi-chevron-left"></i></button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn disabled"><i class="bi bi-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    <!-- ROLES TAB CONTENT -->
+    
+
+    <!-- CATEGORIES TAB CONTENT -->
+   
+</div>

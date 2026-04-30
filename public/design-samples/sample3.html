@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FarmConnect – Design 3: Modern Teal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --teal: #0d9488;
+      --teal-light: #14b8a6;
+      --teal-dark: #0f766e;
+      --teal-xdark: #134e4a;
+      --teal-pale: #f0fdfa;
+      --teal-soft: #ccfbf1;
+      --amber: #f59e0b;
+      --amber-light: #fbbf24;
+      --amber-pale: #fffbeb;
+      --red: #ef4444;
+      --text: #0f2420;
+      --text-muted: #5e7d79;
+      --border: #d1faf3;
+      --border-mid: #99f6e4;
+      --bg: #ffffff;
+      --bg-soft: #f0fdfa;
+    }
+
+    * { box-sizing: border-box; }
+    body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+    h1,h2,h3,h4,h5,h6 { font-family: 'Outfit', sans-serif; }
+
+    /* NAVBAR */
+    .navbar { background: #fff; border-bottom: 1px solid var(--border); padding: 14px 0; position: sticky; top: 0; z-index: 1000; }
+    .navbar-brand { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--text) !important; letter-spacing: -0.5px; }
+    .navbar-brand .dot { color: var(--teal); }
+    .nav-link { color: var(--text-muted) !important; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-link:hover { color: var(--teal-dark) !important; }
+    .nav-link.active { color: var(--teal-dark) !important; font-weight: 600; }
+    .btn-nav-login { color: var(--text) !important; font-weight: 600; font-size: 0.88rem; background: none; border: none; padding: 8px 16px; transition: color 0.2s; }
+    .btn-nav-login:hover { color: var(--teal) !important; }
+    .btn-nav-cta { background: var(--teal); color: #fff !important; border-radius: 10px; padding: 9px 22px; font-weight: 700; font-size: 0.88rem; font-family: 'Outfit', sans-serif; transition: all 0.2s; border: none; }
+    .btn-nav-cta:hover { background: var(--teal-dark); transform: translateY(-1px); }
+    .cart-btn { position: relative; color: var(--text) !important; font-size: 1.1rem; padding: 8px; }
+    .cart-dot { position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; background: var(--amber); border-radius: 50%; border: 2px solid #fff; }
+
+    /* HERO */
+    .hero { background: var(--teal-pale); min-height: 88vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+    .hero-circle-1 { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: rgba(13,148,136,0.06); top: -150px; right: -80px; pointer-events: none; }
+    .hero-circle-2 { position: absolute; width: 300px; height: 300px; border-radius: 50%; background: rgba(245,158,11,0.06); bottom: -80px; left: 10%; pointer-events: none; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--teal-soft); color: var(--teal-dark); border-radius: 8px; padding: 7px 14px; font-size: 0.8rem; font-weight: 700; font-family: 'Outfit', sans-serif; margin-bottom: 22px; text-transform: uppercase; letter-spacing: 0.8px; }
+    .hero h1 { font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 800; color: var(--text); line-height: 1.1; margin-bottom: 20px; letter-spacing: -1px; }
+    .hero h1 .highlight { color: var(--teal); position: relative; }
+    .hero h1 .highlight::after { content: ''; position: absolute; bottom: 4px; left: 0; right: 0; height: 4px; background: var(--teal-soft); border-radius: 2px; }
+    .hero p { color: var(--text-muted); font-size: 1.08rem; line-height: 1.8; max-width: 490px; margin-bottom: 36px; }
+    .btn-teal { background: var(--teal); color: #fff; border: none; border-radius: 12px; padding: 14px 32px; font-size: 0.97rem; font-weight: 700; font-family: 'Outfit', sans-serif; transition: all 0.25s; box-shadow: 0 4px 20px rgba(13,148,136,0.3); }
+    .btn-teal:hover { background: var(--teal-dark); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(13,148,136,0.4); color: #fff; }
+    .btn-outline-teal { background: #fff; color: var(--teal); border: 2px solid var(--border-mid); border-radius: 12px; padding: 12px 28px; font-size: 0.97rem; font-weight: 700; font-family: 'Outfit', sans-serif; transition: all 0.25s; }
+    .btn-outline-teal:hover { border-color: var(--teal); background: var(--teal-soft); color: var(--teal-dark); }
+    .trust-bar { display: flex; align-items: center; gap: 20px; padding: 18px 0 0; border-top: 1px solid var(--border); margin-top: 16px; flex-wrap: wrap; }
+    .trust-item { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-muted); }
+    .trust-item i { color: var(--teal); font-size: 1rem; }
+    .hero-visual { position: relative; }
+    .hero-img { border-radius: 24px; width: 100%; box-shadow: 0 40px 90px rgba(13,148,136,0.15); }
+    .pill-float { position: absolute; background: #fff; border-radius: 14px; padding: 12px 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); }
+    .pill-float.f1 { top: 24px; left: -24px; }
+    .pill-float.f2 { bottom: 40px; right: -20px; }
+    .pill-ico { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+    .pill-ico.teal { background: var(--teal-soft); color: var(--teal-dark); }
+    .pill-ico.amber { background: var(--amber-pale); color: var(--amber); }
+    .pill-text strong { display: block; font-size: 0.9rem; font-weight: 700; color: var(--text); font-family: 'Outfit', sans-serif; }
+    .pill-text span { font-size: 0.74rem; color: var(--text-muted); }
+
+    /* STATS BAR */
+    .stats-bar { background: var(--teal); padding: 28px 0; }
+    .stat-i { text-align: center; }
+    .stat-i .sn { font-family: 'Outfit', sans-serif; font-size: 1.9rem; font-weight: 800; color: #fff; }
+    .stat-i .sl { font-size: 0.82rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.8px; }
+    .stat-div { width: 1px; background: rgba(255,255,255,0.2); height: 40px; }
+
+    /* SECTION */
+    .chip { display: inline-flex; align-items: center; gap: 6px; background: var(--teal-soft); color: var(--teal-dark); border-radius: 6px; padding: 5px 13px; font-size: 0.74rem; font-weight: 700; font-family: 'Outfit', sans-serif; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .s-title { font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 800; color: var(--text); letter-spacing: -0.5px; line-height: 1.2; }
+    .s-sub { color: var(--text-muted); font-size: 1rem; line-height: 1.75; }
+    .link-teal { color: var(--teal); font-weight: 700; text-decoration: none; font-size: 0.9rem; font-family: 'Outfit', sans-serif; }
+    .link-teal:hover { color: var(--teal-dark); }
+
+    /* CATEGORY GRID */
+    .cat-grid { background: var(--bg-soft); }
+    .cat-item { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 18px 14px; text-align: center; cursor: pointer; transition: all 0.25s; }
+    .cat-item:hover, .cat-item.active { background: var(--teal); border-color: var(--teal); }
+    .cat-item:hover .cat-emoji, .cat-item.active .cat-emoji { transform: scale(1.1); }
+    .cat-item:hover .cat-lbl, .cat-item.active .cat-lbl { color: rgba(255,255,255,0.9); }
+    .cat-emoji { font-size: 2rem; display: block; margin-bottom: 8px; transition: transform 0.2s; }
+    .cat-lbl { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); font-family: 'Outfit', sans-serif; }
+
+    /* PRODUCT */
+    .p-card { background: #fff; border: 1px solid var(--border); border-radius: 18px; overflow: hidden; transition: all 0.3s; }
+    .p-card:hover { border-color: var(--teal-light); box-shadow: 0 16px 50px rgba(13,148,136,0.1); transform: translateY(-5px); }
+    .p-card-img { height: 195px; overflow: hidden; position: relative; }
+    .p-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .p-card:hover .p-card-img img { transform: scale(1.06); }
+    .p-tag { position: absolute; top: 12px; left: 12px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; padding: 4px 10px; font-family: 'Outfit', sans-serif; text-transform: uppercase; }
+    .p-tag.fresh { background: var(--teal); color: #fff; }
+    .p-tag.organic { background: var(--teal-soft); color: var(--teal-dark); }
+    .p-tag.sale { background: var(--amber); color: #fff; }
+    .p-fav { position: absolute; top: 12px; right: 12px; width: 32px; height: 32px; background: rgba(255,255,255,0.85); border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted); font-size: 0.95rem; transition: all 0.2s; }
+    .p-fav:hover { color: var(--red); background: rgba(239,68,68,0.1); }
+    .p-body { padding: 16px; }
+    .p-title { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text); margin-bottom: 4px; }
+    .p-seller { font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px; margin-bottom: 14px; }
+    .p-seller-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal-light); }
+    .p-footer { display: flex; align-items: center; justify-content: space-between; }
+    .p-price { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 800; color: var(--text); }
+    .p-price sup { font-size: 0.8rem; font-weight: 600; vertical-align: top; margin-top: 4px; display: inline-block; }
+    .p-price small { font-size: 0.75rem; color: var(--text-muted); font-weight: 400; }
+    .p-rating { font-size: 0.78rem; color: var(--amber); display: flex; align-items: center; gap: 3px; }
+    .btn-cart-teal { background: var(--teal-soft); color: var(--teal-dark); border: none; border-radius: 10px; padding: 10px 0; font-weight: 700; font-size: 0.87rem; font-family: 'Outfit', sans-serif; width: 100%; margin-top: 12px; transition: all 0.2s; }
+    .btn-cart-teal:hover { background: var(--teal); color: #fff; }
+
+    /* HOW IT WORKS */
+    .hiw-light { background: var(--bg-soft); }
+    .hiw-card { background: #fff; border-radius: 18px; padding: 30px 24px; border: 1px solid var(--border); position: relative; }
+    .hiw-num { position: absolute; top: -16px; left: 24px; width: 36px; height: 36px; background: var(--teal); color: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 800; }
+    .hiw-emoji { font-size: 2.4rem; margin-bottom: 18px; display: block; }
+    .hiw-card h5 { font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .hiw-card p { font-size: 0.87rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+
+    /* ROLE SECTION */
+    .role-teal { border-radius: 20px; padding: 32px 28px; height: 100%; }
+    .role-teal.r-admin { background: var(--teal-pale); border: 1px solid var(--border-mid); }
+    .role-teal.r-farmer { background: #fffbeb; border: 1px solid #fde68a; }
+    .role-teal.r-customer { background: #eff6ff; border: 1px solid #bfdbfe; }
+    .role-teal h5 { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.15rem; margin-bottom: 6px; }
+    .role-teal .role-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6; }
+    .role-teal .r-badge { display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; padding: 7px 14px; font-size: 0.8rem; font-weight: 700; font-family: 'Outfit', sans-serif; margin-bottom: 18px; }
+    .r-badge.adm { background: var(--teal-soft); color: var(--teal-dark); }
+    .r-badge.frm { background: #fef3c7; color: #92400e; }
+    .r-badge.cus { background: #dbeafe; color: #1e40af; }
+    .role-teal ul { list-style: none; padding: 0; margin: 0; }
+    .role-teal ul li { font-size: 0.87rem; color: var(--text); padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: flex-start; gap: 10px; }
+    .role-teal ul li:last-child { border-bottom: none; }
+    .role-teal ul li i { font-size: 0.9rem; margin-top: 2px; flex-shrink: 0; }
+    .r-admin li i { color: var(--teal); }
+    .r-farmer li i { color: var(--amber); }
+    .r-customer li i { color: #3b82f6; }
+
+    /* FARMER GRID */
+    .f-card { background: #fff; border: 1px solid var(--border); border-radius: 18px; padding: 22px; transition: all 0.3s; }
+    .f-card:hover { border-color: var(--teal-light); box-shadow: 0 10px 35px rgba(13,148,136,0.1); }
+    .f-card-top { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+    .f-card-top img { width: 60px; height: 60px; border-radius: 14px; object-fit: cover; }
+    .f-name { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem; color: var(--text); }
+    .f-loc { font-size: 0.78rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px; margin-top: 2px; }
+    .f-rating { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+    .f-rating .r { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--text); }
+    .f-rating i { color: var(--amber); font-size: 0.85rem; }
+    .f-tag { background: var(--teal-soft); color: var(--teal-dark); border-radius: 6px; font-size: 0.72rem; font-weight: 700; padding: 4px 10px; display: inline-block; margin: 2px; font-family: 'Outfit', sans-serif; }
+    .f-view { color: var(--teal); font-size: 0.82rem; font-weight: 700; text-decoration: none; font-family: 'Outfit', sans-serif; transition: color 0.2s; }
+    .f-view:hover { color: var(--teal-dark); }
+
+    /* CTA */
+    .cta-teal { background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%); border-radius: 28px; padding: 64px 48px; position: relative; overflow: hidden; }
+    .cta-teal::before { content: ''; position: absolute; width: 450px; height: 450px; border-radius: 50%; background: rgba(255,255,255,0.05); top: -180px; right: -100px; }
+    .cta-teal::after { content: ''; position: absolute; width: 300px; height: 300px; border-radius: 50%; background: rgba(245,158,11,0.08); bottom: -100px; left: -50px; }
+    .cta-teal h2 { color: #fff; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 800; margin-bottom: 14px; letter-spacing: -0.5px; }
+    .cta-teal p { color: rgba(255,255,255,0.75); font-size: 1.05rem; line-height: 1.7; max-width: 480px; margin-bottom: 0; }
+    .btn-cta-amber { background: var(--amber); color: #fff; border: none; border-radius: 12px; padding: 13px 30px; font-weight: 800; font-size: 0.95rem; font-family: 'Outfit', sans-serif; transition: all 0.2s; }
+    .btn-cta-amber:hover { background: var(--amber-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,158,11,0.4); color: #fff; }
+    .btn-cta-ghost { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.25); border-radius: 12px; padding: 12px 26px; font-weight: 700; font-size: 0.95rem; font-family: 'Outfit', sans-serif; transition: all 0.2s; }
+    .btn-cta-ghost:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+    /* SEARCH HERO */
+    .search-hero { background: #fff; border: 1px solid var(--border-mid); border-radius: 14px; display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 18px; box-shadow: 0 4px 20px rgba(13,148,136,0.1); max-width: 580px; }
+    .search-hero input { flex: 1; border: none; outline: none; font-size: 0.95rem; color: var(--text); background: none; }
+    .search-hero input::placeholder { color: var(--text-muted); }
+    .search-hero select { border: none; border-left: 1px solid var(--border); outline: none; font-size: 0.85rem; color: var(--text-muted); padding: 0 14px; background: none; cursor: pointer; }
+    .btn-search-teal { background: var(--teal); color: #fff; border: none; border-radius: 10px; padding: 11px 22px; font-weight: 700; font-size: 0.88rem; font-family: 'Outfit', sans-serif; transition: all 0.2s; white-space: nowrap; }
+    .btn-search-teal:hover { background: var(--teal-dark); color: #fff; }
+
+    /* FOOTER */
+    footer { background: var(--teal-xdark); color: rgba(255,255,255,0.65); }
+    footer h6 { color: #fff; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.92rem; margin-bottom: 16px; letter-spacing: 0.3px; }
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.87rem; display: block; margin-bottom: 9px; transition: color 0.2s; }
+    footer a:hover { color: rgba(255,255,255,0.95); }
+    .footer-logo { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .footer-logo-ico { width: 34px; height: 34px; background: var(--teal-light); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: #fff; }
+    .social-teal { width: 36px; height: 36px; border-radius: 9px; background: rgba(255,255,255,0.08); display: inline-flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.6); font-size: 0.9rem; transition: all 0.2s; }
+    .social-teal:hover { background: var(--teal-light); color: #fff; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding: 18px 0; font-size: 0.82rem; }
+    .footer-tag { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); border-radius: 6px; padding: 3px 10px; font-size: 0.76rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="#">Farm<span class="dot">.</span>Connect</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#nav3">
+      <i class="bi bi-list fs-4" style="color:var(--text);"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="nav3">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link active px-3" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="#">Shop</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="#">Farmers</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="#">Categories</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="#">About</a></li>
+      </ul>
+      <div class="d-flex gap-2 mt-3 mt-lg-0 align-items-center">
+        <button class="btn-nav-login">Log in</button>
+        <a href="#" class="btn-nav-cta">Sign up free</a>
+        <a href="#" class="cart-btn nav-link">
+          <i class="bi bi-bag"></i>
+          <div class="cart-dot"></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero py-5">
+  <div class="hero-circle-1"></div>
+  <div class="hero-circle-2"></div>
+  <div class="container position-relative" style="z-index:1;">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="hero-eyebrow"><i class="bi bi-shield-check"></i> Verified Farm-Direct Platform</div>
+        <h1>Fresh Produce,<br/><span class="highlight">Zero</span> Middlemen</h1>
+        <p>Shop directly from verified local farmers. Better prices, better freshness, better impact. Search any product and order from the best farmers near you.</p>
+        <div class="search-hero mb-4">
+          <i class="bi bi-search" style="color:var(--text-muted);"></i>
+          <input type="text" placeholder="Search potatoes, tomatoes, coriander..." />
+          <select>
+            <option>All</option>
+            <option>Vegetables</option>
+            <option>Fruits</option>
+            <option>Grains</option>
+          </select>
+          <button class="btn-search-teal"><i class="bi bi-search me-1"></i>Search</button>
+        </div>
+        <div class="d-flex gap-3 flex-wrap mb-3">
+          <a href="#" class="btn-teal"><i class="bi bi-shop me-2"></i>Browse Products</a>
+          <a href="#" class="btn-outline-teal"><i class="bi bi-person-badge me-2"></i>Sell as Farmer</a>
+        </div>
+        <div class="trust-bar">
+          <div class="trust-item"><i class="bi bi-check-circle-fill"></i> 1,200+ Verified Farmers</div>
+          <div class="trust-item"><i class="bi bi-truck"></i> Direct Delivery</div>
+          <div class="trust-item"><i class="bi bi-shield-check"></i> Secure Platform</div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-visual">
+          <img src="https://images.pexels.com/photos/1400172/pexels-photo-1400172.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Farm Fresh" class="hero-img" />
+          <div class="pill-float f1">
+            <div class="pill-ico teal"><i class="bi bi-check-lg"></i></div>
+            <div class="pill-text">
+              <strong>Order Placed</strong>
+              <span>2kg Potatoes — Ravi Farms</span>
+            </div>
+          </div>
+          <div class="pill-float f2">
+            <div class="pill-ico amber"><i class="bi bi-star-fill"></i></div>
+            <div class="pill-text">
+              <strong>Top Rated</strong>
+              <span>4.9 · 3,200+ reviews</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="row g-0 align-items-center justify-content-center">
+      <div class="col-6 col-md-3 stat-i">
+        <div class="sn">1,200+</div>
+        <div class="sl">Active Farmers</div>
+      </div>
+      <div class="col-md-auto d-none d-md-flex"><div class="stat-div"></div></div>
+      <div class="col-6 col-md-3 stat-i">
+        <div class="sn">8,500+</div>
+        <div class="sl">Products Listed</div>
+      </div>
+      <div class="col-md-auto d-none d-md-flex"><div class="stat-div"></div></div>
+      <div class="col-6 col-md-3 stat-i">
+        <div class="sn">45K+</div>
+        <div class="sl">Happy Customers</div>
+      </div>
+      <div class="col-md-auto d-none d-md-flex"><div class="stat-div"></div></div>
+      <div class="col-6 col-md-3 stat-i">
+        <div class="sn">18</div>
+        <div class="sl">States Covered</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="cat-grid py-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-2">
+      <div>
+        <div class="chip"><i class="bi bi-grid-fill"></i> Browse</div>
+        <h2 class="s-title mb-0">Shop by Category</h2>
+      </div>
+      <a href="#" class="link-teal">View all <i class="bi bi-arrow-right ms-1"></i></a>
+    </div>
+    <div class="row g-3">
+      <div class="col-6 col-sm-4 col-md-3 col-lg">
+        <div class="cat-item active"><span class="cat-emoji">🥬</span><div class="cat-lbl">Vegetables</div></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg">
+        <div class="cat-item"><span class="cat-emoji">🍎</span><div class="cat-lbl">Fruits</div></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg">
+        <div class="cat-item"><span class="cat-emoji">🌾</span><div class="cat-lbl">Grains</div></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg">
+        <div class="cat-item"><span class="cat-emoji">🥛</span><div class="cat-lbl">Dairy</div></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg">
+        <div class="cat-item"><span class="cat-emoji">🌿</span><div class="cat-lbl">Herbs</div></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg">
+        <div class="cat-item"><span class="cat-emoji">🫘</span><div class="cat-lbl">Pulses</div></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg">
+        <div class="cat-item"><span class="cat-emoji">🍯</span><div class="cat-lbl">Honey</div></div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg">
+        <div class="cat-item"><span class="cat-emoji">🌱</span><div class="cat-lbl">Organic</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="py-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-2">
+      <div>
+        <div class="chip"><i class="bi bi-lightning-fill"></i> Fresh Today</div>
+        <h2 class="s-title mb-0">Featured Products</h2>
+      </div>
+      <a href="#" class="link-teal">Browse all <i class="bi bi-arrow-right ms-1"></i></a>
+    </div>
+    <div class="row g-4">
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="p-card">
+          <div class="p-card-img">
+            <img src="https://images.pexels.com/photos/144248/potatoes-vegetables-erdfrucht-bio-144248.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Potato" />
+            <span class="p-tag fresh">Fresh</span>
+            <div class="p-fav"><i class="bi bi-heart"></i></div>
+          </div>
+          <div class="p-body">
+            <div class="p-title">Organic Potatoes</div>
+            <div class="p-seller"><div class="p-seller-dot"></div>Ravi Kumar · Punjab</div>
+            <div class="p-footer">
+              <div class="p-price"><sup>₹</sup>28<small>/kg</small></div>
+              <div class="p-rating"><i class="bi bi-star-fill"></i> 4.8</div>
+            </div>
+            <button class="btn-cart-teal"><i class="bi bi-bag-plus me-2"></i>Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="p-card">
+          <div class="p-card-img">
+            <img src="https://images.pexels.com/photos/533360/pexels-photo-533360.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Tomato" />
+            <span class="p-tag sale">Top Deal</span>
+            <div class="p-fav"><i class="bi bi-heart-fill" style="color:var(--red);"></i></div>
+          </div>
+          <div class="p-body">
+            <div class="p-title">Farm Tomatoes</div>
+            <div class="p-seller"><div class="p-seller-dot"></div>Suresh Patil · Maharashtra</div>
+            <div class="p-footer">
+              <div class="p-price"><sup>₹</sup>35<small>/kg</small></div>
+              <div class="p-rating"><i class="bi bi-star-fill"></i> 5.0</div>
+            </div>
+            <button class="btn-cart-teal"><i class="bi bi-bag-plus me-2"></i>Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="p-card">
+          <div class="p-card-img">
+            <img src="https://images.pexels.com/photos/65174/pexels-photo-65174.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Coriander" />
+            <span class="p-tag organic">Organic</span>
+            <div class="p-fav"><i class="bi bi-heart"></i></div>
+          </div>
+          <div class="p-body">
+            <div class="p-title">Fresh Coriander</div>
+            <div class="p-seller"><div class="p-seller-dot"></div>Priya Sharma · Rajasthan</div>
+            <div class="p-footer">
+              <div class="p-price"><sup>₹</sup>15<small>/bunch</small></div>
+              <div class="p-rating"><i class="bi bi-star-fill"></i> 4.5</div>
+            </div>
+            <button class="btn-cart-teal"><i class="bi bi-bag-plus me-2"></i>Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="p-card">
+          <div class="p-card-img">
+            <img src="https://images.pexels.com/photos/1300975/pexels-photo-1300975.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Spinach" />
+            <span class="p-tag fresh">Fresh</span>
+            <div class="p-fav"><i class="bi bi-heart"></i></div>
+          </div>
+          <div class="p-body">
+            <div class="p-title">Baby Spinach</div>
+            <div class="p-seller"><div class="p-seller-dot"></div>Arjun Singh · Haryana</div>
+            <div class="p-footer">
+              <div class="p-price"><sup>₹</sup>22<small>/kg</small></div>
+              <div class="p-rating"><i class="bi bi-star-fill"></i> 4.7</div>
+            </div>
+            <button class="btn-cart-teal"><i class="bi bi-bag-plus me-2"></i>Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="hiw-light py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="chip" style="margin:0 auto 10px;display:inline-flex;"><i class="bi bi-diagram-3-fill"></i> Simple Process</div>
+      <h2 class="s-title">How FarmConnect Works</h2>
+      <p class="s-sub mx-auto mt-2" style="max-width:500px;">From farm listing to your doorstep in 4 transparent steps.</p>
+    </div>
+    <div class="row g-4 mt-2">
+      <div class="col-md-6 col-lg-3">
+        <div class="hiw-card">
+          <div class="hiw-num">01</div>
+          <span class="hiw-emoji">🛡️</span>
+          <h5>Admin Creates Catalogue</h5>
+          <p>Super admin sets up categories and a master product list. This ensures standardized product naming across all farmers.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="hiw-card">
+          <div class="hiw-num">02</div>
+          <span class="hiw-emoji">🌾</span>
+          <h5>Farmer Lists Products</h5>
+          <p>Registered farmers choose products from the catalogue and list what they'll have available — with price and quantity in kg.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="hiw-card">
+          <div class="hiw-num">03</div>
+          <span class="hiw-emoji">🔍</span>
+          <h5>Customer Searches</h5>
+          <p>Customer searches any product, sees all farmers who have it listed, and adds their preferred quantity to the cart.</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="hiw-card">
+          <div class="hiw-num">04</div>
+          <span class="hiw-emoji">📦</span>
+          <h5>Orders Auto-Split</h5>
+          <p>One cart, multiple farmers. Orders are automatically split and sent to each respective farmer — exactly like Amazon's marketplace.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="chip" style="margin:0 auto 10px;display:inline-flex;"><i class="bi bi-people-fill"></i> Platform Roles</div>
+      <h2 class="s-title">Three Roles, One Platform</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="role-teal r-admin">
+          <div class="r-badge adm"><i class="bi bi-shield-fill-check"></i> Super Admin</div>
+          <p class="role-desc">The platform controller who sets up the master catalogue and governs the entire ecosystem.</p>
+          <ul>
+            <li><i class="bi bi-check-circle-fill"></i> Create product categories and catalogue</li>
+            <li><i class="bi bi-check-circle-fill"></i> Approve farmer registrations</li>
+            <li><i class="bi bi-check-circle-fill"></i> Monitor all platform orders</li>
+            <li><i class="bi bi-check-circle-fill"></i> Manage user roles and permissions</li>
+            <li><i class="bi bi-check-circle-fill"></i> View platform analytics</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="role-teal r-farmer">
+          <div class="r-badge frm"><i class="bi bi-person-workspace"></i> Farmer</div>
+          <p class="role-desc">Farmers register on the platform and list what they're growing this season to connect with buyers.</p>
+          <ul>
+            <li><i class="bi bi-check-circle-fill"></i> Register and create seller profile</li>
+            <li><i class="bi bi-check-circle-fill"></i> List products from admin catalogue</li>
+            <li><i class="bi bi-check-circle-fill"></i> Set price and available quantity</li>
+            <li><i class="bi bi-check-circle-fill"></i> Receive direct order notifications</li>
+            <li><i class="bi bi-check-circle-fill"></i> Track all sales and manage stock</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="role-teal r-customer">
+          <div class="r-badge cus"><i class="bi bi-bag-heart-fill"></i> Customer</div>
+          <p class="role-desc">Customers search for fresh produce, see multiple farmers, and order directly at fair prices.</p>
+          <ul>
+            <li><i class="bi bi-check-circle-fill"></i> Browse and search all products</li>
+            <li><i class="bi bi-check-circle-fill"></i> See all farmers offering same product</li>
+            <li><i class="bi bi-check-circle-fill"></i> Add items from multiple farmers to cart</li>
+            <li><i class="bi bi-check-circle-fill"></i> Orders split automatically per farmer</li>
+            <li><i class="bi bi-check-circle-fill"></i> Track each order's status separately</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FARMERS -->
+<section class="py-5" style="background:var(--bg-soft);">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-2">
+      <div>
+        <div class="chip"><i class="bi bi-patch-check-fill"></i> Trusted</div>
+        <h2 class="s-title mb-0">Top Farmers</h2>
+      </div>
+      <a href="#" class="link-teal">All farmers <i class="bi bi-arrow-right ms-1"></i></a>
+    </div>
+    <div class="row g-3">
+      <div class="col-sm-6 col-lg-3">
+        <div class="f-card">
+          <div class="f-card-top">
+            <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=200" alt="" />
+            <div>
+              <div class="f-name">Ravi Kumar</div>
+              <div class="f-loc"><i class="bi bi-geo-alt"></i> Punjab</div>
+            </div>
+            <div class="f-rating">
+              <span class="r">4.8</span>
+              <i class="bi bi-star-fill"></i>
+            </div>
+          </div>
+          <div class="mb-3"><span class="f-tag">Potatoes</span><span class="f-tag">Onions</span><span class="f-tag">Wheat</span></div>
+          <a href="#" class="f-view">View Profile <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="f-card">
+          <div class="f-card-top">
+            <img src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=200" alt="" />
+            <div>
+              <div class="f-name">Suresh Patil</div>
+              <div class="f-loc"><i class="bi bi-geo-alt"></i> Maharashtra</div>
+            </div>
+            <div class="f-rating">
+              <span class="r">5.0</span>
+              <i class="bi bi-star-fill"></i>
+            </div>
+          </div>
+          <div class="mb-3"><span class="f-tag">Tomatoes</span><span class="f-tag">Grapes</span><span class="f-tag">Onions</span></div>
+          <a href="#" class="f-view">View Profile <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="f-card">
+          <div class="f-card-top">
+            <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200" alt="" />
+            <div>
+              <div class="f-name">Priya Sharma</div>
+              <div class="f-loc"><i class="bi bi-geo-alt"></i> Rajasthan</div>
+            </div>
+            <div class="f-rating">
+              <span class="r">4.5</span>
+              <i class="bi bi-star-fill"></i>
+            </div>
+          </div>
+          <div class="mb-3"><span class="f-tag">Coriander</span><span class="f-tag">Mint</span><span class="f-tag">Fenugreek</span></div>
+          <a href="#" class="f-view">View Profile <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="f-card">
+          <div class="f-card-top">
+            <img src="https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=200" alt="" />
+            <div>
+              <div class="f-name">Arjun Singh</div>
+              <div class="f-loc"><i class="bi bi-geo-alt"></i> Haryana</div>
+            </div>
+            <div class="f-rating">
+              <span class="r">4.7</span>
+              <i class="bi bi-star-fill"></i>
+            </div>
+          </div>
+          <div class="mb-3"><span class="f-tag">Spinach</span><span class="f-tag">Mustard</span><span class="f-tag">Rice</span></div>
+          <a href="#" class="f-view">View Profile <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-5">
+  <div class="container">
+    <div class="cta-teal">
+      <div class="row align-items-center g-4 position-relative" style="z-index:1;">
+        <div class="col-lg-7">
+          <div class="chip" style="background:rgba(255,255,255,0.15);color:#fff;display:inline-flex;margin-bottom:16px;"><i class="bi bi-rocket-takeoff-fill"></i> Start Today</div>
+          <h2>Grow Your Farm Business Online</h2>
+          <p>Join thousands of Indian farmers already selling directly to customers. No commissions, no middlemen — just fair, direct trade.</p>
+        </div>
+        <div class="col-lg-5 text-lg-end">
+          <div class="d-flex gap-3 flex-wrap justify-content-lg-end">
+            <a href="#" class="btn-cta-amber"><i class="bi bi-person-plus me-2"></i>Register as Farmer</a>
+            <a href="#" class="btn-cta-ghost">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="pt-5 pb-0">
+  <div class="container">
+    <div class="row g-4 pb-4">
+      <div class="col-lg-4">
+        <div class="footer-logo">
+          <div class="footer-logo-ico"><i class="bi bi-leaf-fill"></i></div>
+          Farm.Connect
+        </div>
+        <p style="font-size:0.88rem;line-height:1.75;">Empowering Indian farmers by connecting them directly with consumers. Fresh, fair, and transparent.</p>
+        <div class="mt-3 d-flex gap-2">
+          <a href="#" class="social-teal"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-teal"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-teal"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-teal"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6>Marketplace</h6>
+        <a href="#">Browse Products</a>
+        <a href="#">Find Farmers</a>
+        <a href="#">Categories</a>
+        <a href="#">How It Works</a>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6>For Farmers</h6>
+        <a href="#">Register Now</a>
+        <a href="#">Farmer Dashboard</a>
+        <a href="#">List Products</a>
+        <a href="#">Order Inbox</a>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6>For Customers</h6>
+        <a href="#">Create Account</a>
+        <a href="#">Track Orders</a>
+        <a href="#">Saved Items</a>
+        <a href="#">Get Help</a>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6>Company</h6>
+        <a href="#">About Us</a>
+        <a href="#">Blog</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <span>&copy; 2025 FarmConnect. All rights reserved.</span>
+      <div class="footer-tag"><i class="bi bi-heart-fill" style="color:#ef4444;"></i> Made for Indian Farmers</div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

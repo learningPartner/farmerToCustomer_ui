@@ -1,7 +1,25 @@
 export const GlobalConstant = {
+    LOCAL_LOGIN_KEY:'farmerLoginData',
+    TOKEN_KEY:'fareme_token',
     API_ENDPOINTS:{
-        LOGIN:'login',
-        GET_USER_BY_ID:'getUserbyId?id='
+        LOGIN:'farmerUsers/login',
+        GET_USER_BY_ID:'getUserbyId?id=',
+        GET_ALL_ROLES:'farmerRoles/get-all-roles',
+        CREATE_ROLE:'farmerRoles/create-role',
+        UPDATE_ROLE:'farmerRoles/update-role/',
+        CREATE_USER:'farmerUsers/create-user',
+        GET_CATEGORY: 'farmerCategories/get-all-categories',
+        CREATE_CATEGORY:'farmerCategories/create-category',
+        UPDATE_CATEGORY:'farmerCategories/update-category/',
+        GET_ALL_PRODUCTS:'farmerFarmerProducts/get-all-farmer-products-with-joins',
+        GET_ALL_PRODUCTS_BY_FARMER:'farmerFarmerProducts/get-farmer-products-by-farmer/',
+        CREATE_PRODUCT:'farmerFarmerProducts/create-farmer-product',
+        UPDATE_PRODUCT:'farmerFarmerProducts/update-product/',
+        DELETE_PRODUCT:'farmerFarmerProducts/delete-product/',
+        GET_ALL_PRODUCT_MASTERS:'farmerProducts/get-all-products-with-joins',
+        CREATE_PRODUCT_MASTER:'farmerProducts/create-product',
+        UPDATE_PRODUCT_MASTER:'farmerProducts/update-product/',
+        DELETE_PRODUCT_MASTER:'farmerProducts/delete-product/'
     },
     VALIDATION_MESSAGE: {
         REQUIRED:'This is Required',

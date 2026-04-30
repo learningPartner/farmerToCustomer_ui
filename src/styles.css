@@ -1,1 +1,149 @@
 /* You can add global styles to this file, and also import other style files */
+ :root {
+      --primary: #2d6a4f;
+      --primary-light: #52b788;
+      --primary-dark: #1b4332;
+      --accent: #f4a261;
+      --accent-dark: #e76f51;
+      --bg-soft: #f0faf4;
+      --bg-card: #ffffff;
+      --text-main: #1b2d24;
+      --text-muted: #5a7a67;
+      --border: #b7dfc8;
+    }
+
+    * { box-sizing: border-box; }
+    body { font-family: 'Lato', sans-serif; background: #fafffe; color: var(--text-main); overflow-x: hidden; }
+    h1,h2,h3,h4,h5 { font-family: 'Nunito', sans-serif; }
+
+    /* NAV */
+
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #52b788 100%);
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      top: -150px; right: -100px;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(244,162,97,0.1);
+      bottom: -100px; left: -80px;
+    }
+    .hero-badge { background: rgba(244,162,97,0.2); color: var(--accent); border: 1px solid rgba(244,162,97,0.4); border-radius: 50px; padding: 6px 18px; font-size: 0.82rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; display: inline-block; margin-bottom: 18px; }
+    .hero h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 20px; }
+    .hero h1 span { color: var(--accent); }
+    .hero p { color: rgba(255,255,255,0.8); font-size: 1.15rem; line-height: 1.75; max-width: 500px; margin-bottom: 34px; }
+    .btn-hero-primary { background: var(--accent); color: #fff; border: none; border-radius: 50px; padding: 14px 36px; font-size: 1.05rem; font-weight: 700; font-family: 'Nunito', sans-serif; transition: all 0.25s; box-shadow: 0 8px 24px rgba(244,162,97,0.4); }
+    .btn-hero-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(244,162,97,0.5); color: #fff; }
+    .btn-hero-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.5); border-radius: 50px; padding: 12px 30px; font-size: 1.05rem; font-weight: 700; font-family: 'Nunito', sans-serif; transition: all 0.25s; }
+    .btn-hero-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
+    .hero-stat { text-align: center; }
+    .hero-stat .num { font-family: 'Nunito', sans-serif; font-size: 2rem; font-weight: 900; color: #fff; }
+    .hero-stat .lbl { font-size: 0.8rem; color: rgba(255,255,255,0.65); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+    .hero-img-wrap { position: relative; }
+    .hero-img-wrap img { border-radius: 24px; box-shadow: 0 30px 80px rgba(0,0,0,0.35); width: 100%; }
+    .floating-card { background: #fff; border-radius: 16px; padding: 14px 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); position: absolute; display: flex; align-items: center; gap: 10px; }
+    .floating-card.card-1 { bottom: 30px; left: -30px; }
+    .floating-card.card-2 { top: 20px; right: -20px; }
+    .floating-card .fc-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .floating-card .fc-icon.green { background: #d8f3dc; color: var(--primary); }
+    .floating-card .fc-icon.orange { background: #ffecd2; color: var(--accent-dark); }
+    .floating-card .fc-text strong { display: block; font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
+    .floating-card .fc-text span { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* CATEGORY STRIP */
+    .cat-strip { background: var(--bg-soft); padding: 28px 0; border-bottom: 1px solid var(--border); }
+    .cat-pill { background: #fff; border: 1.5px solid var(--border); border-radius: 50px; padding: 10px 22px; font-size: 0.88rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; transition: all 0.2s; cursor: pointer; white-space: nowrap; }
+    .cat-pill:hover, .cat-pill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .cat-pill i { font-size: 1rem; }
+
+    /* SECTION COMMON */
+    .section-label { color: var(--primary-light); font-size: 0.8rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+    .section-title { font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 800; color: var(--text-main); line-height: 1.2; }
+    .section-sub { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; }
+
+    /* PRODUCT CARDS */
+    .product-card { background: #fff; border-radius: 20px; overflow: hidden; border: 1px solid var(--border); transition: all 0.3s; }
+    .product-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(45,106,79,0.12); border-color: var(--primary-light); }
+    .product-card .p-img { position: relative; overflow: hidden; height: 200px; }
+    .product-card .p-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .product-card:hover .p-img img { transform: scale(1.06); }
+    .product-card .p-badge { position: absolute; top: 14px; left: 14px; background: var(--accent); color: #fff; font-size: 0.72rem; font-weight: 800; border-radius: 50px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .product-card .p-body { padding: 18px; }
+    .product-card .p-name { font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px; }
+    .product-card .p-farmer { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px; }
+    .product-card .p-farmer i { color: var(--primary-light); }
+    .product-card .p-price { font-size: 1.3rem; font-weight: 900; color: var(--primary); font-family: 'Nunito', sans-serif; }
+    .product-card .p-price span { font-size: 0.8rem; color: var(--text-muted); font-weight: 400; }
+    .product-card .p-meta { font-size: 0.78rem; color: var(--text-muted); }
+    .btn-add-cart { background: var(--primary); color: #fff; border: none; border-radius: 50px; padding: 9px 22px; font-size: 0.88rem; font-weight: 700; transition: all 0.2s; width: 100%; margin-top: 14px; }
+    .btn-add-cart:hover { background: var(--primary-dark); color: #fff; }
+
+    /* HOW IT WORKS */
+    .hiw-section { background: var(--bg-soft); }
+    .hiw-step { text-align: center; padding: 30px 20px; }
+    .hiw-icon { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; }
+    .hiw-icon.green { background: #d8f3dc; color: var(--primary); }
+    .hiw-icon.orange { background: #ffecd2; color: var(--accent-dark); }
+    .hiw-icon.blue { background: #dbe4ff; color: #4263eb; }
+    .hiw-step h5 { font-size: 1.1rem; font-weight: 800; margin-bottom: 10px; }
+    .hiw-step p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+    .hiw-connector { display: flex; align-items: center; justify-content: center; padding-top: 30px; }
+    .hiw-connector i { font-size: 1.6rem; color: var(--border); }
+
+    /* FARMERS */
+    .farmer-card { background: #fff; border-radius: 20px; padding: 28px 22px; text-align: center; border: 1px solid var(--border); transition: all 0.3s; }
+    .farmer-card:hover { transform: translateY(-5px); box-shadow: 0 16px 45px rgba(45,106,79,0.1); }
+    .farmer-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-light); margin: 0 auto 14px; display: block; }
+    .farmer-card h5 { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+    .farmer-card .loc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px; }
+    .farmer-card .loc i { color: var(--accent); }
+    .farmer-tag { background: var(--bg-soft); color: var(--primary); border: 1px solid var(--border); border-radius: 50px; font-size: 0.74rem; font-weight: 700; padding: 4px 12px; display: inline-block; margin: 3px 2px; }
+    .farmer-rating { color: #f4a261; font-size: 0.85rem; }
+
+    /* ROLES SECTION */
+    .role-card { background: #fff; border-radius: 20px; padding: 32px 26px; border: 1px solid var(--border); transition: all 0.3s; height: 100%; }
+    .role-card:hover { box-shadow: 0 16px 45px rgba(45,106,79,0.1); border-color: var(--primary-light); }
+    .role-icon { width: 60px; height: 60px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 18px; }
+    .role-icon.admin { background: #ffecd2; color: var(--accent-dark); }
+    .role-icon.farmer { background: #d8f3dc; color: var(--primary); }
+    .role-icon.customer { background: #dbe4ff; color: #4263eb; }
+    .role-card h5 { font-weight: 800; font-size: 1.1rem; margin-bottom: 10px; }
+    .role-card ul { list-style: none; padding: 0; margin: 0; }
+    .role-card ul li { font-size: 0.88rem; color: var(--text-muted); padding: 5px 0; display: flex; align-items: center; gap: 8px; }
+    .role-card ul li::before { content: '✓'; color: var(--primary-light); font-weight: 800; }
+
+    /* BANNER CTA */
+    .cta-banner { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); border-radius: 28px; padding: 60px 40px; position: relative; overflow: hidden; }
+    .cta-banner::before { content: ''; position: absolute; width: 350px; height: 350px; border-radius: 50%; background: rgba(255,255,255,0.05); top: -100px; right: -80px; }
+    .cta-banner h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; color: #fff; margin-bottom: 14px; }
+    .cta-banner p { color: rgba(255,255,255,0.75); font-size: 1.05rem; max-width: 500px; margin-bottom: 0; }
+    .btn-cta-white { background: #fff; color: var(--primary-dark); border: none; border-radius: 50px; padding: 13px 32px; font-weight: 800; font-size: 0.95rem; font-family: 'Nunito', sans-serif; transition: all 0.2s; }
+    .btn-cta-white:hover { background: var(--accent); color: #fff; transform: translateY(-2px); }
+    .btn-cta-outline-w { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.5); border-radius: 50px; padding: 11px 28px; font-weight: 700; font-size: 0.95rem; font-family: 'Nunito', sans-serif; transition: all 0.2s; }
+    .btn-cta-outline-w:hover { border-color: #fff; background: rgba(255,255,255,0.1); color: #fff; }
+
+    /* FOOTER */
+   
+
+    /* SEARCH BAR */
+    .search-wrap { background: #fff; border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.14); padding: 8px 8px 8px 20px; display: flex; align-items: center; gap: 10px; max-width: 560px; }
+    .search-wrap input { border: none; outline: none; flex: 1; font-size: 0.95rem; color: var(--text-main); }
+    .search-wrap select { border: none; outline: none; font-size: 0.9rem; color: var(--text-muted); border-left: 1px solid var(--border); padding: 0 12px; }
+    .btn-search { background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 11px 22px; font-weight: 700; font-size: 0.9rem; transition: all 0.2s; white-space: nowrap; }
+    .btn-search:hover { background: var(--primary-dark); color: #fff; }

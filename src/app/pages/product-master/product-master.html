@@ -1,0 +1,200 @@
+<div class="product-master-page">
+  <div class="product-master-hero">
+    <div class="product-master-shell">
+      <div class="section-label">Catalog Master</div>
+      <h1 class="page-title"><i class="bi bi-grid-1x2-fill me-2"></i>Product Master</h1>
+      <p class="page-subtitle">
+        Maintain the core product catalog with category mapping, description details, and product image links using the same app theme.
+      </p>
+    </div>
+  </div>
+
+  <div class="product-master-shell">
+    <div class="section-header">
+      <div>
+        <div class="section-label">CRUD Workspace</div>
+        <h2 class="section-title">Product Catalog Management</h2>
+        <p class="section-description">
+          Create and maintain reusable product records that farmer listings can reference later.
+        </p>
+      </div>
+      <button class="btn-add-new" type="button" (click)="resetForm()">
+        <i class="bi bi-plus-lg me-2"></i>Add New Product
+      </button>
+    </div>
+
+    <div class="layout-grid">
+      <div class="form-card">
+        <div class="card-head">
+          <div>
+            <div class="card-kicker">Editor</div>
+            <h3>{{ productMasterForm.controls['productId'].value === 0 ? 'Create Product Master' : 'Edit Product Master' }}</h3>
+          </div>
+          <span class="mode-chip" [ngClass]="productMasterForm.controls['productId'].value === 0 ? 'create' : 'update'">
+            {{ productMasterForm.controls['productId'].value === 0 ? 'Create Mode' : 'Update Mode' }}
+          </span>
+        </div>
+
+        <form class="catalog-form" [formGroup]="productMasterForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="name">Product Name</label>
+              <input id="name" focusInDir class="form-control" type="text" formControlName="name" placeholder="Enter product name" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="categoryId">Category</label>
+              <select tabindex="1" id="categoryId" class="form-control" formControlName="categoryId">
+                <option [value]="0">Select category</option>
+                @for (category of categoryList(); track category.categoryId) {
+                  <option [value]="category.categoryId">{{ category.name }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="form-group form-group-full">
+              <label class="form-label" for="description">Description</label>
+              <textarea tabindex="2"
+                id="description"
+                class="form-control textarea-control"
+                rows="4"
+                formControlName="description"
+                placeholder="Enter product description"
+              ></textarea>
+            </div>
+
+            <div class="form-group form-group-full">
+              <label class="form-label" for="image">Image URL</label>
+              <input  tabindex="3"
+                id="image"
+                class="form-control"
+                type="text"
+                formControlName="image"
+                placeholder="https://example.com/product-image.jpg"
+              />
+            </div>
+          </div>
+
+          <div class="form-actions">
+            @if (productMasterForm.controls['productId'].value === 0) {
+              <button class="btn btn-primary-green" type="button" [disabled]="isSubmitting()" (click)="onSaveProductMaster()">
+                <i class="bi bi-check2-circle"></i>Save Product
+              </button>
+            } @else {
+              <button class="btn btn-primary-green" type="button" [disabled]="isSubmitting()" (click)="onUpdateProductMaster()">
+                <i class="bi bi-arrow-repeat"></i>Update Product
+              </button>
+            }
+            <button class="btn btn-secondary" type="button" (click)="resetForm()">
+              <i class="bi bi-x-circle"></i>Reset
+            </button>
+          </div>
+        </form>
+
+         
+      </div>
+
+      <div class="side-panel">
+        <div class="stats-card">
+          <div class="card-kicker">Overview</div>
+          <h3>Catalog Snapshot</h3>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <span>Total Products</span>
+              <strong>{{ productMasterList().length }}</strong>
+            </div>
+            <div class="stat-box">
+              <span>Categories</span>
+              <strong>{{ categoryList().length }}</strong>
+            </div>
+            <div class="stat-box">
+              <span>With Images</span>
+              <strong>{{ getFilledImageCount() }}</strong>
+            </div>
+            <div class="stat-box">
+              <span>Mode</span>
+              <strong>{{ productMasterForm.controls['productId'].value === 0 ? 'Create' : 'Edit' }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-card">
+          <div class="card-kicker">Image Preview</div>
+          <div class="image-preview-wrap">
+            <img [src]="productMasterForm.controls['image'].value != '' ? productMasterForm.controls['image'].value :'https://placehold.co/600x400?text=Product+Preview'" alt="Product preview" />
+          </div>
+          <div class="preview-caption">
+            Live preview from the current `image` field so catalog records are easier to validate.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="card-head table-head">
+        <div>
+          <div class="card-kicker">Catalog Grid</div>
+          <h3>Master Product Records</h3>
+        </div>
+        <button class="btn-filter" type="button" (click)="getAllProductMasters()">
+          <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+        </button>
+      </div>
+
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Image</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of productMasterList(); track trackByProductId($index, item)) {
+              <tr>
+                <td class="font-weight-bold">{{   $index + 1 }}</td>
+                <td>
+                  <div class="product-stack">
+                    <strong>{{ item.name }}</strong>
+                    <span>Product catalog entry</span>
+                  </div>
+                </td>
+                <td>
+                  <span class="category-badge">
+                    <i class="bi bi-tags-fill"></i>{{ getCategoryName(item.categoryId) }}
+                  </span>
+                </td>
+                <td class="description-cell" [title]="item.description">{{ item.description |slice:0:150}} ..</td>
+                <td>
+                  <div class="thumb-wrap">
+                    <img [src]="item.image || 'https://placehold.co/120x90?text=No+Image'" alt="{{ item.name }}" />
+                  </div>
+                </td>
+                <td class="action-buttons">
+                  <button class="btn-icon-sm edit" type="button" title="Edit" (click)="onEditProductMaster(item)">
+                    <i class="bi bi-pencil-fill"></i>
+                  </button>
+                  <button class="btn-icon-sm delete" type="button" title="Delete" (click)="onDeleteProductMaster(item)">
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="6" class="empty-state">
+                  <i class="bi bi-box-seam"></i>
+                  <span>No product master records available.</span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

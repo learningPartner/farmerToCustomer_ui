@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fresh Harvest Theme</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --page-bg: #f6faee;
+        --surface: #ffffff;
+        --surface-soft: #eff7df;
+        --ink: #173222;
+        --muted: #5f7264;
+        --line: #dbe7c8;
+        --primary: #3c7a42;
+        --primary-soft: #eef8e8;
+        --accent: #f3c969;
+        --shadow: 0 18px 50px rgba(34, 76, 42, 0.12);
+      }
+
+      body {
+        margin: 0;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background:
+          radial-gradient(circle at top right, rgba(243, 201, 105, 0.28), transparent 24%),
+          radial-gradient(circle at left bottom, rgba(123, 183, 85, 0.18), transparent 22%),
+          var(--page-bg);
+        color: var(--ink);
+      }
+
+      .navbar,
+      .surface-card,
+      .search-panel,
+      .floating-card {
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(60, 122, 66, 0.08);
+        box-shadow: var(--shadow);
+      }
+
+      .navbar {
+        border-radius: 1.2rem;
+      }
+
+      .brand-mark {
+        width: 2.6rem;
+        height: 2.6rem;
+        border-radius: 0.9rem;
+        background: linear-gradient(135deg, var(--primary), #7cbc4f);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 800;
+      }
+
+      .hero-wrap {
+        padding: 2rem 0 1rem;
+      }
+
+      .hero-card {
+        background: linear-gradient(145deg, rgba(255,255,255,0.96), rgba(239,247,223,0.9));
+        border: 1px solid rgba(60, 122, 66, 0.08);
+        box-shadow: var(--shadow);
+        border-radius: 2rem;
+        overflow: hidden;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.5rem 0.85rem;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      .chip-soft {
+        background: rgba(60, 122, 66, 0.1);
+        color: var(--primary);
+      }
+
+      .stats-strip,
+      .farmer-card,
+      .split-card,
+      .step-card {
+        border-radius: 1.4rem;
+        background: var(--surface);
+        border: 1px solid var(--line);
+      }
+
+      .stats-strip {
+        box-shadow: 0 16px 40px rgba(34, 76, 42, 0.08);
+      }
+
+      .hero-visual {
+        background:
+          linear-gradient(180deg, rgba(243, 201, 105, 0.28), rgba(255, 255, 255, 0)),
+          linear-gradient(135deg, #dff0c8, #f8f4da);
+        min-height: 100%;
+        position: relative;
+      }
+
+      .hero-visual::before,
+      .hero-visual::after {
+        content: "";
+        position: absolute;
+        border-radius: 999px;
+      }
+
+      .hero-visual::before {
+        width: 12rem;
+        height: 12rem;
+        background: rgba(60, 122, 66, 0.12);
+        top: 12%;
+        right: 12%;
+      }
+
+      .hero-visual::after {
+        width: 10rem;
+        height: 10rem;
+        background: rgba(243, 201, 105, 0.22);
+        bottom: 10%;
+        left: 10%;
+      }
+
+      .mock-window {
+        border-radius: 1.6rem;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(60, 122, 66, 0.1);
+        padding: 1.25rem;
+      }
+
+      .mini-tag {
+        border-radius: 999px;
+        padding: 0.35rem 0.7rem;
+        background: var(--primary-soft);
+        color: var(--primary);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+
+      .farmer-card {
+        padding: 1.25rem;
+        height: 100%;
+      }
+
+      .qty-pill {
+        border-radius: 999px;
+        padding: 0.4rem 0.7rem;
+        background: #f2f6eb;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--muted);
+      }
+
+      .order-item {
+        border-radius: 1rem;
+        padding: 1rem;
+        background: #f9fbf4;
+        border: 1px dashed #d5e2c5;
+      }
+
+      .section-heading {
+        max-width: 42rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container py-4 py-lg-5">
+      <nav class="navbar px-3 px-lg-4 py-3 mb-4">
+        <div class="container-fluid px-0">
+          <a class="navbar-brand d-flex align-items-center gap-3 fw-bold mb-0" href="./index.html">
+            <span class="brand-mark">FH</span>
+            <span>Fresh Harvest Market</span>
+          </a>
+          <div class="d-none d-md-flex align-items-center gap-3">
+            <span class="text-secondary">Products</span>
+            <span class="text-secondary">Farmer Network</span>
+            <span class="text-secondary">How Orders Split</span>
+            <button class="btn btn-success rounded-pill px-4">Customer Login</button>
+          </div>
+        </div>
+      </nav>
+
+      <section class="hero-wrap">
+        <div class="hero-card">
+          <div class="row g-0 align-items-stretch">
+            <div class="col-lg-7 p-4 p-xl-5">
+              <span class="chip chip-soft mb-3">Theme 1: Organic light marketplace</span>
+              <h1 class="display-5 fw-bold mb-3">
+                Directly connect customers with farmers selling fresh produce nearby
+              </h1>
+              <p class="lead text-secondary mb-4">
+                Admin creates the master products and categories. Farmers list what
+                they will have ready in the coming days. Customers search one item,
+                compare farmers, and place split orders in one cart.
+              </p>
+              <div class="search-panel rounded-4 p-3 p-lg-4 mb-4">
+                <div class="row g-3 align-items-center">
+                  <div class="col-lg-5">
+                    <label class="form-label small text-secondary mb-1">Search product</label>
+                    <input class="form-control form-control-lg rounded-4" value="Potato" />
+                  </div>
+                  <div class="col-lg-4">
+                    <label class="form-label small text-secondary mb-1">Delivery area</label>
+                    <select class="form-select form-select-lg rounded-4">
+                      <option>Jaipur North</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-3 d-grid">
+                    <label class="form-label small text-secondary mb-1 invisible">Action</label>
+                    <button class="btn btn-success btn-lg rounded-4">Find Farmers</button>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="mini-tag">Super admin products</span>
+                <span class="mini-tag">Farmer stock listing</span>
+                <span class="mini-tag">Customer search</span>
+                <span class="mini-tag">Split order routing</span>
+              </div>
+            </div>
+            <div class="col-lg-5 hero-visual p-4 p-xl-5 d-flex align-items-center">
+              <div class="mock-window w-100">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                  <div>
+                    <div class="small text-secondary">Live marketplace</div>
+                    <div class="h5 fw-bold mb-0">Potato availability</div>
+                  </div>
+                  <span class="badge text-bg-success rounded-pill px-3 py-2">3 farmers ready</span>
+                </div>
+                <div class="d-grid gap-3">
+                  <div class="surface-card rounded-4 p-3">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <div class="fw-bold">Green Valley Farm</div>
+                        <div class="text-secondary small">Washed potato | 120 kg ready</div>
+                      </div>
+                      <div class="text-success fw-bold">Rs 28/kg</div>
+                    </div>
+                  </div>
+                  <div class="surface-card rounded-4 p-3">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <div class="fw-bold">Mitti Fresh Farms</div>
+                        <div class="text-secondary small">Organic potato | 65 kg ready</div>
+                      </div>
+                      <div class="text-success fw-bold">Rs 32/kg</div>
+                    </div>
+                  </div>
+                  <div class="surface-card rounded-4 p-3">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <div class="fw-bold">Shyam Agro Group</div>
+                        <div class="text-secondary small">Storage potato | 210 kg ready</div>
+                      </div>
+                      <div class="text-success fw-bold">Rs 26/kg</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-4">
+        <div class="stats-strip p-4">
+          <div class="row g-3 text-center text-lg-start">
+            <div class="col-md-3">
+              <div class="small text-secondary">Categories managed by admin</div>
+              <div class="h2 fw-bold mb-0">18</div>
+            </div>
+            <div class="col-md-3">
+              <div class="small text-secondary">Master products</div>
+              <div class="h2 fw-bold mb-0">240</div>
+            </div>
+            <div class="col-md-3">
+              <div class="small text-secondary">Farmers listing for tomorrow</div>
+              <div class="h2 fw-bold mb-0">86</div>
+            </div>
+            <div class="col-md-3">
+              <div class="small text-secondary">Orders split automatically</div>
+              <div class="h2 fw-bold mb-0">100%</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-4">
+        <div class="row align-items-end g-3 mb-4">
+          <div class="col-lg-8">
+            <h2 class="fw-bold mb-2">Customer search result for potato</h2>
+            <p class="text-secondary section-heading mb-0">
+              A customer searches one product and sees multiple farmers who have
+              listed that product, along with quantity ready, delivery slot, rating,
+              and price per kilogram.
+            </p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <button class="btn btn-outline-success rounded-pill px-4">Filter by area</button>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-4">
+            <div class="farmer-card">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <div class="h5 fw-bold mb-1">Green Valley Farm</div>
+                  <div class="text-secondary small">2.4 km away | Rating 4.8</div>
+                </div>
+                <span class="badge text-bg-light text-success rounded-pill px-3 py-2">Best match</span>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="qty-pill">Potato 120 kg ready</span>
+                <span class="qty-pill">Delivery: Tomorrow AM</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="display-6 fw-bold mb-0">Rs 28</div>
+                <div class="text-secondary">per kg</div>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text rounded-start-4">Qty</span>
+                <input class="form-control" value="2" />
+                <span class="input-group-text rounded-end-4">kg</span>
+              </div>
+              <div class="d-grid">
+                <button class="btn btn-success rounded-4">Add To Cart</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="farmer-card">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <div class="h5 fw-bold mb-1">Mitti Fresh Farms</div>
+                  <div class="text-secondary small">3.1 km away | Rating 4.9</div>
+                </div>
+                <span class="badge text-bg-warning rounded-pill px-3 py-2">Organic</span>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="qty-pill">Potato 65 kg ready</span>
+                <span class="qty-pill">Delivery: Tomorrow PM</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="display-6 fw-bold mb-0">Rs 32</div>
+                <div class="text-secondary">per kg</div>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text rounded-start-4">Qty</span>
+                <input class="form-control" value="1" />
+                <span class="input-group-text rounded-end-4">kg</span>
+              </div>
+              <div class="d-grid">
+                <button class="btn btn-outline-success rounded-4">Add To Cart</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="farmer-card">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                  <div class="h5 fw-bold mb-1">Shyam Agro Group</div>
+                  <div class="text-secondary small">5.7 km away | Rating 4.5</div>
+                </div>
+                <span class="badge text-bg-light text-dark rounded-pill px-3 py-2">Budget</span>
+              </div>
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="qty-pill">Potato 210 kg ready</span>
+                <span class="qty-pill">Delivery: Same day</span>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="display-6 fw-bold mb-0">Rs 26</div>
+                <div class="text-secondary">per kg</div>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text rounded-start-4">Qty</span>
+                <input class="form-control" value="3" />
+                <span class="input-group-text rounded-end-4">kg</span>
+              </div>
+              <div class="d-grid">
+                <button class="btn btn-outline-success rounded-4">Add To Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-4">
+        <div class="row g-4">
+          <div class="col-lg-6">
+            <div class="split-card p-4 h-100">
+              <span class="chip chip-soft mb-3">Farmer dashboard idea</span>
+              <h3 class="fw-bold">Farmers list what will be ready in coming days</h3>
+              <p class="text-secondary">
+                Farmers do not create master products. They select from admin-created
+                products and enter ready quantity, expected date, price, and area.
+              </p>
+              <div class="order-item mb-3">
+                <div class="fw-bold">Tomorrow stock</div>
+                <div class="text-secondary small mb-2">Farmer: Green Valley Farm</div>
+                <div class="d-flex flex-wrap gap-2">
+                  <span class="qty-pill">Potato 120 kg</span>
+                  <span class="qty-pill">Dhaniya 18 kg</span>
+                  <span class="qty-pill">Onion 80 kg</span>
+                </div>
+              </div>
+              <button class="btn btn-success rounded-pill px-4">Add ready stock</button>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="split-card p-4 h-100">
+              <span class="chip chip-soft mb-3">Split order concept</span>
+              <h3 class="fw-bold">One cart, multiple farmer orders</h3>
+              <p class="text-secondary">
+                A customer can buy from multiple farmers in one cart, but the system
+                creates separate farmer-side orders for fulfillment.
+              </p>
+              <div class="order-item mb-3">
+                <div class="fw-bold">Customer cart summary</div>
+                <div class="small text-secondary">Potato 2 kg from Green Valley Farm</div>
+                <div class="small text-secondary">Dhaniya 1 bunch from Mitti Fresh Farms</div>
+              </div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <div class="order-item h-100">
+                    <div class="fw-bold small mb-1">Order routed to farmer 1</div>
+                    <div class="text-secondary small">Potato 2 kg</div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="order-item h-100">
+                    <div class="fw-bold small mb-1">Order routed to farmer 2</div>
+                    <div class="text-secondary small">Dhaniya 1 bunch</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

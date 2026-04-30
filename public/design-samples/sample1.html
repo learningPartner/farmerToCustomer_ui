@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FarmConnect – Design 1: Fresh Green</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #2d6a4f;
+      --primary-light: #52b788;
+      --primary-dark: #1b4332;
+      --accent: #f4a261;
+      --accent-dark: #e76f51;
+      --bg-soft: #f0faf4;
+      --bg-card: #ffffff;
+      --text-main: #1b2d24;
+      --text-muted: #5a7a67;
+      --border: #b7dfc8;
+    }
+
+    * { box-sizing: border-box; }
+    body { font-family: 'Lato', sans-serif; background: #fafffe; color: var(--text-main); overflow-x: hidden; }
+    h1,h2,h3,h4,h5 { font-family: 'Nunito', sans-serif; }
+
+    /* NAV */
+    .navbar { background: var(--primary-dark); padding: 14px 0; box-shadow: 0 2px 16px rgba(27,67,50,0.18); }
+    .navbar-brand { font-family: 'Nunito', sans-serif; font-size: 1.6rem; font-weight: 900; color: #fff !important; letter-spacing: -0.5px; }
+    .navbar-brand span { color: var(--accent); }
+    .nav-link { color: rgba(255,255,255,0.85) !important; font-weight: 600; font-size: 0.92rem; transition: color 0.2s; }
+    .nav-link:hover { color: var(--accent) !important; }
+    .btn-nav-outline { border: 2px solid var(--accent); color: var(--accent) !important; border-radius: 50px; padding: 6px 20px; font-weight: 700; transition: all 0.2s; }
+    .btn-nav-outline:hover { background: var(--accent); color: #fff !important; }
+    .btn-nav-solid { background: var(--accent); color: #fff !important; border-radius: 50px; padding: 6px 20px; font-weight: 700; border: 2px solid var(--accent); transition: all 0.2s; }
+    .btn-nav-solid:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, #52b788 100%);
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+      top: -150px; right: -100px;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: rgba(244,162,97,0.1);
+      bottom: -100px; left: -80px;
+    }
+    .hero-badge { background: rgba(244,162,97,0.2); color: var(--accent); border: 1px solid rgba(244,162,97,0.4); border-radius: 50px; padding: 6px 18px; font-size: 0.82rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; display: inline-block; margin-bottom: 18px; }
+    .hero h1 { font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 900; color: #fff; line-height: 1.15; margin-bottom: 20px; }
+    .hero h1 span { color: var(--accent); }
+    .hero p { color: rgba(255,255,255,0.8); font-size: 1.15rem; line-height: 1.75; max-width: 500px; margin-bottom: 34px; }
+    .btn-hero-primary { background: var(--accent); color: #fff; border: none; border-radius: 50px; padding: 14px 36px; font-size: 1.05rem; font-weight: 700; font-family: 'Nunito', sans-serif; transition: all 0.25s; box-shadow: 0 8px 24px rgba(244,162,97,0.4); }
+    .btn-hero-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(244,162,97,0.5); color: #fff; }
+    .btn-hero-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.5); border-radius: 50px; padding: 12px 30px; font-size: 1.05rem; font-weight: 700; font-family: 'Nunito', sans-serif; transition: all 0.25s; }
+    .btn-hero-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; color: #fff; }
+    .hero-stat { text-align: center; }
+    .hero-stat .num { font-family: 'Nunito', sans-serif; font-size: 2rem; font-weight: 900; color: #fff; }
+    .hero-stat .lbl { font-size: 0.8rem; color: rgba(255,255,255,0.65); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+    .hero-img-wrap { position: relative; }
+    .hero-img-wrap img { border-radius: 24px; box-shadow: 0 30px 80px rgba(0,0,0,0.35); width: 100%; }
+    .floating-card { background: #fff; border-radius: 16px; padding: 14px 18px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); position: absolute; display: flex; align-items: center; gap: 10px; }
+    .floating-card.card-1 { bottom: 30px; left: -30px; }
+    .floating-card.card-2 { top: 20px; right: -20px; }
+    .floating-card .fc-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .floating-card .fc-icon.green { background: #d8f3dc; color: var(--primary); }
+    .floating-card .fc-icon.orange { background: #ffecd2; color: var(--accent-dark); }
+    .floating-card .fc-text strong { display: block; font-size: 0.95rem; font-weight: 700; color: var(--text-main); }
+    .floating-card .fc-text span { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* CATEGORY STRIP */
+    .cat-strip { background: var(--bg-soft); padding: 28px 0; border-bottom: 1px solid var(--border); }
+    .cat-pill { background: #fff; border: 1.5px solid var(--border); border-radius: 50px; padding: 10px 22px; font-size: 0.88rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; transition: all 0.2s; cursor: pointer; white-space: nowrap; }
+    .cat-pill:hover, .cat-pill.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .cat-pill i { font-size: 1rem; }
+
+    /* SECTION COMMON */
+    .section-label { color: var(--primary-light); font-size: 0.8rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+    .section-title { font-size: clamp(1.8rem, 3vw, 2.5rem); font-weight: 800; color: var(--text-main); line-height: 1.2; }
+    .section-sub { color: var(--text-muted); font-size: 1.05rem; line-height: 1.7; }
+
+    /* PRODUCT CARDS */
+    .product-card { background: #fff; border-radius: 20px; overflow: hidden; border: 1px solid var(--border); transition: all 0.3s; }
+    .product-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(45,106,79,0.12); border-color: var(--primary-light); }
+    .product-card .p-img { position: relative; overflow: hidden; height: 200px; }
+    .product-card .p-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .product-card:hover .p-img img { transform: scale(1.06); }
+    .product-card .p-badge { position: absolute; top: 14px; left: 14px; background: var(--accent); color: #fff; font-size: 0.72rem; font-weight: 800; border-radius: 50px; padding: 4px 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .product-card .p-body { padding: 18px; }
+    .product-card .p-name { font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 4px; }
+    .product-card .p-farmer { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 10px; }
+    .product-card .p-farmer i { color: var(--primary-light); }
+    .product-card .p-price { font-size: 1.3rem; font-weight: 900; color: var(--primary); font-family: 'Nunito', sans-serif; }
+    .product-card .p-price span { font-size: 0.8rem; color: var(--text-muted); font-weight: 400; }
+    .product-card .p-meta { font-size: 0.78rem; color: var(--text-muted); }
+    .btn-add-cart { background: var(--primary); color: #fff; border: none; border-radius: 50px; padding: 9px 22px; font-size: 0.88rem; font-weight: 700; transition: all 0.2s; width: 100%; margin-top: 14px; }
+    .btn-add-cart:hover { background: var(--primary-dark); color: #fff; }
+
+    /* HOW IT WORKS */
+    .hiw-section { background: var(--bg-soft); }
+    .hiw-step { text-align: center; padding: 30px 20px; }
+    .hiw-icon { width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 2rem; }
+    .hiw-icon.green { background: #d8f3dc; color: var(--primary); }
+    .hiw-icon.orange { background: #ffecd2; color: var(--accent-dark); }
+    .hiw-icon.blue { background: #dbe4ff; color: #4263eb; }
+    .hiw-step h5 { font-size: 1.1rem; font-weight: 800; margin-bottom: 10px; }
+    .hiw-step p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; }
+    .hiw-connector { display: flex; align-items: center; justify-content: center; padding-top: 30px; }
+    .hiw-connector i { font-size: 1.6rem; color: var(--border); }
+
+    /* FARMERS */
+    .farmer-card { background: #fff; border-radius: 20px; padding: 28px 22px; text-align: center; border: 1px solid var(--border); transition: all 0.3s; }
+    .farmer-card:hover { transform: translateY(-5px); box-shadow: 0 16px 45px rgba(45,106,79,0.1); }
+    .farmer-avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-light); margin: 0 auto 14px; display: block; }
+    .farmer-card h5 { font-size: 1rem; font-weight: 800; margin-bottom: 4px; }
+    .farmer-card .loc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px; }
+    .farmer-card .loc i { color: var(--accent); }
+    .farmer-tag { background: var(--bg-soft); color: var(--primary); border: 1px solid var(--border); border-radius: 50px; font-size: 0.74rem; font-weight: 700; padding: 4px 12px; display: inline-block; margin: 3px 2px; }
+    .farmer-rating { color: #f4a261; font-size: 0.85rem; }
+
+    /* ROLES SECTION */
+    .role-card { background: #fff; border-radius: 20px; padding: 32px 26px; border: 1px solid var(--border); transition: all 0.3s; height: 100%; }
+    .role-card:hover { box-shadow: 0 16px 45px rgba(45,106,79,0.1); border-color: var(--primary-light); }
+    .role-icon { width: 60px; height: 60px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 18px; }
+    .role-icon.admin { background: #ffecd2; color: var(--accent-dark); }
+    .role-icon.farmer { background: #d8f3dc; color: var(--primary); }
+    .role-icon.customer { background: #dbe4ff; color: #4263eb; }
+    .role-card h5 { font-weight: 800; font-size: 1.1rem; margin-bottom: 10px; }
+    .role-card ul { list-style: none; padding: 0; margin: 0; }
+    .role-card ul li { font-size: 0.88rem; color: var(--text-muted); padding: 5px 0; display: flex; align-items: center; gap: 8px; }
+    .role-card ul li::before { content: '✓'; color: var(--primary-light); font-weight: 800; }
+
+    /* BANNER CTA */
+    .cta-banner { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); border-radius: 28px; padding: 60px 40px; position: relative; overflow: hidden; }
+    .cta-banner::before { content: ''; position: absolute; width: 350px; height: 350px; border-radius: 50%; background: rgba(255,255,255,0.05); top: -100px; right: -80px; }
+    .cta-banner h2 { font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; color: #fff; margin-bottom: 14px; }
+    .cta-banner p { color: rgba(255,255,255,0.75); font-size: 1.05rem; max-width: 500px; margin-bottom: 0; }
+    .btn-cta-white { background: #fff; color: var(--primary-dark); border: none; border-radius: 50px; padding: 13px 32px; font-weight: 800; font-size: 0.95rem; font-family: 'Nunito', sans-serif; transition: all 0.2s; }
+    .btn-cta-white:hover { background: var(--accent); color: #fff; transform: translateY(-2px); }
+    .btn-cta-outline-w { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.5); border-radius: 50px; padding: 11px 28px; font-weight: 700; font-size: 0.95rem; font-family: 'Nunito', sans-serif; transition: all 0.2s; }
+    .btn-cta-outline-w:hover { border-color: #fff; background: rgba(255,255,255,0.1); color: #fff; }
+
+    /* FOOTER */
+    footer { background: var(--primary-dark); color: rgba(255,255,255,0.7); }
+    footer h6 { color: #fff; font-weight: 800; font-family: 'Nunito', sans-serif; margin-bottom: 16px; font-size: 0.95rem; letter-spacing: 0.5px; }
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.88rem; display: block; margin-bottom: 8px; transition: color 0.2s; }
+    footer a:hover { color: var(--accent); }
+    .footer-brand { font-family: 'Nunito', sans-serif; font-size: 1.5rem; font-weight: 900; color: #fff; }
+    .footer-brand span { color: var(--accent); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding: 18px 0; font-size: 0.82rem; }
+    .social-icon { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.1); display: inline-flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.7); font-size: 0.95rem; transition: all 0.2s; }
+    .social-icon:hover { background: var(--accent); color: #fff; }
+
+    /* SEARCH BAR */
+    .search-wrap { background: #fff; border-radius: 16px; box-shadow: 0 8px 40px rgba(0,0,0,0.14); padding: 8px 8px 8px 20px; display: flex; align-items: center; gap: 10px; max-width: 560px; }
+    .search-wrap input { border: none; outline: none; flex: 1; font-size: 0.95rem; color: var(--text-main); }
+    .search-wrap select { border: none; outline: none; font-size: 0.9rem; color: var(--text-muted); border-left: 1px solid var(--border); padding: 0 12px; }
+    .btn-search { background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 11px 22px; font-weight: 700; font-size: 0.9rem; transition: all 0.2s; white-space: nowrap; }
+    .btn-search:hover { background: var(--primary-dark); color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">Farm<span>Connect</span></a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#nav1">
+      <span class="navbar-toggler-icon" style="filter:invert(1)"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav1">
+      <ul class="navbar-nav mx-auto gap-2">
+        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Products</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Farmers</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Categories</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+      </ul>
+      <div class="d-flex gap-2 mt-3 mt-lg-0">
+        <a href="#" class="nav-link btn-nav-outline">Login</a>
+        <a href="#" class="nav-link btn-nav-solid">Register</a>
+        <a href="#" class="nav-link position-relative" style="color:#fff !important;">
+          <i class="bi bi-cart3 fs-5"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" style="font-size:0.6rem;">3</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero py-5">
+  <div class="container position-relative" style="z-index:1;">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="hero-badge"><i class="bi bi-leaf-fill me-1"></i> Farm Fresh, Direct to You</div>
+        <h1>From <span>Farm to Table</span>, No Middleman</h1>
+        <p>Buy directly from local farmers. Fresh vegetables, fruits, and grains delivered straight from the source to your home.</p>
+        <div class="search-wrap mb-4">
+          <i class="bi bi-search text-muted"></i>
+          <input type="text" placeholder="Search for potatoes, tomatoes, wheat..." />
+          <select>
+            <option>All Categories</option>
+            <option>Vegetables</option>
+            <option>Fruits</option>
+            <option>Grains</option>
+          </select>
+          <button class="btn-search">Search</button>
+        </div>
+        <div class="d-flex gap-3 flex-wrap">
+          <a href="#" class="btn-hero-primary"><i class="bi bi-shop me-2"></i>Shop Now</a>
+          <a href="#" class="btn-hero-outline"><i class="bi bi-person-plus me-2"></i>Register as Farmer</a>
+        </div>
+        <div class="row g-3 mt-4">
+          <div class="col-4 hero-stat">
+            <div class="num">1,200+</div>
+            <div class="lbl">Farmers</div>
+          </div>
+          <div class="col-4 hero-stat">
+            <div class="num">8,500+</div>
+            <div class="lbl">Products</div>
+          </div>
+          <div class="col-4 hero-stat">
+            <div class="num">45K+</div>
+            <div class="lbl">Customers</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-img-wrap">
+          <img src="https://images.pexels.com/photos/1300972/pexels-photo-1300972.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Fresh Farm Produce" />
+          <div class="floating-card card-1">
+            <div class="fc-icon green"><i class="bi bi-check-circle-fill"></i></div>
+            <div class="fc-text">
+              <strong>Order Confirmed!</strong>
+              <span>2kg Potatoes from Ravi Farms</span>
+            </div>
+          </div>
+          <div class="floating-card card-2">
+            <div class="fc-icon orange"><i class="bi bi-star-fill"></i></div>
+            <div class="fc-text">
+              <strong>4.9 Rating</strong>
+              <span>2,400+ Reviews</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY STRIP -->
+<section class="cat-strip">
+  <div class="container">
+    <div class="d-flex gap-3 overflow-auto pb-1">
+      <div class="cat-pill active"><i class="bi bi-grid-fill"></i> All</div>
+      <div class="cat-pill"><i class="bi bi-flower1"></i> Vegetables</div>
+      <div class="cat-pill"><i class="bi bi-apple"></i> Fruits</div>
+      <div class="cat-pill"><i class="bi bi-box-fill"></i> Grains & Pulses</div>
+      <div class="cat-pill"><i class="bi bi-droplet-fill"></i> Dairy</div>
+      <div class="cat-pill"><i class="bi bi-flower3"></i> Herbs & Spices</div>
+      <div class="cat-pill"><i class="bi bi-egg-fill"></i> Poultry</div>
+      <div class="cat-pill"><i class="bi bi-tree-fill"></i> Organic</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="py-6 py-5">
+  <div class="container">
+    <div class="row align-items-end mb-4">
+      <div class="col">
+        <div class="section-label">Fresh Picks</div>
+        <h2 class="section-title mb-0">Products from Local Farmers</h2>
+      </div>
+      <div class="col-auto">
+        <a href="#" class="btn btn-outline-success rounded-pill px-4 fw-700">View All <i class="bi bi-arrow-right ms-1"></i></a>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="p-img">
+            <img src="https://images.pexels.com/photos/144248/potatoes-vegetables-erdfrucht-bio-144248.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Potato" />
+            <span class="p-badge">Fresh</span>
+          </div>
+          <div class="p-body">
+            <div class="p-name">Organic Potatoes</div>
+            <div class="p-farmer"><i class="bi bi-person-fill me-1"></i>Ravi Kumar · Punjab</div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="p-price">₹28<span>/kg</span></div>
+              <div class="p-meta"><i class="bi bi-box me-1"></i>In Stock</div>
+            </div>
+            <button class="btn-add-cart"><i class="bi bi-cart-plus me-2"></i>Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="p-img">
+            <img src="https://images.pexels.com/photos/533360/pexels-photo-533360.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Tomato" />
+            <span class="p-badge">Hot Deal</span>
+          </div>
+          <div class="p-body">
+            <div class="p-name">Fresh Tomatoes</div>
+            <div class="p-farmer"><i class="bi bi-person-fill me-1"></i>Suresh Patil · Maharashtra</div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="p-price">₹35<span>/kg</span></div>
+              <div class="p-meta"><i class="bi bi-box me-1"></i>In Stock</div>
+            </div>
+            <button class="btn-add-cart"><i class="bi bi-cart-plus me-2"></i>Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="p-img">
+            <img src="https://images.pexels.com/photos/65174/pexels-photo-65174.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Coriander" />
+            <span class="p-badge" style="background:var(--primary)">Organic</span>
+          </div>
+          <div class="p-body">
+            <div class="p-name">Fresh Coriander</div>
+            <div class="p-farmer"><i class="bi bi-person-fill me-1"></i>Priya Sharma · Rajasthan</div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="p-price">₹15<span>/bunch</span></div>
+              <div class="p-meta"><i class="bi bi-box me-1"></i>In Stock</div>
+            </div>
+            <button class="btn-add-cart"><i class="bi bi-cart-plus me-2"></i>Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="product-card">
+          <div class="p-img">
+            <img src="https://images.pexels.com/photos/1300975/pexels-photo-1300975.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Spinach" />
+          </div>
+          <div class="p-body">
+            <div class="p-name">Baby Spinach</div>
+            <div class="p-farmer"><i class="bi bi-person-fill me-1"></i>Arjun Singh · Haryana</div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="p-price">₹22<span>/kg</span></div>
+              <div class="p-meta"><i class="bi bi-box me-1"></i>In Stock</div>
+            </div>
+            <button class="btn-add-cart"><i class="bi bi-cart-plus me-2"></i>Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="hiw-section py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-label">Process</div>
+      <h2 class="section-title">How FarmConnect Works</h2>
+      <p class="section-sub mx-auto" style="max-width:520px;">Three simple steps connecting farmers and customers directly, no intermediaries involved.</p>
+    </div>
+    <div class="row g-0">
+      <div class="col-md-4">
+        <div class="hiw-step">
+          <div class="hiw-icon green"><i class="bi bi-person-plus-fill"></i></div>
+          <h5>1. Farmer Registers & Lists</h5>
+          <p>Farmers register and list the produce they plan to sell — from vegetables to grains, with quantity and price details.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="hiw-step">
+          <div class="hiw-icon orange"><i class="bi bi-search"></i></div>
+          <h5>2. Customer Searches & Orders</h5>
+          <p>Customers search for any product, see all available farmers, and place orders specifying quantity in kg or bunches.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="hiw-step">
+          <div class="hiw-icon blue"><i class="bi bi-truck-front-fill"></i></div>
+          <h5>3. Order Goes to Farmer</h5>
+          <p>Each order is routed directly to the respective farmer, just like platform marketplaces — orders go to the right vendor automatically.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES SECTION -->
+<section class="py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-label">Platform Roles</div>
+      <h2 class="section-title">Who Uses FarmConnect?</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="role-card">
+          <div class="role-icon admin"><i class="bi bi-shield-fill-check"></i></div>
+          <h5>Super Admin</h5>
+          <ul>
+            <li>Create and manage all product categories</li>
+            <li>Define master product catalogue</li>
+            <li>Approve farmer registrations</li>
+            <li>Monitor all platform activity</li>
+            <li>Manage user roles and access</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="role-card">
+          <div class="role-icon farmer"><i class="bi bi-person-workspace"></i></div>
+          <h5>Farmer</h5>
+          <ul>
+            <li>Register and create seller profile</li>
+            <li>List products from admin catalogue</li>
+            <li>Set own prices and stock quantity</li>
+            <li>Receive and manage incoming orders</li>
+            <li>Track sales and inventory</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="role-card">
+          <div class="role-icon customer"><i class="bi bi-bag-heart-fill"></i></div>
+          <h5>Customer</h5>
+          <ul>
+            <li>Browse and search all products</li>
+            <li>View multiple farmers per product</li>
+            <li>Add items from different farmers to cart</li>
+            <li>Orders split automatically per farmer</li>
+            <li>Track order status in real-time</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED FARMERS -->
+<section class="py-5" style="background:var(--bg-soft);">
+  <div class="container">
+    <div class="row align-items-end mb-4">
+      <div class="col">
+        <div class="section-label">Trusted Sellers</div>
+        <h2 class="section-title mb-0">Meet Our Farmers</h2>
+      </div>
+      <div class="col-auto">
+        <a href="#" class="btn btn-outline-success rounded-pill px-4 fw-700">All Farmers <i class="bi bi-arrow-right ms-1"></i></a>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="farmer-card">
+          <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Farmer" class="farmer-avatar" />
+          <h5>Ravi Kumar</h5>
+          <div class="loc"><i class="bi bi-geo-alt-fill"></i> Amritsar, Punjab</div>
+          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i> 4.8</div>
+          <div><span class="farmer-tag">Potatoes</span><span class="farmer-tag">Onions</span><span class="farmer-tag">Wheat</span></div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="farmer-card">
+          <img src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Farmer" class="farmer-avatar" />
+          <h5>Suresh Patil</h5>
+          <div class="loc"><i class="bi bi-geo-alt-fill"></i> Nashik, Maharashtra</div>
+          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> 5.0</div>
+          <div><span class="farmer-tag">Tomatoes</span><span class="farmer-tag">Grapes</span><span class="farmer-tag">Onions</span></div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="farmer-card">
+          <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Farmer" class="farmer-avatar" />
+          <h5>Priya Sharma</h5>
+          <div class="loc"><i class="bi bi-geo-alt-fill"></i> Jaipur, Rajasthan</div>
+          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i> 4.5</div>
+          <div><span class="farmer-tag">Coriander</span><span class="farmer-tag">Mint</span><span class="farmer-tag">Fenugreek</span></div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="farmer-card">
+          <img src="https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Farmer" class="farmer-avatar" />
+          <h5>Arjun Singh</h5>
+          <div class="loc"><i class="bi bi-geo-alt-fill"></i> Karnal, Haryana</div>
+          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i> 4.7</div>
+          <div><span class="farmer-tag">Spinach</span><span class="farmer-tag">Mustard</span><span class="farmer-tag">Rice</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="py-5">
+  <div class="container">
+    <div class="cta-banner">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7">
+          <h2>Are You a Farmer? Start Selling Today.</h2>
+          <p>Join thousands of farmers who are earning more by selling directly to customers. No commission, no middleman — just fair prices.</p>
+        </div>
+        <div class="col-lg-5 text-lg-end">
+          <div class="d-flex gap-3 flex-wrap justify-content-lg-end">
+            <a href="#" class="btn-cta-white">Register as Farmer</a>
+            <a href="#" class="btn-cta-outline-w">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="pt-5 pb-0">
+  <div class="container">
+    <div class="row g-4 pb-4">
+      <div class="col-lg-4">
+        <div class="footer-brand mb-3">Farm<span>Connect</span></div>
+        <p style="font-size:0.9rem;line-height:1.7;">Bridging the gap between farmers and consumers. Fresh, local, and fair — directly from the source to your table.</p>
+        <div class="mt-3 d-flex gap-2">
+          <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6>Platform</h6>
+        <a href="#">Browse Products</a>
+        <a href="#">Find Farmers</a>
+        <a href="#">Categories</a>
+        <a href="#">How It Works</a>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6>For Farmers</h6>
+        <a href="#">Register</a>
+        <a href="#">Dashboard</a>
+        <a href="#">List Products</a>
+        <a href="#">Manage Orders</a>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6>For Customers</h6>
+        <a href="#">Create Account</a>
+        <a href="#">Track Orders</a>
+        <a href="#">My Wishlist</a>
+        <a href="#">Support</a>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <h6>Company</h6>
+        <a href="#">About Us</a>
+        <a href="#">Blog</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-wrap justify-content-between gap-2">
+      <span>&copy; 2025 FarmConnect. All rights reserved.</span>
+      <span>Made with <i class="bi bi-heart-fill text-danger"></i> for Indian Farmers</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
