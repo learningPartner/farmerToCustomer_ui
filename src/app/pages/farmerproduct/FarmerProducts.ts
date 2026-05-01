@@ -1,5 +1,5 @@
 import { DatePipe, DecimalPipe, JsonPipe, NgClass } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GlobalConstant } from '../../core/constant/Constant';
 import { FarmerProduct } from '../../core/models/classes/Product.model';
@@ -11,10 +11,11 @@ import { ProductMasterService } from '../../core/services/product-master';
 import { IProductList } from '../../core/models/interfaces/product.interface';
 import { HideForFarmer } from '../../shared/directives/hide-for-farmer';
 import { UserService } from '../../core/services/user-service';
+import { Alert } from "../../shared/reusablesComponent/alert/alert";
 
 @Component({
   selector: 'app-product',
-  imports: [ReactiveFormsModule, NgClass, DatePipe, DecimalPipe, JsonPipe, HideForFarmer],
+  imports: [ReactiveFormsModule, NgClass, DatePipe, DecimalPipe, JsonPipe, HideForFarmer, Alert],
   templateUrl: './FarmerProducts.html',
   styleUrl: './FarmerProducts.css',
 })
@@ -22,7 +23,15 @@ export class FarmerProducts implements OnInit {
   formBuilder = inject(FormBuilder);
   productSrv = inject(ProductService);
   productMasterSrv = inject(ProductMasterService);
-   userService = inject(UserService);
+  userService = inject(UserService);
+
+  @ViewChild(Alert) alerCompInstance!: Alert;
+
+  alertObj: any = {
+    alertType:'',
+    alertMessage:'',
+    alertTitle:''
+  }
 
   productForm!: FormGroup;
   productList = signal<IProductList[]>([]);
@@ -135,11 +144,27 @@ export class FarmerProducts implements OnInit {
         alert('Product saved successfully');
         this.productList.update((oldData) => [...oldData, response.data ?? formValue]);
         this.resetForm();
+        this.alertObj = {
+          alertType: 'Success',
+          alertMessage: 'Product Listing Success',
+          alertTitle: 'Success'
+        }
+        setTimeout(() => {
+           debugger;
+            const value = this.alerCompInstance.alertTitle;
+        }, 2000);
+        
+       
         this.isSubmitting.set(false);
       },
-      error: () => {
+      error: (err:any) => {
         this.isSubmitting.set(false);
         alert('Unable to save product');
+        this.alertObj = {
+          alertType: 'Error',
+          alertMessage: "Error While Saving Product",
+          alertTitle: 'Error'
+        }
       },
     });
   }

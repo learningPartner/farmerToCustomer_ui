@@ -19,6 +19,11 @@
           Maintain product pricing, stock quantity, available date, and listing status from one
           place.
         </p>
+        @if (alertObj.alertType != '') {
+           <app-alert [alertMessage]="alertObj.alertMessage" [alertTitle]="alertObj.alertTitle"
+          [alertType]="alertObj.alertType"></app-alert>
+        }
+       
       </div>
       <button class="btn-add-new" type="button" (click)="resetForm()">
         <i class="bi bi-plus-lg me-2"></i>Add New Product
