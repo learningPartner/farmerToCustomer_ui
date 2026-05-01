@@ -1,6 +1,6 @@
-import { LowerCasePipe, UpperCasePipe } from "@angular/common";
+import { LowerCasePipe, UpperCasePipe ,NgClass} from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 export const CommonImports = {
-    FORM_IMPORTS: [FormsModule, ReactiveFormsModule, LowerCasePipe, UpperCasePipe]
+    FORM_IMPORTS: [FormsModule, ReactiveFormsModule, LowerCasePipe, UpperCasePipe,NgClass]
 }

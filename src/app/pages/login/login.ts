@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { UserLogin, UserModel } from '../../core/models/classes/User.Model';
 import { UserService } from '../../core/services/user-service';
 import { getSumOfTwoNum } from '../../core/helper/Utility';
@@ -17,7 +17,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login {
+export class Login  implements OnInit{
 
   userSrv = inject(UserService);
   router = inject(Router);
@@ -46,6 +46,19 @@ export class Login {
     }, { validators: this.passwordMatchValidator });
   }
 
+   
+   
+  
+    ngOnInit(): void {
+      this.getAllCategory();
+    }
+    getAllCategory() {
+      this.masterSrv.getAllCategory().subscribe({
+        next: (res: ApiResponseModel) => {
+          debugger;
+        }
+      })
+    }
   passwordMatchValidator(form: FormGroup): {[key: string]: any} | null {
     const password = form.get('password');
     const confirmPassword = form.get('confirmPassword');

@@ -18,7 +18,7 @@ export class UserService {
   loggedInUser!: UserModel;
 
   constructor() {
-    debugger;
+    
     this.getLoggedUser();
   }
 

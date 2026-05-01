@@ -1,17 +1,18 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MasterService } from '../../core/services/master';
 import { ApiResponseModel } from '../../core/models/interfaces/api-response.Model';
 import { Category, Role } from '../../core/models/classes/Master.model';
 import { NgClass } from '@angular/common';
 import { FocusInDir } from '../../shared/directives/focus-in-dir';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-master',
   imports: [ReactiveFormsModule, NgClass, FocusInDir],
   templateUrl: './master.html',
   styleUrl: './master.css',
 })
-export class Master implements OnInit {
+export class Master implements OnInit, OnDestroy {
 
   roleForm!: FormGroup;
   categoryForm!: FormGroup;
@@ -22,7 +23,8 @@ export class Master implements OnInit {
   categoryList = signal<Category[]>([])
 
   formBuilder = inject(FormBuilder)
-  masterSrv = inject(MasterService)
+  masterSrv = inject(MasterService);
+  subList: Subscription[]= [];
 
   constructor() {
     this.createCategoryForm();
@@ -64,35 +66,36 @@ export class Master implements OnInit {
   }
 
   getAllCategory() {
-    
-    this.masterSrv.getAllCategory().subscribe({
+
+    const sub = this.masterSrv.getAllCategory().subscribe({
       next: (rs: ApiResponseModel) => {
         this.categoryList.set(rs.data)
       }
     })
+    this.subList.push(sub)
   }
   getAllRole() {
-    
-    this.masterSrv.getAllRoles().subscribe({
+
+    this.subList.push(this.masterSrv.getAllRoles().subscribe({
       next: (rs: ApiResponseModel) => {
         this.roleList.set(rs.data)
       }
-    })
+    }))
   }
 
   onSaveRole() {
     const formValue = this.roleForm.value;
-    this.masterSrv.createRole(formValue).subscribe({
+   const sub=  this.masterSrv.createRole(formValue).subscribe({
       next: (resposne: ApiResponseModel) => {
         alert("Role Saved");
         this.roleList.update(oldData => [...oldData, resposne.data])
         //this.getAllRole()
         this.roleForm.reset()
       },
-      error:(errro)=>{
-
+      error:(errro)=>{ 
       }
     })
+    this.subList.push(sub);
   }
   onUpdateRole() {
     const formValue = this.roleForm.value;
@@ -135,6 +138,12 @@ export class Master implements OnInit {
         this.getAllCategory()
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    this.subList.forEach(element => {
+      element.unsubscribe();
+    });
   }
 
 }

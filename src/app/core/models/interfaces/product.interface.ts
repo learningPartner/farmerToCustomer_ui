@@ -8,4 +8,5 @@ export interface IProductList {
   availableQuantity: number
   availableDate: string
   status: string
+  image: string;
 }

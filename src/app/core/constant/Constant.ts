@@ -11,6 +11,8 @@ export const GlobalConstant = {
         GET_CATEGORY: 'farmerCategories/get-all-categories',
         CREATE_CATEGORY:'farmerCategories/create-category',
         UPDATE_CATEGORY:'farmerCategories/update-category/',
+        
+        GET_ALL_FARMER_PRODUCTS_BY_CAT:'farmerFarmerProducts/getFarmerProductByCateId?categoryId=',
         GET_ALL_PRODUCTS:'farmerFarmerProducts/get-all-farmer-products-with-joins',
         GET_ALL_PRODUCTS_BY_FARMER:'farmerFarmerProducts/get-farmer-products-by-farmer/',
         CREATE_PRODUCT:'farmerFarmerProducts/create-farmer-product',

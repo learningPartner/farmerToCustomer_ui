@@ -4,7 +4,8 @@
       <div class="col-lg-6">
         <div class="hero-badge"><i class="bi bi-leaf-fill me-1"></i> Farm Fresh, Direct to You</div>
         <h1>From <span>Farm to Table</span>, No Middleman</h1>
-        <p>Buy directly from local farmers. Fresh vegetables, fruits, and grains delivered straight from the source to your home.</p>
+        <p>Buy directly from local farmers. Fresh vegetables, fruits, and grains delivered straight from the source to
+          your home.</p>
         <div class="search-wrap mb-4">
           <i class="bi bi-search text-muted"></i>
           <input type="text" placeholder="Search for potatoes, tomatoes, wheat..." />
@@ -37,7 +38,8 @@
       </div>
       <div class="col-lg-6">
         <div class="hero-img-wrap">
-          <img src="https://images.pexels.com/photos/1300972/pexels-photo-1300972.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Fresh Farm Produce" />
+          <img src="https://images.pexels.com/photos/1300972/pexels-photo-1300972.jpeg?auto=compress&cs=tinysrgb&w=800"
+            alt="Fresh Farm Produce" />
           <div class="floating-card card-1">
             <div class="fc-icon green"><i class="bi bi-check-circle-fill"></i></div>
             <div class="fc-text">
@@ -62,14 +64,13 @@
 <section class="cat-strip">
   <div class="container">
     <div class="d-flex gap-3 overflow-auto pb-1">
-      <div class="cat-pill active"><i class="bi bi-grid-fill"></i> All</div>
-      <div class="cat-pill"><i class="bi bi-flower1"></i> Vegetables</div>
-      <div class="cat-pill"><i class="bi bi-apple"></i> Fruits</div>
-      <div class="cat-pill"><i class="bi bi-box-fill"></i> Grains & Pulses</div>
-      <div class="cat-pill"><i class="bi bi-droplet-fill"></i> Dairy</div>
-      <div class="cat-pill"><i class="bi bi-flower3"></i> Herbs & Spices</div>
-      <div class="cat-pill"><i class="bi bi-egg-fill"></i> Poultry</div>
-      <div class="cat-pill"><i class="bi bi-tree-fill"></i> Organic</div>
+      <div class="cat-pill " [ngClass]="selectedCategory() == 'All'?'active':''" (click)="getAllProduct()"><i
+          class="bi bi-grid-fill"></i> All - {{timer$|async}}</div>
+      @for (item of categorListObs$ |async; track $index) {
+      <div class="cat-pill" [ngClass]="selectedCategory() == item.name ?'active':''" (click)="getProductByCateId(item)">
+        <i class="bi bi-flower1"></i> {{item.name}}
+      </div>
+      }
     </div>
   </div>
 </section>
@@ -83,28 +84,37 @@
         <h2 class="section-title mb-0">Products from Local Farmers</h2>
       </div>
       <div class="col-auto">
-        <a href="#" class="btn btn-outline-success rounded-pill px-4 fw-700">View All <i class="bi bi-arrow-right ms-1"></i></a>
+        <a href="#" class="btn btn-outline-success rounded-pill px-4 fw-700">View All <i
+            class="bi bi-arrow-right ms-1"></i></a>
       </div>
     </div>
     <div class="row g-4">
+      @for (item of productList(); track $index) {
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="product-card">
           <div class="p-img">
-            <img src="https://images.pexels.com/photos/144248/potatoes-vegetables-erdfrucht-bio-144248.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Potato" />
+            @defer (on viewport) {
+            <img [src]="item.image" alt="{{ item.image }}" loading="lazy" />
+            } @placeholder {
+            <div class="image-placeholder">Loading...</div>
+            }
+            <!-- <img [ngSrc]="item.image" width="300" height="300" loading="lazy" alt="Potato" /> -->
             <span class="p-badge">Fresh</span>
           </div>
           <div class="p-body">
-            <div class="p-name">Organic Potatoes</div>
-            <div class="p-farmer"><i class="bi bi-person-fill me-1"></i>Ravi Kumar · Punjab</div>
+            <div class="p-name">{{item.productName}}</div>
+            <div class="p-farmer"><i class="bi bi-person-fill me-1"></i>{{item.farmerName}}</div>
             <div class="d-flex justify-content-between align-items-center">
-              <div class="p-price">₹28<span>/kg</span></div>
-              <div class="p-meta"><i class="bi bi-box me-1"></i>In Stock</div>
+              <div class="p-price">₹{{item.pricePerKg}}<span>/kg</span></div>
+              <div class="p-meta"><i class="bi bi-box me-1"></i>{{item.status}}</div>
             </div>
             <button class="btn-add-cart"><i class="bi bi-cart-plus me-2"></i>Add to Cart</button>
           </div>
         </div>
       </div>
-      
+      }
+
+
     </div>
   </div>
 </section>
@@ -115,28 +125,32 @@
     <div class="text-center mb-5">
       <div class="section-label">Process</div>
       <h2 class="section-title">How FarmConnect Works</h2>
-      <p class="section-sub mx-auto" style="max-width:520px;">Three simple steps connecting farmers and customers directly, no intermediaries involved.</p>
+      <p class="section-sub mx-auto" style="max-width:520px;">Three simple steps connecting farmers and customers
+        directly, no intermediaries involved.</p>
     </div>
     <div class="row g-0">
       <div class="col-md-4">
         <div class="hiw-step">
           <div class="hiw-icon green"><i class="bi bi-person-plus-fill"></i></div>
           <h5>1. Farmer Registers & Lists</h5>
-          <p>Farmers register and list the produce they plan to sell — from vegetables to grains, with quantity and price details.</p>
+          <p>Farmers register and list the produce they plan to sell — from vegetables to grains, with quantity and
+            price details.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="hiw-step">
           <div class="hiw-icon orange"><i class="bi bi-search"></i></div>
           <h5>2. Customer Searches & Orders</h5>
-          <p>Customers search for any product, see all available farmers, and place orders specifying quantity in kg or bunches.</p>
+          <p>Customers search for any product, see all available farmers, and place orders specifying quantity in kg or
+            bunches.</p>
         </div>
       </div>
       <div class="col-md-4">
         <div class="hiw-step">
           <div class="hiw-icon blue"><i class="bi bi-truck-front-fill"></i></div>
           <h5>3. Order Goes to Farmer</h5>
-          <p>Each order is routed directly to the respective farmer, just like platform marketplaces — orders go to the right vendor automatically.</p>
+          <p>Each order is routed directly to the respective farmer, just like platform marketplaces — orders go to the
+            right vendor automatically.</p>
         </div>
       </div>
     </div>
@@ -203,44 +217,57 @@
         <h2 class="section-title mb-0">Meet Our Farmers</h2>
       </div>
       <div class="col-auto">
-        <a href="#" class="btn btn-outline-success rounded-pill px-4 fw-700">All Farmers <i class="bi bi-arrow-right ms-1"></i></a>
+        <a href="#" class="btn btn-outline-success rounded-pill px-4 fw-700">All Farmers <i
+            class="bi bi-arrow-right ms-1"></i></a>
       </div>
     </div>
     <div class="row g-4">
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="farmer-card">
-          <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Farmer" class="farmer-avatar" />
+          <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=200"
+            alt="Farmer" class="farmer-avatar" />
           <h5>Ravi Kumar</h5>
           <div class="loc"><i class="bi bi-geo-alt-fill"></i> Amritsar, Punjab</div>
-          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i> 4.8</div>
-          <div><span class="farmer-tag">Potatoes</span><span class="farmer-tag">Onions</span><span class="farmer-tag">Wheat</span></div>
+          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+              class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i> 4.8</div>
+          <div><span class="farmer-tag">Potatoes</span><span class="farmer-tag">Onions</span><span
+              class="farmer-tag">Wheat</span></div>
         </div>
       </div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="farmer-card">
-          <img src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Farmer" class="farmer-avatar" />
+          <img src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=200"
+            alt="Farmer" class="farmer-avatar" />
           <h5>Suresh Patil</h5>
           <div class="loc"><i class="bi bi-geo-alt-fill"></i> Nashik, Maharashtra</div>
-          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> 5.0</div>
-          <div><span class="farmer-tag">Tomatoes</span><span class="farmer-tag">Grapes</span><span class="farmer-tag">Onions</span></div>
+          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+              class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> 5.0</div>
+          <div><span class="farmer-tag">Tomatoes</span><span class="farmer-tag">Grapes</span><span
+              class="farmer-tag">Onions</span></div>
         </div>
       </div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="farmer-card">
-          <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Farmer" class="farmer-avatar" />
+          <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200"
+            alt="Farmer" class="farmer-avatar" />
           <h5>Priya Sharma</h5>
           <div class="loc"><i class="bi bi-geo-alt-fill"></i> Jaipur, Rajasthan</div>
-          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i> 4.5</div>
-          <div><span class="farmer-tag">Coriander</span><span class="farmer-tag">Mint</span><span class="farmer-tag">Fenugreek</span></div>
+          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+              class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i> 4.5</div>
+          <div><span class="farmer-tag">Coriander</span><span class="farmer-tag">Mint</span><span
+              class="farmer-tag">Fenugreek</span></div>
         </div>
       </div>
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="farmer-card">
-          <img src="https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Farmer" class="farmer-avatar" />
+          <img src="https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=200"
+            alt="Farmer" class="farmer-avatar" />
           <h5>Arjun Singh</h5>
           <div class="loc"><i class="bi bi-geo-alt-fill"></i> Karnal, Haryana</div>
-          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i> 4.7</div>
-          <div><span class="farmer-tag">Spinach</span><span class="farmer-tag">Mustard</span><span class="farmer-tag">Rice</span></div>
+          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+              class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i> 4.7</div>
+          <div><span class="farmer-tag">Spinach</span><span class="farmer-tag">Mustard</span><span
+              class="farmer-tag">Rice</span></div>
         </div>
       </div>
     </div>
@@ -254,7 +281,8 @@
       <div class="row align-items-center g-4">
         <div class="col-lg-7">
           <h2>Are You a Farmer? Start Selling Today.</h2>
-          <p>Join thousands of farmers who are earning more by selling directly to customers. No commission, no middleman — just fair prices.</p>
+          <p>Join thousands of farmers who are earning more by selling directly to customers. No commission, no
+            middleman — just fair prices.</p>
         </div>
         <div class="col-lg-5 text-lg-end">
           <div class="d-flex gap-3 flex-wrap justify-content-lg-end">

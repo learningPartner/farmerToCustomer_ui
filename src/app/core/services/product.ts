@@ -18,6 +18,14 @@ export class ProductService {
     );
   }
 
+   getAllFarmerProductsByCatId(id: Number): Observable<ApiResponseModel> {
+    return this.http.get<ApiResponseModel>(
+      environment.API_URL + GlobalConstant.API_ENDPOINTS.GET_ALL_FARMER_PRODUCTS_BY_CAT + id
+    );
+  }
+
+  
+
    getAllProductsByLoggedFarmer(id: Number): Observable<ApiResponseModel> {
     return this.http.get<ApiResponseModel>(
       environment.API_URL + GlobalConstant.API_ENDPOINTS.GET_ALL_PRODUCTS_BY_FARMER + id

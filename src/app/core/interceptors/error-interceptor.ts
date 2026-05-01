@@ -3,8 +3,7 @@ import { catchError, throwError } from 'rxjs';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe( 
-      catchError((error: any)=>{
-     
+      catchError((error: any)=>{ 
         if(error.status ==401) {
           alert("Token Required");
           return throwError(()=> error);
