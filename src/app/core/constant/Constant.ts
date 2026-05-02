@@ -4,6 +4,7 @@ export const GlobalConstant = {
     API_ENDPOINTS:{
         LOGIN:'farmerUsers/login',
         GET_USER_BY_ID:'getUserbyId?id=',
+        GET_ALL_USERS:'farmerUsers/get-all-users',
         GET_ALL_ROLES:'farmerRoles/get-all-roles',
         CREATE_ROLE:'farmerRoles/create-role',
         UPDATE_ROLE:'farmerRoles/update-role/',
@@ -21,7 +22,12 @@ export const GlobalConstant = {
         GET_ALL_PRODUCT_MASTERS:'farmerProducts/get-all-products-with-joins',
         CREATE_PRODUCT_MASTER:'farmerProducts/create-product',
         UPDATE_PRODUCT_MASTER:'farmerProducts/update-product/',
-        DELETE_PRODUCT_MASTER:'farmerProducts/delete-product/'
+        DELETE_PRODUCT_MASTER:'farmerProducts/delete-product/',
+
+        ADD_TO_CART:'farmerCart/add-to-cart'
+ 
+
+
     },
     VALIDATION_MESSAGE: {
         REQUIRED:'This is Required',

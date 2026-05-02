@@ -32,3 +32,12 @@ export class UserModel {
   }
 }
 
+ 
+export class UserModelList extends UserModel { 
+  roleName: string;
+  constructor() {
+    super() 
+    this.roleName = ''; 
+  }
+}
+

@@ -7,17 +7,17 @@ import { CommonImports } from '../../core/constant/CommonImports';
 import { ApiResponseModel, IRole, LoginResponse } from '../../core/models/interfaces/api-response.Model';
 import { Router } from '@angular/router';
 import { GlobalConstant } from '../../core/constant/Constant';
-import { NgClass } from '@angular/common';
-import {   MasterService } from '../../core/services/master';
+import { NgClass, TitleCasePipe } from '@angular/common';
+import { MasterService } from '../../core/services/master';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonImports.FORM_IMPORTS, NgClass],
+  imports: [CommonImports.FORM_IMPORTS, NgClass, TitleCasePipe],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login  implements OnInit{
+export class Login implements OnInit {
 
   userSrv = inject(UserService);
   router = inject(Router);
@@ -46,23 +46,28 @@ export class Login  implements OnInit{
     }, { validators: this.passwordMatchValidator });
   }
 
-   
-   
-  
-    ngOnInit(): void {
-      this.getAllCategory();
-    }
-    getAllCategory() {
-      this.masterSrv.getAllCategory().subscribe({
-        next: (res: ApiResponseModel) => {
-          debugger;
-        }
-      })
-    }
-  passwordMatchValidator(form: FormGroup): {[key: string]: any} | null {
+
+
+
+  ngOnInit(): void {
+    this.getAllCategory();
+  }
+
+  setRole(roleid: number) {
+    this.registerForm.controls['roleId'].setValue(roleid);
+  }
+
+  getAllCategory() {
+    this.masterSrv.getAllCategory().subscribe({
+      next: (res: ApiResponseModel) => {
+        debugger;
+      }
+    })
+  }
+  passwordMatchValidator(form: FormGroup): { [key: string]: any } | null {
     const password = form.get('password');
     const confirmPassword = form.get('confirmPassword');
-    
+
     if (password && confirmPassword && password.value !== confirmPassword.value) {
       confirmPassword.setErrors({ 'passwordMismatch': true });
       return { 'passwordMismatch': true };
@@ -81,7 +86,7 @@ export class Login  implements OnInit{
     if (this.roleList().length == 0) {
       this.masterSrv.getAllRoles().subscribe({
         next: (res: ApiResponseModel) => {
-          const allowedRoles = res.data.filter((m: IRole) => m.roleName != 'SUPER_ADMIN')
+          const allowedRoles = res.data.filter((m: IRole) => m.roleName == 'FARMER' || m.roleName == 'CUSTOMER')
           this.roleList.set(allowedRoles)
         }
       })
@@ -90,11 +95,11 @@ export class Login  implements OnInit{
   }
 
   onLogin() {
-    
+
     this.userSrv.login(this.loginObj).subscribe({
       next: (res: LoginResponse) => {
         localStorage.setItem(GlobalConstant.LOCAL_LOGIN_KEY, JSON.stringify(res.data));
-        localStorage.setItem(GlobalConstant.TOKEN_KEY,res.token)
+        localStorage.setItem(GlobalConstant.TOKEN_KEY, res.token)
         this.userSrv.getLoggedUser();
         this.userSrv.onLogin$.next(true);
         this.router.navigateByUrl("/home");
@@ -106,7 +111,7 @@ export class Login  implements OnInit{
   }
 
   onRegister() {
-    
+
     if (this.registerForm.invalid) {
       alert('Please fill all required fields correctly');
       return;
@@ -114,7 +119,7 @@ export class Login  implements OnInit{
 
     this.isRegistering.set(true);
     const formValue = this.registerForm.value;
-    
+
     const userObj = new UserModel();
     userObj.name = formValue.name;
     userObj.email = formValue.email;

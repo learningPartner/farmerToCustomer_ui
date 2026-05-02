@@ -10,3 +10,11 @@ export interface IProductList {
   status: string
   image: string;
 }
+
+export interface ICartModel {
+  cartId: number
+  customerId: number
+  farmerProductId: number
+  quantity: number
+  addedAt: Date
+}

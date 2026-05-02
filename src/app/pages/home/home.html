@@ -108,7 +108,9 @@
               <div class="p-price">₹{{item.pricePerKg}}<span>/kg</span></div>
               <div class="p-meta"><i class="bi bi-box me-1"></i>{{item.status}}</div>
             </div>
-            <button class="btn-add-cart"><i class="bi bi-cart-plus me-2"></i>Add to Cart</button>
+            <button class="btn-add-cart" type="button" (click)="openCartModel(item)" >
+              <i class="bi bi-cart-plus me-2"></i>Add to Cart
+            </button>
           </div>
         </div>
       </div>
@@ -222,54 +224,22 @@
       </div>
     </div>
     <div class="row g-4">
+      @for (item of farmerList; track $index) {
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="farmer-card">
           <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=200"
             alt="Farmer" class="farmer-avatar" />
-          <h5>Ravi Kumar</h5>
-          <div class="loc"><i class="bi bi-geo-alt-fill"></i> Amritsar, Punjab</div>
+          <h5>{{item.name}}</h5>
+          <div class="loc"><i class="bi bi-geo-alt-fill"></i> {{item.address}}</div>
           <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
               class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i> 4.8</div>
           <div><span class="farmer-tag">Potatoes</span><span class="farmer-tag">Onions</span><span
               class="farmer-tag">Wheat</span></div>
         </div>
       </div>
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="farmer-card">
-          <img src="https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=200"
-            alt="Farmer" class="farmer-avatar" />
-          <h5>Suresh Patil</h5>
-          <div class="loc"><i class="bi bi-geo-alt-fill"></i> Nashik, Maharashtra</div>
-          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-              class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> 5.0</div>
-          <div><span class="farmer-tag">Tomatoes</span><span class="farmer-tag">Grapes</span><span
-              class="farmer-tag">Onions</span></div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="farmer-card">
-          <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200"
-            alt="Farmer" class="farmer-avatar" />
-          <h5>Priya Sharma</h5>
-          <div class="loc"><i class="bi bi-geo-alt-fill"></i> Jaipur, Rajasthan</div>
-          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-              class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i> 4.5</div>
-          <div><span class="farmer-tag">Coriander</span><span class="farmer-tag">Mint</span><span
-              class="farmer-tag">Fenugreek</span></div>
-        </div>
-      </div>
-      <div class="col-sm-6 col-md-4 col-lg-3">
-        <div class="farmer-card">
-          <img src="https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=200"
-            alt="Farmer" class="farmer-avatar" />
-          <h5>Arjun Singh</h5>
-          <div class="loc"><i class="bi bi-geo-alt-fill"></i> Karnal, Haryana</div>
-          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-              class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i> 4.7</div>
-          <div><span class="farmer-tag">Spinach</span><span class="farmer-tag">Mustard</span><span
-              class="farmer-tag">Rice</span></div>
-        </div>
-      </div>
+      }
+
+
     </div>
   </div>
 </section>
@@ -294,3 +264,71 @@
     </div>
   </div>
 </section>
+
+<div class="modal cart-modal"  #cartModel tabindex="-1" aria-labelledby="addToCartModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <div class="cart-modal-kicker">Quick Order</div>
+          <h4 class="modal-title" id="addToCartModalLabel">
+            <i class="bi bi-bag-check-fill"></i>
+            Add To Cart
+          </h4>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="cart-selected-product">
+          <div class="cart-product-image">
+            <img [src]="selectedProductData?.image"
+              alt="Selected product" />
+          </div>
+          <div class="cart-product-info">
+            <span class="cart-product-tag">Selected Product</span>
+            <h5>{{selectedProductData?.productName}}</h5> 
+            <div class="cart-product-meta">
+              <span><i class="bi bi-person-fill"></i> {{selectedProductData?.farmerName}}</span>
+              <span><i class="bi bi-currency-rupee"></i> {{selectedProductData?.pricePerKg}}/kg</span>
+              <span><i class="bi bi-box-seam"></i> {{selectedProductData?.status}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cart-form-grid">
+          <div class="form-group mb-3">
+            <label class="form-label">Quantity</label>
+            <div class="quantity-input-wrap">
+              <input type="number" [(ngModel)]="cartQuantity" class="form-control" placeholder="Enter quantity" min="1" />
+              <span class="quantity-unit">Kg</span>
+            </div>
+            <small class="form-text">You can bind this textbox to your quantity model before calling the API.</small>
+          </div>
+
+          <div class="cart-summary-box">
+            <div class="summary-row">
+              <span>Price Per Kg</span>
+              <strong>₹{{selectedProductData?.pricePerKg}}</strong>
+            </div>
+            <div class="summary-row">
+              <span>Delivery</span>
+              <strong>Farmer Direct</strong>
+            </div>
+            <div class="summary-row total">
+              <span>Estimated Total</span> -- {{selectedProductData?.pricePerKg}} --{{cartQuantity}}
+              <strong>₹{{(selectedProductData != undefined ? selectedProductData.pricePerKg :0) * cartQuantity}}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeCartModel()" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" (click)="onAddtoCart()" class="btn btn-warning">
+          <i class="bi bi-cart-check me-1"></i>Save To Cart
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
