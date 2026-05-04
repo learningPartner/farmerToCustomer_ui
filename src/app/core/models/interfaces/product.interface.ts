@@ -20,7 +20,7 @@ export interface ICartModel {
 }
 
 export interface ICartItemView {
- 
+ productImage:  string;
   cartId: number
   customerId: number
   customerName: string

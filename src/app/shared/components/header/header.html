@@ -49,7 +49,7 @@
                   <div class="cart-popup-list">
                     @for (item of cartItems(); track item.cartId) {
                       <div class="cart-popup-item">
-                        <img   [alt]="item.productName" class="cart-popup-image" />
+                        <img  [src]="item.productImage" [alt]="item.productName" class="cart-popup-image" />
                         <div class="cart-popup-info">
                           <div class="cart-popup-name">{{item.productName}}</div>
                           <div class="cart-popup-meta">Qty: {{item.quantity}}</div>
