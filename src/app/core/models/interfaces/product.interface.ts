@@ -18,3 +18,19 @@ export interface ICartModel {
   quantity: number
   addedAt: Date
 }
+
+export interface ICartItemView {
+ 
+  cartId: number
+  customerId: number
+  customerName: string
+  farmerProductId: number
+  productId: number
+  productName: string
+  farmerId: number
+  farmerName: string
+  quantity: number
+  addedAt: string
+  pricePerKg: number 
+
+}

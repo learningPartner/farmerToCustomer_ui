@@ -65,7 +65,7 @@ export class Home implements OnInit, OnDestroy {
     if(this.cartModelRef) {
        debugger;
       this.selectedProductData =  item;
-      this.cartObj.farmerProductId = item.productId;
+      this.cartObj.farmerProductId = item.farmerProductId;
       this.cartModelRef.nativeElement.style.display = 'block'
     }
   }
@@ -84,7 +84,9 @@ export class Home implements OnInit, OnDestroy {
     this.orderSrv.onSaveAddToCart(this.cartObj).subscribe({
       next:(res:ApiResponseModel)=>{
         alert("Product Added to Cart Success");
-        this.closeCartModel()
+        this.closeCartModel();
+        debugger;
+        this.orderSrv.addtoCart$.next(true);
       }
     })
   }

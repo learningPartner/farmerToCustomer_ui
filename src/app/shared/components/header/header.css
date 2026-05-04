@@ -17,3 +17,25 @@
     .btn-nav-outline:hover { background: var(--accent); color: #fff !important; }
     .btn-nav-solid { background: var(--accent); color: #fff !important; border-radius: 50px; padding: 6px 20px; font-weight: 700; border: 2px solid var(--accent); transition: all 0.2s; }
     .btn-nav-solid:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
+    .cart-popup-wrap { position: relative; }
+    .cart-toggle-btn { background: transparent; border: 0; padding: 0.35rem 0.5rem; color: #fff !important; }
+    .cart-toggle-btn:hover { color: var(--accent) !important; }
+    .cart-count-badge { font-size: 0.6rem; }
+    .cart-popup { position: absolute; right: 0; top: calc(100% + 14px); width: 320px; background: #fff; border-radius: 16px; border: 1px solid rgba(27,67,50,0.12); overflow: hidden; z-index: 30; }
+    .cart-popup-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: linear-gradient(135deg, var(--primary-dark), #27563e); color: #fff; }
+    .cart-popup-header span { font-size: 0.8rem; color: rgba(255,255,255,0.82); }
+    .cart-popup-list { max-height: 320px; overflow-y: auto; padding: 10px; }
+    .cart-popup-item { display: flex; align-items: center; gap: 12px; padding: 10px; border-radius: 12px; }
+    .cart-popup-item + .cart-popup-item { margin-top: 8px; }
+    .cart-popup-item:hover { background: #f6faf7; }
+    .cart-popup-image { width: 56px; height: 56px; border-radius: 12px; object-fit: cover; border: 1px solid rgba(27,67,50,0.08); }
+    .cart-popup-info { flex: 1; min-width: 0; }
+    .cart-popup-name { color: #173728; font-size: 0.92rem; font-weight: 700; line-height: 1.3; }
+    .cart-popup-meta { color: #5d6f65; font-size: 0.82rem; margin-top: 4px; }
+    .cart-remove-btn { width: 36px; height: 36px; border-radius: 50%; border: 0; background: #fff1f0; color: #d9534f; transition: all 0.2s ease; }
+    .cart-remove-btn:hover { background: #ffdeda; }
+    .cart-empty-state { padding: 20px 16px; color: #5d6f65; font-size: 0.9rem; text-align: center; background: #fff; }
+
+    @media (max-width: 991.98px) {
+      .cart-popup { right: -24px; width: min(320px, calc(100vw - 32px)); }
+    }
