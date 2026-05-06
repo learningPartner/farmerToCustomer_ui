@@ -11,6 +11,7 @@
         <li class="nav-item"><a class="nav-link" href="#">Farmers</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
         @if(loggedUserData.userId !==0) {
+           <li class="nav-item"><a class="nav-link" routerLink="/orders">Orders</a></li>
           @if(loggedUserData.roleId == 1) {
             <li class="nav-item"><a class="nav-link" routerLink="/master">Master</a></li>
             <li class="nav-item"><a class="nav-link" routerLink="/product-master">Product Master</a></li>
@@ -59,6 +60,7 @@
                         </button>
                       </div>
                     }
+                    <button class="btn btn-warning" routerLink="checkout">Checkout</button>
                   </div>
                 } @else {
                   <div class="cart-empty-state">No cart items added yet.</div>

@@ -1,0 +1,348 @@
+<section
+  class="py-5"
+  style="background: linear-gradient(180deg, var(--bg-soft) 0%, #fafffe 42%, #ffffff 100%); min-height: calc(100vh - 88px);"
+>
+  <div class="container">
+    <div class="row align-items-end g-4 mb-4">
+      <div class="col-lg-8">
+        <div class="section-label">My Orders</div>
+        <h2 class="section-title mb-2">Track Placed Orders And Open Full Details</h2>
+        <p class="section-sub mb-0">
+          Show all placed orders in one side and display the selected order with multiple products, delivery info,
+          and totals on the other side.
+        </p>
+      </div>
+      <div class="col-lg-4">
+        <div class="search-wrap ms-lg-auto" style="max-width: 100%; padding: 16px 18px;">
+          <div class="d-flex align-items-center justify-content-between gap-3 w-100">
+            <div>
+              <div class="small fw-bold text-uppercase" style="letter-spacing: 1.5px; color: var(--primary-light);">
+                Order Snapshot
+              </div>
+              <div class="fw-bold" style="color: var(--text-main);">6 orders | 18 products</div>
+            </div>
+            <span class="badge rounded-pill px-3 py-2" style="background: var(--primary); color: #fff;">
+              Active
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="bg-white rounded-4 shadow-sm h-100 p-4" style="border: 1px solid var(--border);">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+            <div>
+              <h4 class="mb-1 fw-bold">Placed Orders</h4>
+              <p class="mb-0" style="color: var(--text-muted);">Click an order card to load single order details.</p>
+            </div>
+            <span class="cat-pill active"><i class="bi bi-bag-check-fill"></i> 6 Orders</span>
+          </div>
+
+          <div class="d-flex flex-column gap-3">
+            @for (item of orderList$ |async; track $index) {
+              <button
+              type="button"
+              class="w-100 text-start rounded-4 p-3 border-0"
+              style="background: linear-gradient(135deg, rgba(82, 183, 136, 0.14), rgba(240, 250, 244, 0.96)); border: 1px solid var(--primary-light) !important; box-shadow: 0 12px 30px rgba(45, 106, 79, 0.12);"
+            >
+              <div class="d-flex justify-content-between align-items-start gap-3 mb-3">
+                <div>
+                  <div class="small fw-bold text-uppercase mb-1" style="letter-spacing: 1px; color: var(--primary);">
+                    Order #{{item.customerId}}-{{item.orderId}}
+                  </div>
+                  <h6 class="mb-0 fw-bold" style="color: var(--text-main);">Placed on {{item.orderDate|date:'MMM-dd,yyyy'}} </h6>
+                </div>
+                <span class="badge rounded-pill px-3 py-2" style="background: var(--primary); color: #fff;">
+                  Selected
+                </span>
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-6">
+                  <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                    Products
+                  </div>
+                  <div class="fw-bold">4 Items</div>
+                </div>
+                <div class="col-6">
+                  <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                    Amount
+                  </div>
+                  <div class="fw-bold">&#8377;1,420</div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="small" style="color: var(--text-muted);">
+                  Delivery to {{item.city}} {{item.pincode}}
+                </div>
+                <div class="small fw-bold" style="color: var(--primary);">
+                  View Details <i class="bi bi-arrow-right-short"></i>
+                </div>
+              </div>
+            </button>
+            }
+            
+
+           
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="bg-white rounded-4 shadow-sm p-4 p-lg-5 mb-4" style="border: 1px solid var(--border);">
+          <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4">
+            <div>
+              <div class="section-label mb-1">Single Order View</div>
+              <h3 class="mb-2 fw-bold">Order #FC26050648</h3>
+              <p class="mb-0" style="color: var(--text-muted);">
+                Placed on May 6, 2026 at 10:45 AM by Rajesh Kumar
+              </p>
+            </div>
+            <div class="text-lg-end">
+              <span class="badge rounded-pill px-3 py-2 mb-2" style="background: var(--primary); color: #fff;">
+                Order Placed
+              </span>
+              <div class="fw-bold" style="color: var(--primary-dark);">Grand Total: &#8377;1,420</div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <span class="cat-pill active"><i class="bi bi-check2-circle"></i> Order Placed</span>
+            <span class="cat-pill"><i class="bi bi-box-seam"></i> Farmer Confirmed</span>
+            <span class="cat-pill"><i class="bi bi-bag"></i> Packed</span>
+            <span class="cat-pill"><i class="bi bi-truck"></i> Delivery</span>
+          </div>
+
+          <div class="row g-3 mb-4">
+            <div class="col-md-3 col-6">
+              <div class="rounded-4 p-3 h-100" style="background: #fcfffd; border: 1px solid var(--border);">
+                <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                  Products
+                </div>
+                <div class="fw-bold fs-5">4 Items</div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="rounded-4 p-3 h-100" style="background: #fcfffd; border: 1px solid var(--border);">
+                <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                  Farmers
+                </div>
+                <div class="fw-bold fs-5">3 Sellers</div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="rounded-4 p-3 h-100" style="background: #fcfffd; border: 1px solid var(--border);">
+                <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                  Payment
+                </div>
+                <div class="fw-bold fs-6">Cash On Delivery</div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="rounded-4 p-3 h-100" style="background: #fcfffd; border: 1px solid var(--border);">
+                <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                  Delivery
+                </div>
+                <div class="fw-bold fs-6">Expected Tomorrow</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4 mb-4">
+            <div class="col-lg-7">
+              <div class="rounded-4 p-4 h-100" style="background: #fcfffd; border: 1px solid var(--border);">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <div class="role-icon customer mb-0">
+                    <i class="bi bi-geo-alt-fill"></i>
+                  </div>
+                  <div>
+                    <h5 class="mb-1 fw-bold">Delivery Address</h5>
+                    <div class="small" style="color: var(--text-muted);">Saved address for this order</div>
+                  </div>
+                </div>
+                <div class="fw-bold mb-1">Rajesh Kumar</div>
+                <div style="color: var(--text-muted); line-height: 1.8;">
+                  12-4-118, Green Park Colony<br />
+                  Near Market Road, Flat 203<br />
+                  Hyderabad, Telangana - 500081
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-5">
+              <div class="rounded-4 p-4 h-100" style="background: #fcfffd; border: 1px solid var(--border);">
+                <h5 class="mb-3 fw-bold">Amount Summary</h5>
+                <div class="d-flex justify-content-between align-items-center py-2 border-bottom" style="border-color: #e9f3ec !important;">
+                  <span>Cart Subtotal</span>
+                  <strong>&#8377;1,360</strong>
+                </div>
+                <div class="d-flex justify-content-between align-items-center py-2 border-bottom" style="border-color: #e9f3ec !important;">
+                  <span>Delivery Charges</span>
+                  <strong>&#8377;40</strong>
+                </div>
+                <div class="d-flex justify-content-between align-items-center py-2 border-bottom" style="border-color: #e9f3ec !important;">
+                  <span>Platform Fee</span>
+                  <strong>&#8377;20</strong>
+                </div>
+                <div class="d-flex justify-content-between align-items-center pt-3">
+                  <span class="fw-bold">Grand Total</span>
+                  <strong style="font-size: 1.3rem; color: var(--primary);">&#8377;1,420</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+            <div>
+              <h4 class="mb-1 fw-bold">Products In This Order</h4>
+              <p class="mb-0" style="color: var(--text-muted);">One order can contain multiple products from multiple farmers.</p>
+            </div>
+            <span class="farmer-tag mb-0">4 Products Attached</span>
+          </div>
+
+          <div class="d-flex flex-column gap-3">
+            <div class="rounded-4 p-3 p-md-4" style="background: #fcfffd; border: 1px solid var(--border);">
+              <div class="row align-items-center g-3">
+                <div class="col-md-2 col-sm-3">
+                  <img
+                    src="https://images.pexels.com/photos/533280/pexels-photo-533280.jpeg?auto=compress&cs=tinysrgb&w=500"
+                    alt="Organic Tomatoes"
+                    class="w-100 rounded-4"
+                    style="height: 100px; object-fit: cover;"
+                  />
+                </div>
+                <div class="col-md-5 col-sm-9">
+                  <div class="d-flex gap-2 flex-wrap mb-2">
+                    <span class="badge rounded-pill px-3 py-2" style="background: #d8f3dc; color: var(--primary-dark);">
+                      Organic Tomatoes
+                    </span>
+                    <span class="farmer-tag mb-0">Vegetables</span>
+                  </div>
+                  <div class="p-farmer mb-1"><i class="bi bi-person-fill me-1"></i>Green Valley Farm</div>
+                  <div class="small" style="color: var(--text-muted);">Fresh farm tomatoes, carefully packed.</div>
+                </div>
+                <div class="col-md-2 col-6">
+                  <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                    Qty
+                  </div>
+                  <div class="fw-bold">2 Kg</div>
+                </div>
+                <div class="col-md-3 col-6 text-md-end">
+                  <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                    Total
+                  </div>
+                  <div class="p-price mb-0">&#8377;240 <span>(120 x 2)</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-4 p-3 p-md-4" style="background: #fcfffd; border: 1px solid var(--border);">
+              <div class="row align-items-center g-3">
+                <div class="col-md-2 col-sm-3">
+                  <img
+                    src="https://images.pexels.com/photos/4110251/pexels-photo-4110251.jpeg?auto=compress&cs=tinysrgb&w=500"
+                    alt="Crunchy Carrots"
+                    class="w-100 rounded-4"
+                    style="height: 100px; object-fit: cover;"
+                  />
+                </div>
+                <div class="col-md-5 col-sm-9">
+                  <div class="d-flex gap-2 flex-wrap mb-2">
+                    <span class="badge rounded-pill px-3 py-2" style="background: #ffecd2; color: var(--accent-dark);">
+                      Crunchy Carrots
+                    </span>
+                    <span class="farmer-tag mb-0">Root Crop</span>
+                  </div>
+                  <div class="p-farmer mb-1"><i class="bi bi-person-fill me-1"></i>Sunrise Organics</div>
+                  <div class="small" style="color: var(--text-muted);">Naturally grown carrots from this week harvest.</div>
+                </div>
+                <div class="col-md-2 col-6">
+                  <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                    Qty
+                  </div>
+                  <div class="fw-bold">1 Kg</div>
+                </div>
+                <div class="col-md-3 col-6 text-md-end">
+                  <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                    Total
+                  </div>
+                  <div class="p-price mb-0">&#8377;90 <span>(90 x 1)</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-4 p-3 p-md-4" style="background: #fcfffd; border: 1px solid var(--border);">
+              <div class="row align-items-center g-3">
+                <div class="col-md-2 col-sm-3">
+                  <img
+                    src="https://images.pexels.com/photos/143133/pexels-photo-143133.jpeg?auto=compress&cs=tinysrgb&w=500"
+                    alt="Premium Potatoes"
+                    class="w-100 rounded-4"
+                    style="height: 100px; object-fit: cover;"
+                  />
+                </div>
+                <div class="col-md-5 col-sm-9">
+                  <div class="d-flex gap-2 flex-wrap mb-2">
+                    <span class="badge rounded-pill px-3 py-2" style="background: #dbe4ff; color: #3552c6;">
+                      Premium Potatoes
+                    </span>
+                    <span class="farmer-tag mb-0">Daily Use</span>
+                  </div>
+                  <div class="p-farmer mb-1"><i class="bi bi-person-fill me-1"></i>Harvest Roots Farm</div>
+                  <div class="small" style="color: var(--text-muted);">Sorted potatoes best for regular cooking.</div>
+                </div>
+                <div class="col-md-2 col-6">
+                  <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                    Qty
+                  </div>
+                  <div class="fw-bold">5 Kg</div>
+                </div>
+                <div class="col-md-3 col-6 text-md-end">
+                  <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                    Total
+                  </div>
+                  <div class="p-price mb-0">&#8377;340 <span>(68 x 5)</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-4 p-3 p-md-4" style="background: #fcfffd; border: 1px solid var(--border);">
+              <div class="row align-items-center g-3">
+                <div class="col-md-2 col-sm-3">
+                  <img
+                    src="https://images.pexels.com/photos/2329440/pexels-photo-2329440.jpeg?auto=compress&cs=tinysrgb&w=500"
+                    alt="Fresh Spinach"
+                    class="w-100 rounded-4"
+                    style="height: 100px; object-fit: cover;"
+                  />
+                </div>
+                <div class="col-md-5 col-sm-9">
+                  <div class="d-flex gap-2 flex-wrap mb-2">
+                    <span class="badge rounded-pill px-3 py-2" style="background: #d8f3dc; color: var(--primary-dark);">
+                      Fresh Spinach
+                    </span>
+                    <span class="farmer-tag mb-0">Leafy Greens</span>
+                  </div>
+                  <div class="p-farmer mb-1"><i class="bi bi-person-fill me-1"></i>Lakshmi Farms</div>
+                  <div class="small" style="color: var(--text-muted);">Fresh bundles tied and packed on the same morning.</div>
+                </div>
+                <div class="col-md-2 col-6">
+                  <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                    Qty
+                  </div>
+                  <div class="fw-bold">3 Bunch</div>
+                </div>
+                <div class="col-md-3 col-6 text-md-end">
+                  <div class="small text-uppercase fw-bold mb-1" style="letter-spacing: 1px; color: var(--text-muted);">
+                    Total
+                  </div>
+                  <div class="p-price mb-0">&#8377;690 <span>(230 x 3)</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

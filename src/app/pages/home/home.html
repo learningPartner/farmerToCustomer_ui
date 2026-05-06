@@ -92,9 +92,9 @@
       @for (item of productList(); track $index) {
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="product-card">
-          <div class="p-img">
+          <div class="p-img"> 
             @defer (on viewport) {
-            <img [src]="item.image" alt="{{ item.image }}" loading="lazy" />
+            <img [src]="item.productImage" alt="{{ item.productImage }}" loading="lazy" />
             } @placeholder {
             <div class="image-placeholder">Loading...</div>
             }
@@ -282,7 +282,7 @@
       <div class="modal-body">
         <div class="cart-selected-product">
           <div class="cart-product-image">
-            <img [src]="selectedProductData?.image"
+            <img [src]="selectedProductData?.productImage"
               alt="Selected product" />
           </div>
           <div class="cart-product-info">

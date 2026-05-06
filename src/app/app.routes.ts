@@ -7,6 +7,8 @@ import { beforeDeactiveGuardGuard } from './core/guards/before-deactive-guard-gu
 import { Master } from './pages/master/master';
 import { FarmerProducts } from './pages/farmerproduct/FarmerProducts';
 import { ProductMaster } from './pages/product-master/product-master';
+import { Checkout } from './pages/checkout/checkout';
+import { Orders } from './pages/orders/orders';
 
 export const routes: Routes = [
     {
@@ -37,4 +39,14 @@ export const routes: Routes = [
         component: ProductMaster,
         canActivate: [authGuard]
     },
+     {
+        path:'checkout',
+        component: Checkout,
+        canActivate: [authGuard]
+    },
+     {
+        path:'orders',
+        component: Orders,
+        canActivate: [authGuard]
+    }
 ];

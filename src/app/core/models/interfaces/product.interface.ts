@@ -8,7 +8,7 @@ export interface IProductList {
   availableQuantity: number
   availableDate: string
   status: string
-  image: string;
+  productImage: string;
 }
 
 export interface ICartModel {
@@ -34,3 +34,18 @@ export interface ICartItemView {
   pricePerKg: number 
 
 }
+
+export interface IOrderList {
+  orderId: number
+  customerId: number
+  customerName: string
+  farmerId: number
+  orderDate: string
+  status: string
+  city: string
+  state: string
+  pincode: string
+  addressLine1: string
+  addressLine2: string
+}
+

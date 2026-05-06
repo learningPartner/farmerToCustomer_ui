@@ -1,0 +1,214 @@
+<section
+  class="py-5"
+  style="background: linear-gradient(180deg, var(--bg-soft) 0%, #fafffe 38%, #ffffff 100%); min-height: calc(100vh - 88px);"
+>
+  <div class="container">
+    <div class="row align-items-end g-4 mb-4">
+      <div class="col-lg-8">
+        <div class="section-label">Checkout</div>
+        <h2 class="section-title mb-2">Review Your Cart And Confirm Delivery</h2>
+        <p class="section-sub mb-0">
+          Check the selected farm products, add your delivery address, and place the final order in one clean step.
+        </p>
+      </div>
+      <div class="col-lg-4">
+        <div class="search-wrap ms-lg-auto" style="max-width: 100%; padding: 16px 18px;">
+          <div class="d-flex align-items-center justify-content-between gap-3 w-100">
+            <div>
+              <div class="small fw-bold text-uppercase" style="letter-spacing: 1.5px; color: var(--primary-light);">
+                Order Snapshot
+              </div>
+              <div class="fw-bold" style="color: var(--text-main);">3 items from 2 farmers</div>
+            </div>
+            <span class="badge rounded-pill px-3 py-2" style="background: var(--accent); color: #fff;">Ready</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card shadow-sm border-0 mb-4">
+      <div class="p-4 p-lg-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+          <div>
+            <h4 class="mb-1 fw-bold">Cart Details</h4>
+            <p class="mb-0" style="color: var(--text-muted);">Selected products from your cart will appear here.</p>
+          </div>
+          <span class="cat-pill active"><i class="bi bi-bag-check-fill"></i> 3 Cart Items</span>
+        </div>
+
+        <div class="d-flex flex-column gap-3">
+            @for (item of cartData(); track $index) {
+                <div class="border rounded-4 p-3 p-md-4" style="border-color: var(--border) !important; background: #fcfffd;">
+            <div class="row align-items-center g-3">
+              <div class="col-md-2 col-sm-3">
+                <img
+                  [src]="item.productImage"
+                  alt="Tomatoes"
+                  class="w-100 rounded-4"
+                  style="height: 110px; object-fit: cover;"
+                />
+              </div>
+              <div class="col-md-5 col-sm-9">
+                <div class="d-flex gap-2 flex-wrap mb-2">
+                  <span class="badge rounded-pill px-3 py-2" style="background: #d8f3dc; color: var(--primary-dark);">
+                   {{item.productName}}
+                  </span>
+                  <span class="farmer-tag mb-0">Category</span>
+                </div> 
+                <div class="p-farmer mb-2"><i class="bi bi-person-fill me-1"></i>{{item.farmerName}}</div>
+                
+              </div>
+              <div class="col-md-2 col-6">
+                <div class="small fw-bold text-uppercase mb-2" style="letter-spacing: 1px; color: var(--text-muted);">
+                  Quantity
+                </div>
+                <div
+                  class="d-inline-flex align-items-center justify-content-center rounded-pill px-3 py-2"
+                  style="background: #fff; border: 1px solid var(--border); min-width: 96px;"
+                >
+                  <span class="fw-bold">{{item.quantity}}Kg</span>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 text-md-end">
+                <div class="small fw-bold text-uppercase" style="letter-spacing: 1px; color: var(--text-muted);">
+                  Amount
+                </div>
+                <div class="p-price mb-1">  {{item.pricePerKg}} <span>x {{item.quantity}}</span></div>
+                <div class="fw-bold" style="color: var(--primary-dark);">Total: {{item.pricePerKg * item.quantity}}</div>
+              </div>
+            </div>
+          </div>
+            }
+          
+
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="role-card shadow-sm h-100">
+          <div class="d-flex align-items-start gap-3 mb-4">
+            <div class="role-icon customer mb-0">
+              <i class="bi bi-geo-alt-fill"></i>
+            </div>
+            <div>
+              <div class="section-label mb-1">Delivery Address</div>
+              <h4 class="mb-1 fw-bold">Add Shipping Details</h4>
+              <p class="mb-0" style="color: var(--text-muted);">
+                Enter the address where the order should be delivered.
+              </p>
+            </div>
+          </div>
+
+          <form>
+            <div class="row g-4">
+              <div class="col-md-6">
+                <label for="city" class="form-label fw-semibold">City</label>
+                <input
+                  id="city"
+                  type="text" [(ngModel)]="orderObj.city" name="city"
+                  class="form-control form-control-lg rounded-4"
+                  placeholder="Enter city"
+                  style="border-color: var(--border); background: #fcfffd;"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="state" class="form-label fw-semibold">State</label>
+                <input
+                  id="state"
+                  type="text"  [(ngModel)]="orderObj.state" name="state"
+                  class="form-control form-control-lg rounded-4"
+                  placeholder="Enter state"
+                  style="border-color: var(--border); background: #fcfffd;"
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="pincode" class="form-label fw-semibold">Pincode</label>
+                <input
+                  id="pincode"
+                  type="text"  [(ngModel)]="orderObj.pincode" name="pincode"
+                  class="form-control form-control-lg rounded-4"
+                  placeholder="Enter pincode"
+                  style="border-color: var(--border); background: #fcfffd;"
+                />
+              </div>
+              <div class="col-12">
+                <label for="addressLine1" class="form-label fw-semibold">Address Line 1</label>
+                <textarea
+                  id="addressLine1"
+                  class="form-control rounded-4"
+                  rows="4"  [(ngModel)]="orderObj.addressLine1" name="addressLine1"
+                  placeholder="House no, street name, colony"
+                  style="border-color: var(--border); background: #fcfffd;"
+                ></textarea>
+              </div>
+              <div class="col-12">
+                <label for="addressLine2" class="form-label fw-semibold">Address Line 2</label>
+                <input
+                  id="addressLine2"
+                  type="text"  [(ngModel)]="orderObj.addressLine2" name="addressLine2"
+                  class="form-control form-control-lg rounded-4"
+                  placeholder="Apartment, landmark, area"
+                  style="border-color: var(--border); background: #fcfffd;"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="cta-banner h-100">
+          <div class="section-label mb-2" style="color: rgba(255, 255, 255, 0.72);">Final Order</div>
+          <h2 class="mb-3" style="font-size: 2rem;">Order Summary</h2>
+          <p class="mb-4">
+            A quick overview before placing the order. You can later connect these values with real cart data.
+          </p>
+
+          <div class="bg-white rounded-4 p-4 mb-4" style="color: var(--text-main);">
+            <div class="d-flex justify-content-between align-items-center py-2 border-bottom" style="border-color: #eef4ef !important;">
+              <span>Cart Subtotal</span>
+              <strong>&#8377;670</strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center py-2 border-bottom" style="border-color: #eef4ef !important;">
+              <span>Delivery Charges</span>
+              <strong>&#8377;40</strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center py-2 border-bottom" style="border-color: #eef4ef !important;">
+              <span>Platform Fee</span>
+              <strong>&#8377;10</strong>
+            </div>
+            <div class="d-flex justify-content-between align-items-center pt-3">
+              <span class="fw-bold">Grand Total</span>
+              <strong style="font-size: 1.4rem; color: var(--primary);">&#8377;{{total()}}</strong>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-start gap-3 mb-4">
+            <div
+              class="d-flex align-items-center justify-content-center rounded-4"
+              style="width: 52px; height: 52px; background: rgba(255, 255, 255, 0.12); flex-shrink: 0;"
+            >
+              <i class="bi bi-shield-check fs-4 text-white"></i>
+            </div>
+            <div>
+              <h6 class="text-white fw-bold mb-1">Fresh, direct and secure</h6>
+              <p class="mb-0" style="color: rgba(255, 255, 255, 0.72);">
+                Orders go directly to the farmer and delivery details stay clearly organized.
+              </p>
+            </div>
+          </div>
+
+          <button (click)="onSaveOrder()" type="button" class="btn-cta-white w-100 py-3">
+            <i class="bi bi-bag-heart-fill me-2"></i>Place Final Order
+          </button>
+          <div class="small mt-3" style="color: rgba(255, 255, 255, 0.72);">
+            By placing the order, you confirm the cart items and delivery address.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

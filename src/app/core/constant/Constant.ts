@@ -26,7 +26,14 @@ export const GlobalConstant = {
 
         ADD_TO_CART:'farmerCart/add-to-cart',
         GET_CART_BY_CUST:'farmerCart/get-cart-by-customer-with-joins/',
-        DELETE_CART_BY_ID:'farmerCart/delete-cart/'
+        DELETE_CART_BY_ID:'farmerCart/delete-cart/',
+
+        ORDER_SAVE:'farmerOrders/create-order',
+        GET_ORDER_BY_CUSTOMER:'farmerOrders/get-order-by-customer-id/',
+        GET_ORDER_BY_FGARMER:'farmerOrders/get-order-by-farmer-id/'
+     
+
+ 
  
 
 
