@@ -10,12 +10,14 @@ import { GlobalConstant } from '../../core/constant/Constant';
 import { NgClass, TitleCasePipe } from '@angular/common';
 import { MasterService } from '../../core/services/master';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { DatePickerModule } from 'primeng/datepicker';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-login',
-  imports: [CommonImports.FORM_IMPORTS, NgClass, TitleCasePipe],
+  imports: [CommonImports.FORM_IMPORTS, NgClass, TitleCasePipe,DatePickerModule,],
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrl: './login.css' 
 })
 export class Login implements OnInit {
 
@@ -23,14 +25,21 @@ export class Login implements OnInit {
   router = inject(Router);
   masterSrv = inject(MasterService);
   formBuilder = inject(FormBuilder);
+  toastService  = inject(MessageService);
 
   loginObj: UserLogin = new UserLogin();
   registerForm!: FormGroup;
   isLoginFormVisiable = signal<boolean>(true);
   roleList = signal<IRole[]>([])
   isRegistering = signal<boolean>(false);
+  isApiInPgogress = signal<boolean>(false);
+  currentDate = new Date();
+  maxDate =new Date()
 
   constructor() {
+    const today =  new Date();
+    today.setDate(today.getDate() + 7);
+    this.maxDate = today;
     this.initializeRegisterForm();
   }
 
@@ -95,7 +104,7 @@ export class Login implements OnInit {
   }
 
   onLogin() {
-
+    this.isApiInPgogress.set(true);
     this.userSrv.login(this.loginObj).subscribe({
       next: (res: LoginResponse) => {
         localStorage.setItem(GlobalConstant.LOCAL_LOGIN_KEY, JSON.stringify(res.data));
@@ -103,9 +112,13 @@ export class Login implements OnInit {
         this.userSrv.getLoggedUser();
         this.userSrv.onLogin$.next(true);
         this.router.navigateByUrl("/home");
+        this.isApiInPgogress.set(false)
+         this.toastService.add({ severity: 'info', summary: 'Success', detail: 'Welcome User' })
       },
       error: (error) => {
-        alert("Wrong Credentials")
+        this.toastService.add({ severity: 'error', summary: 'Error', detail: 'Wrong Credentials' })
+        //alert("Wrong Credentials")
+        this.isApiInPgogress.set(false)
       }
     })
   }

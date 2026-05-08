@@ -20,10 +20,10 @@
           place.
         </p>
         @if (alertObj.alertType != '') {
-           <app-alert [alertMessage]="alertObj.alertMessage" [alertTitle]="alertObj.alertTitle"
+        <app-alert [alertMessage]="alertObj.alertMessage" [alertTitle]="alertObj.alertTitle"
           [alertType]="alertObj.alertType"></app-alert>
         }
-       
+
       </div>
       <button class="btn-add-new" type="button" (click)="resetForm()">
         <i class="bi bi-plus-lg me-2"></i>Add New Product
@@ -149,13 +149,75 @@
       </div>
 
       <div class="table-container">
-        <table class="data-table">
+        <p-table [value]="productList()" #dt2 dataKey="farmerProductId" [globalFilterFields]="['productName', 'pricePerKg']" appendTo="body" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template #caption>
+                    <div class="flex">
+                        <p-iconfield iconPosition="left" class="ml-auto">
+                            <p-inputicon>
+                                <i class="pi pi-search"></i>
+                            </p-inputicon>
+                            <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                        </p-iconfield>
+                    </div>
+                </ng-template>
+          <ng-template #header>
+            <tr>
+              <th hideForFarmer pSortableColumn="farmerName">Farmer</th>
+              <th>Product</th>
+              <th pSortableColumn="pricePerKg">Price/Kg</th>
+              <th>Quantity</th>
+              <th>Available Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-item>
+            <tr>
+              <td class="font-weight-bold">{{ item.farmerProductId  }}</td>
+              <!-- @if (loggedInUser.roleId ==1) {
+              <td>
+                <div class="id-stack">
+                  <strong> {{ item.farmerName }}</strong>
+                </div>
+              </td>
+              } -->
+              <td hideForFarmer>
+                <div class="id-stack">
+                  <strong> {{ item.farmerName }}</strong>
+                </div>
+              </td>
+              <td>
+                <div class="id-stack">
+                  <strong> {{ item.productName }}</strong>
+                </div>
+              </td>
+              <td class="price-text">{{ item.pricePerKg | number:'1.0-2' }}</td>
+              <td>{{ item.availableQuantity | number:'1.0-2' }} kg</td>
+              <td>{{ item.availableDate | date:'dd MMM yyyy, hh:mm a' }}</td>
+              <td>
+                <span class="status-badge" [ngClass]="{
+                    'active': item.status === 'Available',
+                    'inactive': item.status !== 'Available'
+                  }">
+                  <i class="bi bi-circle-fill"></i>{{ item.status }}
+                </span>
+              </td>
+              <td class="action-buttons">
+                <button class="btn-icon-sm edit" title="Edit" type="button" (click)="onEditProduct(item)">
+                  <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button class="btn-icon-sm delete" title="Delete" type="button" (click)="onDeleteProduct(item)">
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <!-- <table class="data-table">
           <thead>
             <tr>
               <th>#</th>
-              <!-- @if (loggedInUser.roleId ==1) {
-              <th>Farmer</th>
-              } -->
+              
               <th hideForFarmer>Farmer</th>
               <th>Product</th>
               <th>Price/Kg</th>
@@ -169,13 +231,7 @@
             @for (item of productList(); track trackByProductId($index, item)) {
             <tr>
               <td class="font-weight-bold">{{ item.farmerProductId || $index + 1 }}</td>
-              <!-- @if (loggedInUser.roleId ==1) {
-              <td>
-                <div class="id-stack">
-                  <strong> {{ item.farmerName }}</strong>
-                </div>
-              </td>
-              } -->
+             
                <td hideForFarmer>
                 <div class="id-stack">
                   <strong> {{ item.farmerName }}</strong>
@@ -215,7 +271,7 @@
             </tr>
             }
           </tbody>
-        </table>
+        </table>   -->
       </div>
     </div>
   </div>

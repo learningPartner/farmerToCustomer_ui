@@ -12,10 +12,12 @@ import { IProductList } from '../../core/models/interfaces/product.interface';
 import { HideForFarmer } from '../../shared/directives/hide-for-farmer';
 import { UserService } from '../../core/services/user-service';
 import { Alert } from "../../shared/reusablesComponent/alert/alert";
-
+import { TableModule } from 'primeng/table';
+import { InputIconModule } from 'primeng/inputicon';
+import { IconFieldModule } from 'primeng/iconfield';
 @Component({
   selector: 'app-product',
-  imports: [ReactiveFormsModule, NgClass, DatePipe, DecimalPipe, JsonPipe, HideForFarmer, Alert],
+  imports: [ReactiveFormsModule, NgClass, DatePipe, DecimalPipe, JsonPipe, HideForFarmer, Alert, TableModule,InputIconModule,IconFieldModule],
   templateUrl: './FarmerProducts.html',
   styleUrl: './FarmerProducts.css',
 })
