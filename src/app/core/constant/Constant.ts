@@ -23,14 +23,15 @@ export const GlobalConstant = {
         CREATE_PRODUCT_MASTER:'farmerProducts/create-product',
         UPDATE_PRODUCT_MASTER:'farmerProducts/update-product/',
         DELETE_PRODUCT_MASTER:'farmerProducts/delete-product/',
-
+        FILTER_PRODUCTS:'farmerFarmerProducts/filter-farmer-products',
         ADD_TO_CART:'farmerCart/add-to-cart',
         GET_CART_BY_CUST:'farmerCart/get-cart-by-customer-with-joins/',
         DELETE_CART_BY_ID:'farmerCart/delete-cart/',
 
         ORDER_SAVE:'farmerOrders/create-order',
         GET_ORDER_BY_CUSTOMER:'farmerOrders/get-order-by-customer-id/',
-        GET_ORDER_BY_FGARMER:'farmerOrders/get-order-by-farmer-id/'
+        GET_ORDER_BY_FGARMER:'farmerOrders/get-order-by-farmer-id/',
+        GET_ORDER_BY_ORDER_ID:'farmerOrders/get-order-by-order-id/'
      
 
  

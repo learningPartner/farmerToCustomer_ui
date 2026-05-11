@@ -1,0 +1,254 @@
+<div class="products-market-page">
+  <section class="products-hero">
+    <div class="products-hero-content">
+      <div>
+        <div class="section-label">Marketplace</div>
+        <h1 class="products-title">
+          <i class="bi bi-shop-window me-2"></i>Browse Fresh Products
+        </h1>
+        <p class="products-subtitle">
+          Discover produce from nearby farmers, compare prices, and narrow the list by product,
+          farmer, availability, stock, and date.
+        </p>
+      </div>
+      <div class="hero-search">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="Search product or farmer" [(ngModel)]="filterObj.productName" name="heroProductName" />
+        <button type="button" (click)="onApplyFilters()">Search</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="products-content">
+    <div class="row g-4 align-items-start">
+      <aside class="col-lg-3">
+        <div class="filter-card">
+          <div class="filter-head">
+            <div>
+              <div class="card-kicker">Filters</div>
+              <h2>Refine Results</h2>
+            </div>
+            <button class="btn-icon-reset" type="button" title="Reset filters" (click)="resetFilters()">
+              <i class="bi bi-arrow-counterclockwise"></i>
+            </button>
+          </div>
+
+          <form class="filter-form">
+            <div class="filter-group">
+              <label for="categoryId">Category</label>
+              <select id="categoryId" [(ngModel)]="filterObj.categoryId" name="categoryId">
+                <option [ngValue]="0">All Categories</option>
+                @for(catgory of categoryList |async; track $index) {
+                <option [ngValue]="catgory.categoryId">{{ catgory.name }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="productId">Product</label>
+              <select id="productId" [(ngModel)]="filterObj.productId" name="productId">
+                <option [ngValue]="0">All Products</option>
+                @for(productMaster of productMasterList(); track productMaster.productId) {
+                <option [ngValue]="productMaster.productId">{{ productMaster.name }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="farmerId">Farmer</label>
+              <select id="farmerId" [(ngModel)]="filterObj.farmerId" name="farmerId">
+                <option [ngValue]="0">All Farmers</option>
+                @for(farmer of farmerList(); track farmer.userId) {
+                <option [ngValue]="farmer.userId">{{ farmer.name }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="productName">Product Name</label>
+              <input id="productName" type="text" placeholder="e.g. Tomato" [(ngModel)]="filterObj.productName" name="productName" />
+            </div>
+
+            <div class="filter-group">
+              <label for="farmerName">Farmer Name</label>
+              <input id="farmerName" type="text" placeholder="e.g. Ravi" [(ngModel)]="filterObj.farmerName" name="farmerName" />
+            </div>
+
+            <div class="filter-group">
+              <label for="status">Status</label>
+              <select id="status" [(ngModel)]="filterObj.status" name="status">
+                <option value="">Any Status</option>
+                <option value="Available">Available</option>
+                <option value="Low Stock">Low Stock</option>
+                <option value="Out of Stock">Out of Stock</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+
+            <div class="filter-grid two-col">
+              <div class="filter-group">
+                <label for="minPrice">Min Price</label>
+                <input id="minPrice" type="number" min="0" placeholder="0" [(ngModel)]="filterObj.minPrice" name="minPrice" />
+              </div>
+              <div class="filter-group">
+                <label for="maxPrice">Max Price</label>
+                <input id="maxPrice" type="number" min="0" placeholder="500" [(ngModel)]="filterObj.maxPrice" name="maxPrice" />
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <label for="minAvailableQuantity">Min Quantity</label>
+              <input id="minAvailableQuantity" type="number" min="0" placeholder="Available kg" [(ngModel)]="filterObj.minAvailableQuantity" name="minAvailableQuantity" />
+            </div>
+
+            <div class="filter-grid two-col">
+              <div class="filter-group">
+                <label for="availableFromDate">From Date</label>
+                <input id="availableFromDate" type="date" [(ngModel)]="filterObj.availableFromDate" name="availableFromDate" />
+              </div>
+              <div class="filter-group">
+                <label for="availableToDate">To Date</label>
+                <input id="availableToDate" type="date" [(ngModel)]="filterObj.availableToDate" name="availableToDate" />
+              </div>
+            </div>
+
+            <div class="filter-grid two-col">
+              <div class="filter-group">
+                <label for="pageSize">Page Size</label>
+                <select id="pageSize" [(ngModel)]="filterObj.pageSize" name="pageSize" (change)="onPageSizeChange()">
+                  <option [ngValue]="5">5</option>
+                  <option [ngValue]="10">10</option>
+                  <option [ngValue]="20">20</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label for="pageNumber">Page</label>
+                <input id="pageNumber" type="number" min="1" [(ngModel)]="filterObj.pageNumber" name="pageNumber" />
+              </div>
+            </div>
+
+            <div class="filter-grid two-col">
+              <div class="filter-group">
+                <label for="sortBy">Sort By</label>
+                <select id="sortBy" [(ngModel)]="filterObj.sortBy" name="sortBy">
+                  <option value="">Default</option>
+                  <option value="productName">Product</option>
+                  <option value="farmerName">Farmer</option>
+                  <option value="pricePerKg">Price</option>
+                  <option value="availableQuantity">Quantity</option>
+                  <option value="availableDate">Available Date</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label for="sortDirection">Direction</label>
+                <select id="sortDirection" [(ngModel)]="filterObj.sortDirection" name="sortDirection">
+                  <option value="">Default</option>
+                  <option value="asc">Asc</option>
+                  <option value="desc">Desc</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="filter-actions">
+              <button class="btn-apply-filter" (click)="onApplyFilters()" type="button">
+                <i class="bi bi-funnel-fill"></i>Apply Filters
+              </button>
+              <button class="btn-clear-filter" type="button" (click)="resetFilters()">Clear</button>
+            </div>
+          </form>
+        </div>
+      </aside>
+
+      <section class="col-lg-9">
+        <div class="products-toolbar">
+          <div>
+            <div class="section-label">Fresh Picks</div>
+            <h2>All Farm Products</h2>
+            <p>{{ getShowingText() }}</p>
+          </div>
+          <div class="toolbar-actions">
+            <button class="view-toggle active" type="button" title="Grid view">
+              <i class="bi bi-grid-3x3-gap-fill"></i>
+            </button>
+            <button class="view-toggle" type="button" title="List view">
+              <i class="bi bi-list-ul"></i>
+            </button>
+          </div>
+        </div>
+
+        @if (filterObj.status || filterObj.minPrice || filterObj.maxPrice || filterObj.minAvailableQuantity || filterObj.productName || filterObj.farmerName) {
+        <div class="active-filter-row">
+          @if (filterObj.status) {
+          <span>{{ filterObj.status }}</span>
+          }
+          @if (filterObj.minPrice || filterObj.maxPrice) {
+          <span>Rs. {{ filterObj.minPrice || 0 }} - Rs. {{ filterObj.maxPrice || 'Any' }}</span>
+          }
+          @if (filterObj.minAvailableQuantity) {
+          <span>Min {{ filterObj.minAvailableQuantity }} kg</span>
+          }
+          @if (filterObj.productName) {
+          <span>{{ filterObj.productName }}</span>
+          }
+          @if (filterObj.farmerName) {
+          <span>{{ filterObj.farmerName }}</span>
+          }
+        </div>
+        }
+
+        <div class="row g-4">
+          @for(product of productList(); track $index) {
+          <div class="col-md-6 col-xl-4">
+            <article class="market-product-card">
+              <div class="product-image">
+                <img
+                  [src]="product.productImage"
+                  alt="Fresh tomatoes" />
+                <span class="product-badge">{{product.status}}</span>
+              </div>
+              <div class="product-body">
+                <div class="product-meta-line">
+                  <!-- <span><i class="bi bi-flower1"></i>{{product}}</span> -->
+                  <span><i class="bi bi-box-seam"></i>{{product.availableQuantity}} kg</span>
+                </div>
+                <h3>{{product.productName}}</h3>
+                <div class="farmer-line">
+                  <i class="bi bi-person-fill"></i>{{product.farmerName}}
+                </div>
+                <div class="price-row">
+                  <strong>Rs.{{product.pricePerKg}}<span>/kg</span></strong>
+                  <small>{{ product.availableDate | date:'dd MMM yyyy' }}</small>
+                </div>
+                <button type="button" class="btn-add-cart">
+                  <i class="bi bi-cart-plus"></i>Add to Cart
+                </button>
+              </div>
+            </article>
+          </div>
+          } @empty {
+          <div class="col-12">
+            <div class="empty-products">
+              <i class="bi bi-inboxes-fill"></i>
+              <span>No products found for selected filters.</span>
+            </div>
+          </div>
+          }
+
+        </div>
+
+        <div class="products-pagination">
+          <button type="button" class="page-control" (click)="goToPreviousPage()" [disabled]="currentPage() === 1">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          @for (item of pagesArray; track $index)  { 
+            <button type="button" class="page-number" [ngClass]="item == currentPage() ? 'active' : ''" (click)="setPage(item)">{{item}}</button>
+          } 
+          
+          <button type="button" class="page-control" (click)="goToNextPage()" [disabled]="currentPage() === pagesArray.length || pagesArray.length === 0">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>

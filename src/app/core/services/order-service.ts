@@ -44,4 +44,10 @@ export class OrderService {
    onSaveOrder(obj: OrderModel) : Observable<ApiResponseModel>{
     return this.http.post<ApiResponseModel>(environment.API_URL +GlobalConstant.API_ENDPOINTS.ORDER_SAVE,obj)
   }
+
+  getOrderByOrderId(orderId: number): Observable<ApiResponseModel> {
+    return this.http.get<ApiResponseModel>(
+      environment.API_URL + GlobalConstant.API_ENDPOINTS.GET_ORDER_BY_ORDER_ID + orderId
+    );
+  }
 }

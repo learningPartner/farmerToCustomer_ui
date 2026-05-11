@@ -9,6 +9,7 @@ import { FarmerProducts } from './pages/farmerproduct/FarmerProducts';
 import { ProductMaster } from './pages/product-master/product-master';
 import { Checkout } from './pages/checkout/checkout';
 import { Orders } from './pages/orders/orders';
+import { Products } from './pages/products/products';
 
 export const routes: Routes = [
     {
@@ -23,6 +24,10 @@ export const routes: Routes = [
     { 
         path: 'login',
         component: Login
+    },
+     { 
+        path: 'products',
+        component: Products
     },
     {
         path:'master',

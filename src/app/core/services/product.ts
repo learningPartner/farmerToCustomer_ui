@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { GlobalConstant } from '../constant/Constant';
-import { FarmerProduct } from '../models/classes/Product.model';
+import { FarmerProduct, ProductFilter } from '../models/classes/Product.model';
 import { ApiResponseModel } from '../models/interfaces/api-response.Model';
 
 @Injectable({
@@ -53,6 +53,13 @@ export class ProductService {
       environment.API_URL +
         GlobalConstant.API_ENDPOINTS.DELETE_PRODUCT +
         farmerProductId
+    );
+  }
+
+  filterProducts(payload:ProductFilter) {
+    return this.http.post<ApiResponseModel>(
+      environment.API_URL + GlobalConstant.API_ENDPOINTS.FILTER_PRODUCTS,
+      payload
     );
   }
 }

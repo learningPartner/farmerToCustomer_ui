@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { GlobalConstant } from '../constant/Constant';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { ApiResponseModel } from '../models/interfaces/api-response.Model';
 import { Category, Role } from '../models/classes/Master.model';
 
@@ -35,5 +35,11 @@ export class MasterService {
   getAllCategory(): Observable<ApiResponseModel> {
     
     return this.http.get<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.GET_CATEGORY)
+  }
+
+  getCategorys(): Observable<Category[]> { 
+    return this.http.get<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.GET_CATEGORY).pipe(
+       map((res:ApiResponseModel) => res.data)
+    );
   }
 }
