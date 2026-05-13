@@ -44,7 +44,7 @@
               </select>
             </div>
 
-            <div class="filter-group">
+            <!-- <div class="filter-group">
               <label for="productId">Product</label>
               <select id="productId" [(ngModel)]="filterObj.productId" name="productId">
                 <option [ngValue]="0">All Products</option>
@@ -52,7 +52,7 @@
                 <option [ngValue]="productMaster.productId">{{ productMaster.name }}</option>
                 }
               </select>
-            </div>
+            </div> -->
 
             <div class="filter-group">
               <label for="farmerId">Farmer</label>
@@ -69,12 +69,9 @@
               <input id="productName" type="text" placeholder="e.g. Tomato" [(ngModel)]="filterObj.productName" name="productName" />
             </div>
 
-            <div class="filter-group">
-              <label for="farmerName">Farmer Name</label>
-              <input id="farmerName" type="text" placeholder="e.g. Ravi" [(ngModel)]="filterObj.farmerName" name="farmerName" />
-            </div>
+            
 
-            <div class="filter-group">
+            <!-- <div class="filter-group">
               <label for="status">Status</label>
               <select id="status" [(ngModel)]="filterObj.status" name="status">
                 <option value="">Any Status</option>
@@ -83,7 +80,7 @@
                 <option value="Out of Stock">Out of Stock</option>
                 <option value="Inactive">Inactive</option>
               </select>
-            </div>
+            </div> -->
 
             <div class="filter-grid two-col">
               <div class="filter-group">
@@ -96,12 +93,12 @@
               </div>
             </div>
 
-            <div class="filter-group">
+            <!-- <div class="filter-group">
               <label for="minAvailableQuantity">Min Quantity</label>
               <input id="minAvailableQuantity" type="number" min="0" placeholder="Available kg" [(ngModel)]="filterObj.minAvailableQuantity" name="minAvailableQuantity" />
-            </div>
+            </div> -->
 
-            <div class="filter-grid two-col">
+            <!-- <div class="filter-grid two-col">
               <div class="filter-group">
                 <label for="availableFromDate">From Date</label>
                 <input id="availableFromDate" type="date" [(ngModel)]="filterObj.availableFromDate" name="availableFromDate" />
@@ -110,44 +107,11 @@
                 <label for="availableToDate">To Date</label>
                 <input id="availableToDate" type="date" [(ngModel)]="filterObj.availableToDate" name="availableToDate" />
               </div>
-            </div>
+            </div> -->
 
-            <div class="filter-grid two-col">
-              <div class="filter-group">
-                <label for="pageSize">Page Size</label>
-                <select id="pageSize" [(ngModel)]="filterObj.pageSize" name="pageSize" (change)="onPageSizeChange()">
-                  <option [ngValue]="5">5</option>
-                  <option [ngValue]="10">10</option>
-                  <option [ngValue]="20">20</option>
-                </select>
-              </div>
-              <div class="filter-group">
-                <label for="pageNumber">Page</label>
-                <input id="pageNumber" type="number" min="1" [(ngModel)]="filterObj.pageNumber" name="pageNumber" />
-              </div>
-            </div>
+           
 
-            <div class="filter-grid two-col">
-              <div class="filter-group">
-                <label for="sortBy">Sort By</label>
-                <select id="sortBy" [(ngModel)]="filterObj.sortBy" name="sortBy">
-                  <option value="">Default</option>
-                  <option value="productName">Product</option>
-                  <option value="farmerName">Farmer</option>
-                  <option value="pricePerKg">Price</option>
-                  <option value="availableQuantity">Quantity</option>
-                  <option value="availableDate">Available Date</option>
-                </select>
-              </div>
-              <div class="filter-group">
-                <label for="sortDirection">Direction</label>
-                <select id="sortDirection" [(ngModel)]="filterObj.sortDirection" name="sortDirection">
-                  <option value="">Default</option>
-                  <option value="asc">Asc</option>
-                  <option value="desc">Desc</option>
-                </select>
-              </div>
-            </div>
+         
 
             <div class="filter-actions">
               <button class="btn-apply-filter" (click)="onApplyFilters()" type="button">
@@ -219,7 +183,7 @@
                   <strong>Rs.{{product.pricePerKg}}<span>/kg</span></strong>
                   <small>{{ product.availableDate | date:'dd MMM yyyy' }}</small>
                 </div>
-                <button type="button" class="btn-add-cart">
+                <button type="button" class="btn-add-cart" (click)="onAddToCart(product)">
                   <i class="bi bi-cart-plus"></i>Add to Cart
                 </button>
               </div>

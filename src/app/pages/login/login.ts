@@ -5,7 +5,7 @@ import { getSumOfTwoNum } from '../../core/helper/Utility';
 import { Roles } from '../../core/enums/Role.enum';
 import { CommonImports } from '../../core/constant/CommonImports';
 import { ApiResponseModel, IRole, LoginResponse } from '../../core/models/interfaces/api-response.Model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GlobalConstant } from '../../core/constant/Constant';
 import { NgClass, TitleCasePipe } from '@angular/common';
 import { MasterService } from '../../core/services/master';
@@ -23,6 +23,7 @@ export class Login implements OnInit {
 
   userSrv = inject(UserService);
   router = inject(Router);
+  route = inject(ActivatedRoute);
   masterSrv = inject(MasterService);
   formBuilder = inject(FormBuilder);
   toastService  = inject(MessageService);
@@ -60,6 +61,9 @@ export class Login implements OnInit {
 
   ngOnInit(): void {
     this.getAllCategory();
+    if (this.route.snapshot.queryParamMap.get('mode') === 'register') {
+      this.onToggleForm(false);
+    }
   }
 
   setRole(roleid: number) {
@@ -97,10 +101,24 @@ export class Login implements OnInit {
         next: (res: ApiResponseModel) => {
           const allowedRoles = res.data.filter((m: IRole) => m.roleName == 'FARMER' || m.roleName == 'CUSTOMER')
           this.roleList.set(allowedRoles)
+          this.selectRoleFromQueryParam();
         }
       })
+    } else {
+      this.selectRoleFromQueryParam();
     }
 
+  }
+
+  selectRoleFromQueryParam() {
+    if (this.route.snapshot.queryParamMap.get('role') !== 'farmer') {
+      return;
+    }
+
+    const farmerRole = this.roleList().find((role: IRole) => role.roleName === 'FARMER');
+    if (farmerRole) {
+      this.setRole(farmerRole.roleId);
+    }
   }
 
   onLogin() {

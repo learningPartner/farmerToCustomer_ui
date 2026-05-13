@@ -36,6 +36,9 @@
     .cart-remove-btn:hover { background: #ffdeda; }
     .cart-empty-state { padding: 20px 16px; color: #5d6f65; font-size: 0.9rem; text-align: center; background: #fff; }
 
+    .toCls {
+      color: #e5a90d !important;
+    }
     @media (max-width: 991.98px) {
       .cart-popup { right: -24px; width: min(320px, calc(100vw - 32px)); }
     }

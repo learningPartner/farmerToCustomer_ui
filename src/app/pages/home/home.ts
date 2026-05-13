@@ -13,6 +13,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { UserService } from '../../core/services/user-service';
 import { UserModel, UserModelList } from '../../core/models/classes/User.Model';
 import { OrderService } from '../../core/services/order-service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   imports: [CommonImports.FORM_IMPORTS,AsyncPipe,NgOptimizedImage],
@@ -25,11 +26,14 @@ export class Home implements OnInit, OnDestroy {
   productServ = inject(ProductService) ;
   orderSrv = inject(OrderService) ;
   userSrv = inject(UserService) ;
+  router = inject(Router);
   productList = signal<IProductList[]>([]);
   selectedCategory = signal<string>("All");
   @ViewChild('cartModel') cartModelRef!: ElementRef;
 
   categorListObs$: Observable<Category[]> = new Observable<Category[]>;
+  searchText = '';
+  selectedCategoryId = 0;
 
   timer$ = interval(2000);
   farmerList: UserModelList[] = [];
@@ -46,7 +50,7 @@ export class Home implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.categorListObs$ = this.masterSrv.getAllCategory().pipe(
-      map((res:ApiResponseModel)=> res.data)
+      map((res:ApiResponseModel)=> res.data ?? [])
     );
     this.getAllProduct();
     this.getAllFarmers();
@@ -54,6 +58,7 @@ export class Home implements OnInit, OnDestroy {
 
   getProductByCateId(cat:Category) {
     this.selectedCategory.set(cat.name);
+    this.selectedCategoryId = cat.categoryId;
     this.productServ.getAllFarmerProductsByCatId(cat.categoryId).subscribe({
       next:(res:ApiResponseModel)=>{
         this.productList.set(res.data)
@@ -62,8 +67,13 @@ export class Home implements OnInit, OnDestroy {
   }
 
   openCartModel(item: IProductList) {
+    if (!this.isUserLoggedIn()) {
+      alert('Please login to add products to your cart.');
+      this.router.navigate(['/login']);
+      return;
+    }
+
     if(this.cartModelRef) {
-       debugger;
       this.selectedProductData =  item;
       this.cartObj.farmerProductId = item.farmerProductId;
       this.cartModelRef.nativeElement.style.display = 'block'
@@ -77,7 +87,13 @@ export class Home implements OnInit, OnDestroy {
   }
 
   onAddtoCart() {
-    debugger;
+    if (!this.isUserLoggedIn()) {
+      alert('Please login to add products to your cart.');
+      this.closeCartModel();
+      this.router.navigate(['/login']);
+      return;
+    }
+
     this.cartObj.customerId = this.userSrv.loggedInUser.userId;
     this.cartObj.quantity = this.cartQuantity;
 
@@ -85,13 +101,14 @@ export class Home implements OnInit, OnDestroy {
       next:(res:ApiResponseModel)=>{
         alert("Product Added to Cart Success");
         this.closeCartModel();
-        debugger;
         this.orderSrv.addtoCart$.next(true);
       }
     })
   }
 
   getAllProduct() {
+    this.selectedCategory.set('All');
+    this.selectedCategoryId = 0;
      this.productServ.getAllProducts().subscribe({
       next:(res:ApiResponseModel)=>{
         this.productList.set(res.data)
@@ -109,5 +126,33 @@ export class Home implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
      
+  }
+
+  goToProducts() {
+    this.router.navigate(['/products']);
+  }
+
+  onSearchProducts() {
+    const queryParams: { productName?: string; categoryId?: number } = {};
+    const productName = this.searchText.trim();
+
+    if (productName) {
+      queryParams.productName = productName;
+    }
+
+    if (this.selectedCategoryId > 0) {
+      queryParams.categoryId = this.selectedCategoryId;
+    }
+
+    this.router.navigate(['/products'], { queryParams });
+  }
+
+  goToFarmerRegister() {
+    this.router.navigate(['/login'], { queryParams: { mode: 'register', role: 'farmer' } });
+  }
+
+  isUserLoggedIn(): boolean {
+    this.userSrv.getLoggedUser();
+    return this.userSrv.loggedInUser != undefined && this.userSrv.loggedInUser.userId > 0;
   }
 }

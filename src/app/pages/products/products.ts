@@ -11,6 +11,7 @@ import { ProductMasterService } from '../../core/services/product-master';
 import { ProductMasterItem } from '../../core/models/classes/ProductMaster.model';
 import { UserModelList } from '../../core/models/classes/User.Model';
 import { UserService } from '../../core/services/user-service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -25,6 +26,8 @@ export class Products implements OnInit {
   productSrv = inject(ProductService);
   productMasterSrv = inject(ProductMasterService);
   userSrv = inject(UserService);
+  route = inject(ActivatedRoute);
+  router = inject(Router);
 
   masterSrv = inject(MasterService);
   categoryList: Observable<Category[]> = this.masterSrv.getCategorys();
@@ -35,9 +38,24 @@ export class Products implements OnInit {
   currentPage = signal<number>(1);
 
   ngOnInit(): void {
+    this.setFiltersFromQueryParams();
     this.getProductMasters();
     this.getFarmers();
     this.applyFilters();
+  }
+
+  setFiltersFromQueryParams() {
+    const queryParams = this.route.snapshot.queryParamMap;
+    const productName = queryParams.get('productName');
+    const categoryId = Number(queryParams.get('categoryId'));
+
+    if (productName) {
+      this.filterObj.productName = productName;
+    }
+
+    if (!Number.isNaN(categoryId) && categoryId > 0) {
+      this.filterObj.categoryId = categoryId;
+    }
   }
 
   getProductMasters() {
@@ -100,6 +118,16 @@ export class Products implements OnInit {
     this.filterObj.pageNumber = pageNumber;
     this.currentPage.set(pageNumber);
     this.applyFilters();
+  }
+
+  onAddToCart(product: IProductList) {
+    this.userSrv.getLoggedUser();
+
+    if (this.userSrv.loggedInUser == undefined || this.userSrv.loggedInUser.userId <= 0) {
+      alert('Please login to add products to your cart.');
+      this.router.navigate(['/login']);
+      return;
+    }
   }
 
   onPageSizeChange() {

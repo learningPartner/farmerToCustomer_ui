@@ -14,7 +14,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0;
-    min-height: 520px;
+    min-height: 400px;
 }
 
 /* LEFT SIDE - BRANDING */
@@ -103,7 +103,7 @@
 
 /* RIGHT SIDE - FORM */
 .auth-right {
-    padding: 48px 40px;
+    padding: 20px 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -113,7 +113,7 @@
 .auth-toggle {
     display: flex;
     gap: 8px;
-    margin-bottom: 32px;
+    margin-bottom: 10px;
     background: var(--bg-soft);
     border-radius: 12px;
     padding: 4px;
@@ -144,17 +144,17 @@
     font-size: 1.5rem;
     font-weight: 800;
     color: var(--text-main);
-    margin-bottom: 8px;
+    margin-bottom: 0px;
 }
 
 .form-subtitle {
     color: var(--text-muted);
     font-size: 0.85rem;
-    margin-bottom: 28px;
+    margin-bottom: 10px;
 }
 
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 10px;
 }
 
 .form-label {

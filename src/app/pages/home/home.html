@@ -8,18 +8,23 @@
           your home.</p>
         <div class="search-wrap mb-4">
           <i class="bi bi-search text-muted"></i>
-          <input type="text" placeholder="Search for potatoes, tomatoes, wheat..." />
-          <select>
-            <option>All Categories</option>
-            <option>Vegetables</option>
-            <option>Fruits</option>
-            <option>Grains</option>
+          <input
+            type="text"
+            placeholder="Search for potatoes, tomatoes, wheat..."
+            [(ngModel)]="searchText"
+            name="homeSearchText"
+            (keyup.enter)="onSearchProducts()" />
+          <select [(ngModel)]="selectedCategoryId" name="homeCategoryId">
+            <option [ngValue]="0">All Categories</option>
+            @for (category of categorListObs$ | async; track category.categoryId) {
+            <option [ngValue]="category.categoryId">{{ category.name }}</option>
+            }
           </select>
-          <button class="btn-search">Search</button>
+          <button class="btn-hero-primary" type="button" (click)="onSearchProducts()">Search</button>
         </div>
         <div class="d-flex gap-3 flex-wrap">
-          <a href="#" class="btn-hero-primary"><i class="bi bi-shop me-2"></i>Shop Now</a>
-          <a href="#" class="btn-hero-outline"><i class="bi bi-person-plus me-2"></i>Register as Farmer</a>
+          <button type="button" class="btn-hero-primary" (click)="goToProducts()"><i class="bi bi-shop me-2"></i>Shop Now</button>
+          <button type="button" class="btn-hero-outline" (click)="goToFarmerRegister()"><i class="bi bi-person-plus me-2"></i>Register as Farmer</button>
         </div>
         <div class="row g-3 mt-4">
           <div class="col-4 hero-stat">
@@ -256,7 +261,7 @@
         </div>
         <div class="col-lg-5 text-lg-end">
           <div class="d-flex gap-3 flex-wrap justify-content-lg-end">
-            <a href="#" class="btn-cta-white">Register as Farmer</a>
+            <button type="button" class="btn-cta-white" (click)="goToFarmerRegister()">Register as Farmer</button>
             <a href="#" class="btn-cta-outline-w">Learn More</a>
           </div>
         </div>
