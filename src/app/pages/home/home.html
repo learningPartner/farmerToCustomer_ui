@@ -89,12 +89,12 @@
         <h2 class="section-title mb-0">Products from Local Farmers</h2>
       </div>
       <div class="col-auto">
-        <a href="#" class="btn btn-outline-success rounded-pill px-4 fw-700">View All <i
+        <a  class="btn btn-outline-success rounded-pill px-4 fw-700" (click)="goToProducts()">View All Products <i
             class="bi bi-arrow-right ms-1"></i></a>
       </div>
     </div>
     <div class="row g-4">
-      @for (item of productList(); track $index) {
+      @for (item of productList().slice(0, 8); track $index) {
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="product-card">
           <div class="p-img"> 
@@ -123,6 +123,11 @@
 
 
     </div>
+    <div class="text-center mt-5">
+      <button type="button" class="btn btn-outline-success rounded-pill px-5 fw-700" (click)="goToProducts()">
+        View All Products <i class="bi bi-arrow-right ms-1"></i>
+      </button>
+    </div>
   </div>
 </section>
 
@@ -131,7 +136,7 @@
   <div class="container">
     <div class="text-center mb-5">
       <div class="section-label">Process</div>
-      <h2 class="section-title">How FarmConnect Works</h2>
+      <h2 class="section-title">How KisanToGrahak Works</h2>
       <p class="section-sub mx-auto" style="max-width:520px;">Three simple steps connecting farmers and customers
         directly, no intermediaries involved.</p>
     </div>
@@ -169,7 +174,7 @@
   <div class="container">
     <div class="text-center mb-5">
       <div class="section-label">Platform Roles</div>
-      <h2 class="section-title">Who Uses FarmConnect?</h2>
+      <h2 class="section-title">Who Uses KisanToGrahak?</h2>
     </div>
     <div class="row g-4">
       <div class="col-md-4">
@@ -224,12 +229,12 @@
         <h2 class="section-title mb-0">Meet Our Farmers</h2>
       </div>
       <div class="col-auto">
-        <a href="#" class="btn btn-outline-success rounded-pill px-4 fw-700">All Farmers <i
+        <a class="btn btn-outline-success rounded-pill px-4 fw-700" (click)="goToFarmerPage()">View All Farmers <i
             class="bi bi-arrow-right ms-1"></i></a>
       </div>
     </div>
     <div class="row g-4">
-      @for (item of farmerList; track $index) {
+      @for (item of farmerList().slice(0, 8); track $index) {
       <div class="col-sm-6 col-md-4 col-lg-3">
         <div class="farmer-card">
           <img src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=200"

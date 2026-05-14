@@ -10,6 +10,7 @@ import { ProductMaster } from './pages/product-master/product-master';
 import { Checkout } from './pages/checkout/checkout';
 import { Orders } from './pages/orders/orders';
 import { Products } from './pages/products/products';
+import { Farmers } from './pages/farmers/farmers';
 
 export const routes: Routes = [
     {
@@ -53,5 +54,9 @@ export const routes: Routes = [
         path:'orders',
         component: Orders,
         canActivate: [authGuard]
+    },
+     {
+        path:'farmers',
+        component: Farmers
     }
 ];
