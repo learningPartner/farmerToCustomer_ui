@@ -1,0 +1,125 @@
+<div class="products-market-page">
+  <section class="products-hero">
+    <div class="products-hero-content">
+      <div>
+        <div class="section-label">Farmer Network</div>
+        <h1 class="products-title">
+          <i class="bi bi-people-fill me-2"></i>Browse Local Farmers
+        </h1>
+        <p class="products-subtitle">
+          Find trusted farmers near you, check their location, and discover the fresh products
+          they are currently selling directly to customers.
+        </p>
+      </div>
+      <div class="hero-search">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="Search farmer, city, pincode or product" />
+        <button type="button">Search</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="products-content">
+    <div class="row g-4 align-items-start">
+      <aside class="col-lg-3">
+        <div class="filter-card">
+          <div class="filter-head">
+            <div>
+              <div class="card-kicker">Filters</div>
+              <h2>Find Farmers</h2>
+            </div>
+            <button class="btn-icon-reset" type="button" title="Reset filters">
+              <i class="bi bi-arrow-counterclockwise"></i>
+            </button>
+          </div>
+
+          <form class="filter-form">
+            <div class="filter-group">
+              <label for="farmerName">Farmer Name</label>
+              <input id="farmerName" type="text" placeholder="e.g. Ravi Kumar" />
+            </div>
+
+            <div class="filter-group">
+              <label for="city">City</label>
+              <input id="city" type="text" placeholder="e.g. Pune" />
+            </div>
+
+            <div class="filter-group">
+              <label for="pincode">Pincode</label>
+              <input id="pincode" type="text" placeholder="e.g. 411001" />
+            </div>
+
+            <div class="filter-group">
+              <label for="products">Products</label>
+              <input id="products" type="text" placeholder="e.g. Tomato, Onion" />
+            </div>
+
+            <div class="filter-actions">
+              <button class="btn-apply-filter" type="button" (click)="applyFilter()">
+                <i class="bi bi-funnel-fill"></i>Apply Filters
+              </button>
+              <button class="btn-clear-filter" type="button" (click)="applyFilter()">Clear</button>
+            </div>
+          </form>
+        </div>
+      </aside>
+
+      <section class="col-lg-9">
+        <div class="products-toolbar">
+          <div>
+            <div class="section-label">Trusted Sellers</div>
+            <h2>All Farmers</h2>
+            <p>Showing farmers registered on FarmConnect</p>
+          </div>
+          <div class="toolbar-actions">
+            <button class="view-toggle active" type="button" title="Grid view">
+              <i class="bi bi-grid-3x3-gap-fill"></i>
+            </button>
+            <button class="view-toggle" type="button" title="List view">
+              <i class="bi bi-list-ul"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="active-filter-row">
+          <span><i class="bi bi-geo-alt-fill me-1"></i>Nearby Farmers</span>
+          <span><i class="bi bi-basket-fill me-1"></i>Fresh Produce</span>
+          <span><i class="bi bi-patch-check-fill me-1"></i>Verified Sellers</span>
+        </div>
+
+        <div class="row g-4">
+          @for (item of farmersList$|async; track $index) {
+             <div class="col-md-6 col-xl-4">
+            <article class="market-product-card">
+              <div class="product-image">
+                <img
+                  src="https://images.pexels.com/photos/2382904/pexels-photo-2382904.jpeg?auto=compress&cs=tinysrgb&w=700"
+                  alt="Farmer Ravi Kumar" />
+                <span class="product-badge">Verified</span>
+              </div>
+              <div class="product-body">
+                <div class="product-meta-line">
+                  <span><i class="bi bi-geo-alt-fill"></i>Pune</span>
+                  <span><i class="bi bi-mailbox"></i>411001</span>
+                </div>
+                <h3>{{item.name}}</h3>
+                <div class="farmer-line">
+                  <i class="bi bi-basket-fill"></i>Tomatoes, Potatoes, Onions
+                </div>
+                <div class="price-row">
+                  <strong>4.8<span>/5</span></strong>
+                  <small>12 products listed</small>
+                </div>
+                <button type="button" class="btn-add-cart">
+                  <i class="bi bi-person-lines-fill"></i>View Farmer
+                </button>
+              </div>
+            </article>
+          </div> 
+          }
+              
+        </div>
+      </section>
+    </div>
+  </main>
+</div>

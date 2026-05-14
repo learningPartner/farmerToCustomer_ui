@@ -36,7 +36,7 @@ export class Home implements OnInit, OnDestroy {
   selectedCategoryId = 0;
 
   timer$ = interval(2000);
-  farmerList: UserModelList[] = [];
+  farmerList = signal<UserModelList[]>([]);
   selectedProductData!: IProductList;
   cartQuantity: number = 0;
 
@@ -119,7 +119,7 @@ export class Home implements OnInit, OnDestroy {
   getAllFarmers() {
     this.userSrv.getAllUsers().subscribe({
       next:(res:ApiResponseModel)=>{
-        this.farmerList =  res.data.filter((m:UserModelList)=> m.roleId ==2)
+        this.farmerList.set(res.data.filter((m:UserModelList)=> m.roleId ==2)) 
       }
     })
   }
@@ -130,6 +130,9 @@ export class Home implements OnInit, OnDestroy {
 
   goToProducts() {
     this.router.navigate(['/products']);
+  }
+  goToFarmerPage(){
+    this.router.navigate(['/farmers'])
   }
 
   onSearchProducts() {
