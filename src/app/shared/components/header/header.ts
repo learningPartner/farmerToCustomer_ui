@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { GlobalConstant } from '../../../core/constant/Constant';
 import { UserModel } from '../../../core/models/classes/User.Model';
 import { UserService } from '../../../core/services/user-service';
@@ -9,7 +9,7 @@ import { ICartItemView } from '../../../core/models/interfaces/product.interface
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
+  imports: [RouterLink, RouterLinkActive, RouterModule],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })

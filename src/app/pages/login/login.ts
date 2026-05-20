@@ -131,7 +131,7 @@ export class Login implements OnInit {
         this.userSrv.onLogin$.next(true);
         this.router.navigateByUrl("/home");
         this.isApiInPgogress.set(false)
-         this.toastService.add({ severity: 'info', summary: 'Success', detail: 'Welcome User' })
+         this.toastService.add({ severity: 'info', summary: 'Success', detail: `Welcome ${res.data.name}` })
       },
       error: (error) => {
         this.toastService.add({ severity: 'error', summary: 'Error', detail: 'Wrong Credentials' })
