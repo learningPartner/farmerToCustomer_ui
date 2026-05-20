@@ -11,6 +11,11 @@ import { Checkout } from './pages/checkout/checkout';
 import { Orders } from './pages/orders/orders';
 import { Products } from './pages/products/products';
 import { Farmers } from './pages/farmers/farmers';
+import { Aboutus } from './pages/aboutus/aboutus';
+import { Blog } from './pages/blog/blog';
+import { Privacypolicy } from './pages/privacypolicy/privacypolicy';
+import { Termsofservice } from './pages/termsofservice/termsofservice';
+import { Contact } from './pages/contact/contact';
 
 export const routes: Routes = [
     {
@@ -26,7 +31,7 @@ export const routes: Routes = [
         path: 'login',
         component: Login
     },
-     { 
+    { 
         path: 'products',
         component: Products
     },
@@ -50,13 +55,37 @@ export const routes: Routes = [
         component: Checkout,
         canActivate: [authGuard]
     },
-     {
+    {
         path:'orders',
         component: Orders,
         canActivate: [authGuard]
     },
-     {
+    {
         path:'farmers',
         component: Farmers
+    },
+    {
+        path:'contact',
+        component: Contact
+    },
+    {
+        path:'aboutus',
+        component: Aboutus
+    },
+    {
+        path:'blog',
+        component: Blog
+    },
+    {
+        path:'privacypolicy',
+        component: Privacypolicy
+    },
+    {
+        path:'termsofservice',
+        component: Termsofservice
+    },
+    {
+        path:'contact',
+        component: Contact
     }
 ];

@@ -13,10 +13,10 @@ import { NgOptimizedImage } from '@angular/common';
 import { UserService } from '../../core/services/user-service';
 import { UserModel, UserModelList } from '../../core/models/classes/User.Model';
 import { OrderService } from '../../core/services/order-service';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-home',
-  imports: [CommonImports.FORM_IMPORTS,AsyncPipe,NgOptimizedImage],
+  imports: [CommonImports.FORM_IMPORTS,AsyncPipe,NgOptimizedImage, RouterLink, RouterModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -136,6 +136,7 @@ export class Home implements OnInit, OnDestroy {
   }
 
   onSearchProducts() {
+    debugger
     const queryParams: { productName?: string; categoryId?: number } = {};
     const productName = this.searchText.trim();
 

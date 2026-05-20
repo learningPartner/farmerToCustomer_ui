@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
- :root {
+.toCls {
+      color: #e5a90d !important;
+    } 
+:root {
       --primary: #2d6a4f;
       --primary-light: #52b788;
       --primary-dark: #1b4332;
@@ -17,6 +20,23 @@
     h1,h2,h3,h4,h5 { font-family: 'Nunito', sans-serif; }
 
     /* NAV */
+    .navbar .nav-link.active,
+    .navbar .nav-link.router-link-active {
+      background: rgba(244, 162, 97, 0.18);
+      border: 1px solid rgba(244, 162, 97, 0.42);
+      border-radius: 50px;
+      color: var(--accent) !important;
+      font-weight: 800;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .navbar .btn-nav-solid.active,
+    .navbar .btn-nav-solid.router-link-active {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
+      color: #fff !important;
+    }
 
 
     /* HERO */
