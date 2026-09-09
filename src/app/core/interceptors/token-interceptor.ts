@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { GlobalConstant } from '../constant/Constant';
-import { catchError, map, throwError } from 'rxjs';
+import { catchError, map, retry, throwError } from 'rxjs';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
  
@@ -10,5 +10,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
       Authorization: `Bearer ${token}`
     }
   })
-  return next(newReq);
+  return next(newReq).pipe(
+    retry(4)
+  );
 };

@@ -32,6 +32,11 @@ export class OrderService {
     return this.http.post<ApiResponseModel>(environment.API_URL +GlobalConstant.API_ENDPOINTS.ADD_TO_CART,obj)
   }
 
+  onUpdateCart(obj: ICartModel) : Observable<ApiResponseModel>{
+    return this.http.put<ApiResponseModel>(environment.API_URL +GlobalConstant.API_ENDPOINTS.UPDATE_CART +obj.cartId,obj)
+  }
+
+
   onRmoveCart(cartId: number) : Observable<ApiResponseModel>{
     return this.http.delete<ApiResponseModel>(environment.API_URL +GlobalConstant.API_ENDPOINTS.DELETE_CART_BY_ID + cartId)
   }

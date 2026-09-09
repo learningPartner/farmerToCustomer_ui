@@ -30,7 +30,7 @@ export interface ICartItemView {
   farmerId: number
   farmerName: string
   quantity: number
-  addedAt: string
+  addedAt: Date
   pricePerKg: number 
 
 }
