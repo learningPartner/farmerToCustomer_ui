@@ -55,7 +55,18 @@
                         <img  [src]="item.productImage" [alt]="item.productName" class="cart-popup-image" />
                         <div class="cart-popup-info">
                           <div class="cart-popup-name">{{item.productName}}</div>
-                          <div class="cart-popup-meta">Qty: {{item.quantity}}</div>
+                          <div class="cart-popup-meta">
+                            <span>Qty:</span>
+                            <div class="cart-quantity-control" role="group" [attr.aria-label]="'Quantity for ' + item.productName">
+                              <button type="button" class="cart-quantity-btn" (click)="changeQuantity(item, 'minus')" [disabled]="item.quantity <= 1" [attr.aria-label]="'Decrease quantity of ' + item.productName">
+                                <i class="bi bi-dash" aria-hidden="true"></i>
+                              </button>
+                              <span class="cart-quantity-value" aria-live="polite" aria-atomic="true">{{item.quantity}}</span>
+                              <button type="button" class="cart-quantity-btn" (click)="changeQuantity(item,'plus')" [attr.aria-label]="'Increase quantity of ' + item.productName">
+                                <i class="bi bi-plus" aria-hidden="true"></i>
+                              </button>
+                            </div>
+                          </div>
                         </div>
                         <button type="button" class="cart-remove-btn" (click)="onRemove(item.cartId)"  aria-label="Remove item">
                           <i class="bi bi-trash3"></i>

@@ -5,7 +5,7 @@ import { ProductService } from '../../core/services/product';
 import { MasterService } from '../../core/services/master';
 import { Category } from '../../core/models/classes/Master.model';
 import { ApiResponseModel } from '../../core/models/interfaces/api-response.Model';
-import { interval, map, Observable, Subscription } from 'rxjs';
+import { catchError, EMPTY, exhaustMap, interval, map, Observable, Subject, Subscription } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { ProductMasterService } from '../../core/services/product-master';
 import { ICartModel, IProductList } from '../../core/models/interfaces/product.interface';
@@ -13,7 +13,8 @@ import { NgOptimizedImage } from '@angular/common';
 import { UserService } from '../../core/services/user-service';
 import { UserModel, UserModelList } from '../../core/models/classes/User.Model';
 import { OrderService } from '../../core/services/order-service';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink, RouterModule } from '@angular/router'; 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-home',
   imports: [CommonImports.FORM_IMPORTS,AsyncPipe,NgOptimizedImage, RouterLink, RouterModule],
@@ -46,7 +47,9 @@ export class Home implements OnInit, OnDestroy {
     customerId: 0,
     farmerProductId:0,
     quantity: 0
-  }
+  };
+
+  addtoCartSub$: Subject<void>  = new Subject<void>();
 
   ngOnInit(): void {
     this.categorListObs$ = this.masterSrv.getAllCategory().pipe(
@@ -54,6 +57,7 @@ export class Home implements OnInit, OnDestroy {
     );
     this.getAllProduct();
     this.getAllFarmers();
+    this.onAddtoCart();
   }
 
   getProductByCateId(cat:Category) {
@@ -86,25 +90,40 @@ export class Home implements OnInit, OnDestroy {
     }
   }
 
-  onAddtoCart() {
-    if (!this.isUserLoggedIn()) {
-      alert('Please login to add products to your cart.');
-      this.closeCartModel();
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    this.cartObj.customerId = this.userSrv.loggedInUser.userId;
-    this.cartObj.quantity = this.cartQuantity;
-
-    this.orderSrv.onSaveAddToCart(this.cartObj).subscribe({
-      next:(res:ApiResponseModel)=>{
-        alert("Product Added to Cart Success");
-        this.closeCartModel();
-        this.orderSrv.addtoCart$.next(true);
-      }
-    })
+  emitAddtoCart() {
+    debugger;
+    this.addtoCartSub$.next();
   }
+
+  onAddtoCart() {
+    debugger;
+    this.addtoCartSub$.pipe(
+    exhaustMap(() => {
+      debugger;
+      if (!this.isUserLoggedIn()) {
+        alert('Please login to add products to your cart.');
+        this.closeCartModel();
+        this.router.navigate(['/login']);
+        return EMPTY; 
+      }
+      this.cartObj.customerId = this.userSrv.loggedInUser.userId;
+      this.cartObj.quantity = this.cartQuantity;
+      return this.orderSrv.onSaveAddToCart(this.cartObj).pipe(
+        catchError((err) => {
+          console.error('Add to cart failed', err);
+          alert('Something went wrong, please try again.');
+          return EMPTY; 
+        })
+      );
+    })
+  ).subscribe((res: ApiResponseModel) => {
+    alert('Product Added to Cart Success');
+    this.closeCartModel();
+    this.cartQuantity = 0;
+    this.orderSrv.addtoCart$.next(true);
+  });
+      
+}
 
   getAllProduct() {
     this.selectedCategory.set('All');

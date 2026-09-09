@@ -122,7 +122,7 @@ export class Login implements OnInit {
   }
 
   onLogin() {
-    this.isApiInPgogress.set(true);
+    this.isApiInPgogress.set(true);  
     this.userSrv.login(this.loginObj).subscribe({
       next: (res: LoginResponse) => {
         localStorage.setItem(GlobalConstant.LOCAL_LOGIN_KEY, JSON.stringify(res.data));

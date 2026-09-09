@@ -88,29 +88,29 @@
         </div>
 
         <div class="row g-4">
-          @for (item of farmersList$|async; track $index) {
+          @for (item of farmersList$|async; track item.userId) {
              <div class="col-md-6 col-xl-4">
             <article class="market-product-card">
               <div class="product-image">
                 <img
                   src="https://images.pexels.com/photos/2382904/pexels-photo-2382904.jpeg?auto=compress&cs=tinysrgb&w=700"
-                  alt="Farmer Ravi Kumar" />
+                  [alt]="item.name" />
                 <span class="product-badge">Verified</span>
               </div>
               <div class="product-body">
                 <div class="product-meta-line">
-                  <span><i class="bi bi-geo-alt-fill"></i>Pune</span>
-                  <span><i class="bi bi-mailbox"></i>411001</span>
+                  <span><i class="bi bi-geo-alt-fill"></i>{{item.address}}</span>
+                  <span><i class="bi bi-telephone-fill"></i>{{item.phone}}</span>
                 </div>
                 <h3>{{item.name}}</h3>
                 <div class="farmer-line">
-                  <i class="bi bi-basket-fill"></i>Tomatoes, Potatoes, Onions
+                  <i class="bi bi-envelope-fill"></i>{{item.email}}
                 </div>
                 <div class="price-row">
                   <strong>4.8<span>/5</span></strong>
                   <small>12 products listed</small>
                 </div>
-                <button type="button" class="btn-add-cart">
+                <button type="button" class="btn-add-cart" (click)="openFarmerModal(item)">
                   <i class="bi bi-person-lines-fill"></i>View Farmer
                 </button>
               </div>
@@ -122,4 +122,78 @@
       </section>
     </div>
   </main>
+
+  @if (selectedFarmer(); as farmer) {
+    <div class="farmer-modal-backdrop" (click)="closeFarmerModal()" aria-hidden="true"></div>
+    <div
+      class="modal farmer-modal show"
+      tabindex="-1"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="farmerModalTitle"
+      style="display: block;">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div>
+              <div class="farmer-modal-kicker">Farmer Profile</div>
+              <h4 class="modal-title" id="farmerModalTitle">
+                <i class="bi bi-person-badge-fill"></i>
+                {{farmer.name}}
+              </h4>
+            </div>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="closeFarmerModal()"></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="farmer-profile-card">
+              <div class="farmer-profile-photo">
+                <img
+                  src="https://images.pexels.com/photos/2382904/pexels-photo-2382904.jpeg?auto=compress&cs=tinysrgb&w=700"
+                  [alt]="farmer.name" />
+              </div>
+
+              <div class="farmer-profile-summary">
+                <span class="farmer-status-pill">
+                  <i class="bi bi-patch-check-fill"></i>
+                  Verified Farmer
+                </span>
+                <h5>{{farmer.name}}</h5>
+                <p>{{farmer.address}}</p>
+              </div>
+            </div>
+
+            <div class="farmer-detail-grid">
+              <div class="farmer-detail-item">
+                <span><i class="bi bi-envelope-fill"></i>Email</span>
+                <strong>{{farmer.email}}</strong>
+              </div>
+              <div class="farmer-detail-item">
+                <span><i class="bi bi-telephone-fill"></i>Phone</span>
+                <strong>{{farmer.phone}}</strong>
+              </div>
+              <div class="farmer-detail-item">
+                <span><i class="bi bi-geo-alt-fill"></i>Address</span>
+                <strong>{{farmer.address}}</strong>
+              </div>
+              <div class="farmer-detail-item">
+                <span><i class="bi bi-calendar-check-fill"></i>Joined On</span>
+                <strong>{{farmer.createdAt | date:'mediumDate'}}</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-close-modal" (click)="closeFarmerModal()">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
 </div>

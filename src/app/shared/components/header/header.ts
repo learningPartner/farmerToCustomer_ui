@@ -5,7 +5,7 @@ import { UserModel } from '../../../core/models/classes/User.Model';
 import { UserService } from '../../../core/services/user-service';
 import { OrderService } from '../../../core/services/order-service';
 import { ApiResponseModel } from '../../../core/models/interfaces/api-response.Model';
-import { ICartItemView } from '../../../core/models/interfaces/product.interface';
+import { ICartItemView, ICartModel } from '../../../core/models/interfaces/product.interface';
 
 @Component({
   selector: 'app-header',
@@ -52,6 +52,8 @@ export class Header implements OnInit {
     })
   }
 
+  
+
   onRemove(id: number) {
     const isDlete = confirm("Are you Sure want Remove product");
     if(isDlete) {
@@ -62,6 +64,25 @@ export class Header implements OnInit {
     })
     } 
     
+  }
+
+  changeQuantity(cartData: ICartItemView, operation: string) {
+    debugger;
+    const carObj: ICartModel =  {
+      addedAt: cartData.addedAt,
+      cartId: cartData.cartId,
+      customerId: cartData.customerId,
+      farmerProductId: cartData.farmerProductId,
+      quantity : operation == "plus" ? cartData.quantity + 1:  cartData.quantity - 1
+    };
+
+    this.orderSrv.onUpdateCart(carObj).subscribe({
+      next:(res:any)=>{
+         this.getCartData();
+      }
+    })
+
+
   }
 
   readLoggedData() {

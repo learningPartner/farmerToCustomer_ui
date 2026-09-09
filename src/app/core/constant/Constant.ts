@@ -25,6 +25,7 @@ export const GlobalConstant = {
         DELETE_PRODUCT_MASTER:'farmerProducts/delete-product/',
         FILTER_PRODUCTS:'farmerFarmerProducts/filter-farmer-products',
         ADD_TO_CART:'farmerCart/add-to-cart',
+        UPDATE_CART:'farmerCart/update-cart/',
         GET_CART_BY_CUST:'farmerCart/get-cart-by-customer-with-joins/',
         DELETE_CART_BY_ID:'farmerCart/delete-cart/',
 
