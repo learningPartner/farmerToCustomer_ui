@@ -31,7 +31,7 @@
                     <h2 class="section-title">Role Management</h2>
                     <p class="section-description">Create, edit, and manage user roles in your system</p>
                 </div>
-                <button class="btn-add-new">
+                <button class="btn-add-new" (click)="createRoleForm()">
                     <i class="bi bi-plus-lg me-2"></i>Add New Role
                 </button>
             </div>
@@ -69,7 +69,7 @@
                     <tbody>
                         @for (item of roleList(); track $index) {
                         <tr>
-                            <td class="font-weight-bold">{{$index+1}}</td>
+                            <td class="font-weight-bold">{{item.roleId}}</td>
                             <td>
                                 <span class="role-badge admin">
                                     <i class="bi bi-shield-check me-1"></i>{{item.roleName}}
@@ -80,7 +80,7 @@
                                 <button class="btn-icon-sm edit" title="Edit" (click)="onRoleEdit(item)">
                                     <i class="bi bi-pencil-fill"></i>
                                 </button>
-                                <button class="btn-icon-sm delete" title="Delete">
+                                <button class="btn-icon-sm delete" title="Delete" (click)="deleteRole(item)">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
                             </td>
@@ -95,16 +95,8 @@
 
             <!-- PAGINATION -->
             <div class="pagination-wrapper">
-                <div class="pagination-info">
-                    Showing <span class="font-weight-bold">1</span> to
-                    <span class="font-weight-bold">4</span> of
-                    <span class="font-weight-bold">4</span> entries
-                </div>
-                <div class="pagination">
-                    <button class="page-btn disabled"><i class="bi bi-chevron-left"></i></button>
-                    <button class="page-btn active">1</button>
-                    <button class="page-btn disabled"><i class="bi bi-chevron-right"></i></button>
-                </div>
+                <div class="pagination-info">{{currentTabVisiable() === 'Role' ? roleList().length : categoryList().length}} entries</div>
+                
             </div>
         </div>
     </div>
@@ -114,11 +106,11 @@
             <!-- CATEGORIES HEADER WITH ACTION -->
             <div class="section-header">
                 <div>
-                    <div class="section-label">Inventory</div>
+                    <div class="section-label">Catalogue</div>
                     <h2 class="section-title">Category Management</h2>
                     <p class="section-description">Create, edit, and manage product categories</p>
                 </div>
-                <button class="btn-add-new" onclick="openCategoryModal()">
+                <button class="btn-add-new" (click)="createCategoryForm()">
                     <i class="bi bi-plus-lg me-2"></i>Add New Category
                 </button>
             </div>
@@ -127,7 +119,7 @@
             <div class="search-filter-bar" [formGroup]="categoryForm">
                 <div class="search-input-wrapper">
                     <i class="bi bi-search"></i>
-                    <input type="text" focusInDir placeholder="Entter Category" formControlName="name" />
+                    <input type="text" focusInDir placeholder="Enter category" formControlName="name" />
                 </div>
                 @if (categoryForm.controls['categoryId'].value == 0) {
                 <button class="btn-filter" (click)="onSaveCategory()">
@@ -147,7 +139,7 @@
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" /></th>
+                            
                             <th>Category ID</th>
                             <th>Category Name</th>
                             <th>Actions</th>
@@ -156,7 +148,7 @@
                     <tbody>
                         @for (item of categoryList(); track $index) {
                         <tr>
-                            <td class="font-weight-bold">{{$index+1}}</td>
+                            <td class="font-weight-bold">{{item.categoryId}}</td>
                             <td>
                                 <span class="role-badge admin">
                                     <i class="bi bi-shield-check me-1"></i>{{item.name}}
@@ -179,16 +171,8 @@
 
             <!-- PAGINATION -->
             <div class="pagination-wrapper">
-                <div class="pagination-info">
-                    Showing <span class="font-weight-bold">1</span> to
-                    <span class="font-weight-bold">5</span> of
-                    <span class="font-weight-bold">5</span> entries
-                </div>
-                <div class="pagination">
-                    <button class="page-btn disabled"><i class="bi bi-chevron-left"></i></button>
-                    <button class="page-btn active">1</button>
-                    <button class="page-btn disabled"><i class="bi bi-chevron-right"></i></button>
-                </div>
+                <div class="pagination-info">{{currentTabVisiable() === 'Role' ? roleList().length : categoryList().length}} entries</div>
+                
             </div>
         </div>
     </div>

@@ -1,22 +1,6 @@
 import { Routes } from '@angular/router';
-import { Home } from './pages/home/home';
-import { Login } from './pages/login/login';
-import { Category } from './pages/category/category';
 import { authGuard } from './core/guards/auth-guard';
 import { beforeDeactiveGuardGuard } from './core/guards/before-deactive-guard-guard';
-import { Master } from './pages/master/master';
-import { FarmerProducts } from './pages/farmerproduct/FarmerProducts';
-import { ProductMaster } from './pages/product-master/product-master';
-import { Checkout } from './pages/checkout/checkout';
-import { Orders } from './pages/orders/orders';
-import { Products } from './pages/products/products';
-import { Farmers } from './pages/farmers/farmers';
-import { Aboutus } from './pages/aboutus/aboutus';
-import { Blog } from './pages/blog/blog';
-import { Privacypolicy } from './pages/privacypolicy/privacypolicy';
-import { Termsofservice } from './pages/termsofservice/termsofservice';
-import { Contact } from './pages/contact/contact';
-
 export const routes: Routes = [
     {
         path:'',
@@ -25,67 +9,67 @@ export const routes: Routes = [
     },
     {
         path:'home',
-        component: Home
+        loadComponent: () => import('./pages/home/home').then(m => m.Home)
     },
     { 
         path: 'login',
-        component: Login
+        loadComponent: () => import('./pages/login/login').then(m => m.Login)
     },
     { 
         path: 'products',
-        component: Products
+        loadComponent: () => import('./pages/products/products').then(m => m.Products)
     },
     {
         path:'master',
-        component: Master,
+        loadComponent: () => import('./pages/master/master').then(m => m.Master),
+        data: { roles: [1] },
         canActivate: [authGuard] 
     },
     {
         path:'product',
-        component: FarmerProducts,
+        loadComponent: () => import('./pages/farmerproduct/FarmerProducts').then(m => m.FarmerProducts),
+        data: { roles: [1, 2] },
         canActivate: [authGuard]
     },
     {
         path:'product-master',
-        component: ProductMaster,
+        loadComponent: () => import('./pages/product-master/product-master').then(m => m.ProductMaster),
+        data: { roles: [1] },
         canActivate: [authGuard]
     },
      {
         path:'checkout',
-        component: Checkout,
+        loadComponent: () => import('./pages/checkout/checkout').then(m => m.Checkout),
         canActivate: [authGuard]
     },
     {
         path:'orders',
-        component: Orders,
+        loadComponent: () => import('./pages/orders/orders').then(m => m.Orders),
         canActivate: [authGuard]
     },
     {
         path:'farmers',
-        component: Farmers
+        loadComponent: () => import('./pages/farmers/farmers').then(m => m.Farmers)
     },
     {
         path:'contact',
-        component: Contact
+        loadComponent: () => import('./pages/contact/contact').then(m => m.Contact)
     },
     {
         path:'aboutus',
-        component: Aboutus
+        loadComponent: () => import('./pages/aboutus/aboutus').then(m => m.Aboutus)
     },
     {
         path:'blog',
-        component: Blog
+        loadComponent: () => import('./pages/blog/blog').then(m => m.Blog)
     },
     {
         path:'privacypolicy',
-        component: Privacypolicy
+        loadComponent: () => import('./pages/privacypolicy/privacypolicy').then(m => m.Privacypolicy)
     },
     {
         path:'termsofservice',
-        component: Termsofservice
+        loadComponent: () => import('./pages/termsofservice/termsofservice').then(m => m.Termsofservice)
     },
-    {
-        path:'contact',
-        component: Contact
-    }
+    { path: '**', redirectTo: 'home' }
 ];

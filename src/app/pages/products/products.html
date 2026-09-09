@@ -8,7 +8,7 @@
         </h1>
         <p class="products-subtitle">
           Discover produce from nearby farmers, compare prices, and narrow the list by product,
-          farmer, availability, stock, and date.
+          farmer, listing quantity, and date.
         </p>
       </div>
       <div class="hero-search">
@@ -131,10 +131,10 @@
             <p>{{ getShowingText() }}</p>
           </div>
           <div class="toolbar-actions">
-            <button class="view-toggle active" type="button" title="Grid view">
+            <button class="view-toggle" [class.active]="!listView()" (click)="listView.set(false)" type="button" title="Grid view">
               <i class="bi bi-grid-3x3-gap-fill"></i>
             </button>
-            <button class="view-toggle" type="button" title="List view">
+            <button class="view-toggle" [class.active]="listView()" (click)="listView.set(true)" type="button" title="List view">
               <i class="bi bi-list-ul"></i>
             </button>
           </div>
@@ -162,12 +162,12 @@
 
         <div class="row g-4">
           @for(product of productList(); track $index) {
-          <div class="col-md-6 col-xl-4">
+          <div [class]="listView() ? 'col-12' : 'col-md-6 col-xl-4'">
             <article class="market-product-card">
               <div class="product-image">
                 <img
                   [src]="product.productImage"
-                  alt="Fresh tomatoes" />
+                  [alt]="product.productName" loading="lazy" />
                 <span class="product-badge">{{product.status}}</span>
               </div>
               <div class="product-body">
@@ -183,7 +183,7 @@
                   <strong>Rs.{{product.pricePerKg}}<span>/kg</span></strong>
                   <small>{{ product.availableDate | date:'dd MMM yyyy' }}</small>
                 </div>
-                <button type="button" class="btn-add-cart" (click)="onAddToCart(product)">
+                <button type="button" class="btn-add-cart" [disabled]="adding() !== null" (click)="onAddToCart(product)">
                   <i class="bi bi-cart-plus"></i>Add to Cart
                 </button>
               </div>
@@ -193,7 +193,7 @@
           <div class="col-12">
             <div class="empty-products">
               <i class="bi bi-inboxes-fill"></i>
-              <span>No products found for selected filters.</span>
+              <span>{{loading() ? 'Loading products...' : loadError() ? 'Products could not be loaded. Please retry using Search.' : 'No products found for selected filters.'}}</span>
             </div>
           </div>
           }

@@ -73,7 +73,7 @@ export class Login implements OnInit {
   getAllCategory() {
     this.masterSrv.getAllCategory().subscribe({
       next: (res: ApiResponseModel) => {
-        debugger;
+        
       }
     })
   }
@@ -82,7 +82,7 @@ export class Login implements OnInit {
     const confirmPassword = form.get('confirmPassword');
 
     if (password && confirmPassword && password.value !== confirmPassword.value) {
-      confirmPassword.setErrors({ 'passwordMismatch': true });
+      
       return { 'passwordMismatch': true };
     }
     return null;
@@ -122,14 +122,16 @@ export class Login implements OnInit {
   }
 
   onLogin() {
+    if (this.isApiInPgogress() || !this.loginObj.email || !this.loginObj.password) return;
     this.isApiInPgogress.set(true);  
     this.userSrv.login(this.loginObj).subscribe({
       next: (res: LoginResponse) => {
         localStorage.setItem(GlobalConstant.LOCAL_LOGIN_KEY, JSON.stringify(res.data));
-        localStorage.setItem(GlobalConstant.TOKEN_KEY, res.token)
+        localStorage.setItem(GlobalConstant.TOKEN_KEY, res.accessToken || res.token)
         this.userSrv.getLoggedUser();
         this.userSrv.onLogin$.next(true);
-        this.router.navigateByUrl("/home");
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        this.router.navigateByUrl(returnUrl?.startsWith('/') && !returnUrl.startsWith('//') ? returnUrl : '/home');
         this.isApiInPgogress.set(false)
          this.toastService.add({ severity: 'info', summary: 'Success', detail: `Welcome ${res.data.name}` })
       },
@@ -143,7 +145,9 @@ export class Login implements OnInit {
 
   onRegister() {
 
+    if (this.isRegistering()) return;
     if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
       alert('Please fill all required fields correctly');
       return;
     }

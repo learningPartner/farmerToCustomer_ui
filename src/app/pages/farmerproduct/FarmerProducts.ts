@@ -67,7 +67,7 @@ export class FarmerProducts implements OnInit {
       farmerProductId: [0],
       farmerId: [this.loggedInUser.userId, [Validators.required, Validators.min(1)]],
       productId: [0, [Validators.required, Validators.min(1)]],
-      pricePerKg: [0, [Validators.required, Validators.min(0)]],
+      pricePerKg: [0, [Validators.required, Validators.min(0.01)]],
       availableQuantity: [0, [Validators.required, Validators.min(0)]],
       availableDate: ['', Validators.required],
       status: ['Available', Validators.required],
@@ -133,6 +133,7 @@ export class FarmerProducts implements OnInit {
   }
 
   onSaveProduct() {
+    if (this.isSubmitting()) return;
     if (this.productForm.invalid) {
       this.productForm.markAllAsTouched();
       return;
@@ -144,17 +145,14 @@ export class FarmerProducts implements OnInit {
     this.productSrv.createProduct(formValue).subscribe({
       next: (response: ApiResponseModel) => {
         alert('Product saved successfully');
-        this.productList.update((oldData) => [...oldData, response.data ?? formValue]);
+        this.loggedInUser.roleId === 1 ? this.getAllProducts() : this.getAllProductsByFarmerId();
         this.resetForm();
         this.alertObj = {
           alertType: 'Success',
           alertMessage: 'Product Listing Success',
           alertTitle: 'Success'
         }
-        setTimeout(() => {
-           debugger;
-            const value = this.alerCompInstance.alertTitle;
-        }, 2000);
+
         
        
         this.isSubmitting.set(false);
@@ -172,6 +170,7 @@ export class FarmerProducts implements OnInit {
   }
 
   onUpdateProduct() {
+    if (this.isSubmitting()) return;
     if (this.productForm.invalid) {
       this.productForm.markAllAsTouched();
       return;

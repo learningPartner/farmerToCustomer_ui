@@ -1,10 +1,10 @@
 <nav class="navbar navbar-expand-lg sticky-top">
   <div class="container">
     <a class="navbar-brand" routerLink="/home">Kisan<span class="toCls">To</span> <span>Grahak</span></a>
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#nav1">
+    <button class="navbar-toggler border-0" type="button" (click)="menuOpen = !menuOpen" [attr.aria-expanded]="menuOpen" aria-controls="nav1" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon" style="filter:invert(1)"></span>
     </button>
-    <div class="collapse navbar-collapse" id="nav1">
+    <div class="collapse navbar-collapse" [class.show]="menuOpen" id="nav1">
       <ul class="navbar-nav mx-auto gap-2">
         <li class="nav-item">
           <a class="nav-link" routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
@@ -34,7 +34,7 @@
           </div>
 
           <div class="cart-popup-wrap">
-            <button type="button" class="cart-toggle-btn nav-link position-relative" (click)="toggleCartPopup()">
+            <button type="button" class="cart-toggle-btn nav-link position-relative" (click)="toggleCartPopup()" aria-label="Open shopping cart" [attr.aria-expanded]="isCartPopupOpen">
               <i class="bi bi-cart3 fs-5"></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark cart-count-badge">
                 {{cartItems().length}}
@@ -58,22 +58,22 @@
                           <div class="cart-popup-meta">
                             <span>Qty:</span>
                             <div class="cart-quantity-control" role="group" [attr.aria-label]="'Quantity for ' + item.productName">
-                              <button type="button" class="cart-quantity-btn" (click)="changeQuantity(item, 'minus')" [disabled]="item.quantity <= 1" [attr.aria-label]="'Decrease quantity of ' + item.productName">
+                              <button type="button" class="cart-quantity-btn" (click)="changeQuantity(item, 'minus')" [disabled]="cartBusy() || item.quantity <= 1" [attr.aria-label]="'Decrease quantity of ' + item.productName">
                                 <i class="bi bi-dash" aria-hidden="true"></i>
                               </button>
                               <span class="cart-quantity-value" aria-live="polite" aria-atomic="true">{{item.quantity}}</span>
-                              <button type="button" class="cart-quantity-btn" (click)="changeQuantity(item,'plus')" [attr.aria-label]="'Increase quantity of ' + item.productName">
+                              <button type="button" class="cart-quantity-btn" [disabled]="cartBusy()" (click)="changeQuantity(item,'plus')" [attr.aria-label]="'Increase quantity of ' + item.productName">
                                 <i class="bi bi-plus" aria-hidden="true"></i>
                               </button>
                             </div>
                           </div>
                         </div>
-                        <button type="button" class="cart-remove-btn" (click)="onRemove(item.cartId)"  aria-label="Remove item">
+                        <button type="button" class="cart-remove-btn" [disabled]="cartBusy()" (click)="onRemove(item.cartId)"  aria-label="Remove item">
                           <i class="bi bi-trash3"></i>
                         </button>
                       </div>
                     }
-                    <button class="btn btn-warning" routerLink="checkout">Checkout</button>
+                    <button class="btn btn-warning" routerLink="/checkout" (click)="isCartPopupOpen = false; menuOpen = false">Checkout</button>
                   </div>
                 } @else {
                   <div class="cart-empty-state">No cart items added yet.</div>
@@ -87,7 +87,7 @@
       } @else {
         <div class="d-flex gap-2 mt-3 mt-lg-0 align-items-center">
           <a routerLink="/login" routerLinkActive="active" class="nav-link btn-nav-outline">Login</a>
-          <a routerLink="/login" routerLinkActive="active" class="nav-link btn-nav-solid">Register</a> 
+          <a routerLink="/login" routerLinkActive="active" [queryParams]="{mode: 'register'}" class="nav-link btn-nav-solid">Register</a> 
         </div>
       }
     </div>

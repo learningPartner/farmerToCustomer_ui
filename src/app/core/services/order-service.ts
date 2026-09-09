@@ -50,6 +50,14 @@ export class OrderService {
     return this.http.post<ApiResponseModel>(environment.API_URL +GlobalConstant.API_ENDPOINTS.ORDER_SAVE,obj)
   }
 
+  getAllOrders(): Observable<IOrderList[]> {
+    return this.http.get<ApiResponseModel>(environment.API_URL + 'farmerOrders/get-all-orders-with-joins').pipe(map(res => res.data ?? []));
+  }
+
+  changeItemStatus(id: number, status: string): Observable<ApiResponseModel> {
+    return this.http.post<ApiResponseModel>(environment.API_URL + 'farmerOrderItems/change-order-item-status/' + id, {status});
+  }
+
   getOrderByOrderId(orderId: number): Observable<ApiResponseModel> {
     return this.http.get<ApiResponseModel>(
       environment.API_URL + GlobalConstant.API_ENDPOINTS.GET_ORDER_BY_ORDER_ID + orderId

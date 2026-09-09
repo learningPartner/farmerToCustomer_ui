@@ -43,8 +43,12 @@
     .cart-remove-btn { width: 36px; height: 36px; border-radius: 50%; border: 0; background: #fff1f0; color: #d9534f; transition: all 0.2s ease; }
     .cart-remove-btn:hover { background: #ffdeda; }
     .cart-empty-state { padding: 20px 16px; color: #5d6f65; font-size: 0.9rem; text-align: center; background: #fff; }
-
-  ?
     @media (max-width: 991.98px) {
       .cart-popup { right: -24px; width: min(320px, calc(100vw - 32px)); }
     }
+
+@media (max-width: 991.98px) {
+ .cart-popup { position: fixed; top: auto; left: 16px; right: 16px; width: auto; margin-top: 12px; max-height: 65vh; }
+ .navbar-collapse { max-height: calc(100dvh - 80px); overflow-y: auto; padding-bottom: 12px; }
+ .user-profile { min-width: 0; } .user-name { max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
+}

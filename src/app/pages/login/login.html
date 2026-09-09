@@ -5,9 +5,9 @@
       <!-- LEFT SIDE -->
       <div class="auth-left">
         <div class="auth-left-content">
-          <div class="auth-brand"><i class="bi bi-leaf-fill"></i> Farm<span>Connect</span></div>
+          <div class="auth-brand"><i class="bi bi-leaf-fill"></i> Kisan<span>ToGrahak</span></div>
           <h3 id="brandTitle">Join Our Farmer Community</h3>
-          <p id="brandSubtitle">Connect with thousands of farmers and customers. Sell directly, earn more, build your
+          <p id="brandSubtitle">Connect with farmers and customers. Sell directly, earn more, build your
             farm business online.</p>
 
           <div class="auth-benefit">
@@ -20,11 +20,11 @@
           </div>
           <div class="auth-benefit">
             <i class="bi bi-check-circle-fill"></i>
-            <span>Secure & verified platform</span>
+            <span>Your farm marketplace account</span>
           </div>
           <div class="auth-benefit">
             <i class="bi bi-check-circle-fill"></i>
-            <span>Real-time order tracking</span>
+            <span>View order delivery status</span>
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@
             (click)="onToggleForm(false)">Sign Up</button>
         </div>
         @if (isLoginFormVisiable()) {
-        <form class="" id="loginForm">
+        <form class="" id="loginForm" (ngSubmit)="onLogin()">
           <h2 class="form-title">Welcome Back</h2>
           <p class="form-subtitle">Sign in to your KisanToGrahak account</p>
 
@@ -62,7 +62,7 @@
             <label for="rememberMe">Remember me</label>
           </div> -->
 
-          <button type="button" (click)="onLogin()" [disabled]="isApiInPgogress()" class="btn-primary-green">
+          <button type="submit" [disabled]="isApiInPgogress()" class="btn-primary-green">
             <i class="bi bi-arrow-right me-2"></i>
             @if (isApiInPgogress()) {
             <span class="spinner-border spinner-border-sm"></span>
@@ -71,7 +71,7 @@
             In</button>
 
           <div class="auth-link">
-            Don't have an account? <a href="#" onclick="toggleMode('register'); return false;">Sign up here</a>
+            Don't have an account? <a href="/login?mode=register" (click)="$event.preventDefault(); onToggleForm(false)">Sign up here</a>
           </div>
         </form>
         } @else {
@@ -149,7 +149,7 @@
               <label class="form-label">Confirm Password</label>
               <input type="password" class="form-control" formControlName="confirmPassword"
                 placeholder="Confirm your password" required />
-              @if (registerForm.get('confirmPassword')?.hasError('passwordMismatch')) {
+              @if (registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched) {
               <span class="text-danger">Passwords do not match</span>
               }
             </div>
@@ -164,7 +164,7 @@
           </button>
 
           <div class="auth-link">
-            Already have an account? <a href="#" onclick="toggleMode('login'); return false;">Log in here</a>
+            Already have an account? <a href="/login" (click)="$event.preventDefault(); onToggleForm(true)">Log in here</a>
           </div>
         </form>
         }

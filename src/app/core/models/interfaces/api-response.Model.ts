@@ -4,6 +4,7 @@ export interface LoginResponse {
     data: UserModel;
     message: string;
     token: string;
+    accessToken?: string;
 }
 
 export interface ApiResponseModel {

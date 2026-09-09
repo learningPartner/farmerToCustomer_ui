@@ -13,6 +13,9 @@ export class MasterService {
 
   http = inject(HttpClient);
 
+  deleteRole(id: number): Observable<ApiResponseModel> { return this.http.delete<ApiResponseModel>(environment.API_URL + 'farmerRoles/delete-role/' + id); }
+  deleteCategory(id: number): Observable<ApiResponseModel> { return this.http.delete<ApiResponseModel>(environment.API_URL + 'farmerCategories/delete-category/' + id); }
+
   getAllRoles(): Observable<ApiResponseModel> {
     
     return this.http.get<ApiResponseModel>(environment.API_URL + GlobalConstant.API_ENDPOINTS.GET_ALL_ROLES)
