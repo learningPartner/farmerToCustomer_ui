@@ -17,7 +17,7 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-home',
-  imports: [CommonImports.FORM_IMPORTS,AsyncPipe,NgOptimizedImage, RouterLink, RouterModule],
+  imports: [CommonImports.FORM_IMPORTS,AsyncPipe, RouterLink, RouterModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -38,8 +38,8 @@ export class Home implements OnInit, OnDestroy {
 
   timer$ = interval(2000);
   farmerList = signal<UserModelList[]>([]);
-  selectedProductData!: IProductList;
-  cartQuantity: number = 0;
+  selectedProductData?: IProductList;
+  cartQuantity: number = 1;
 
   cartObj: ICartModel = {
     cartId: 0,
@@ -78,9 +78,11 @@ export class Home implements OnInit, OnDestroy {
     }
 
     if(this.cartModelRef) {
+      this.cartQuantity = 1;
       this.selectedProductData =  item;
       this.cartObj.farmerProductId = item.farmerProductId;
-      this.cartModelRef.nativeElement.style.display = 'block'
+      this.cartModelRef.nativeElement.style.display = 'block';
+      this.cartModelRef.nativeElement.focus();
     }
   }
 
@@ -91,20 +93,23 @@ export class Home implements OnInit, OnDestroy {
   }
 
   emitAddtoCart() {
-    debugger;
+    
     this.addtoCartSub$.next();
   }
 
   onAddtoCart() {
-    debugger;
+    
     this.addtoCartSub$.pipe(
     exhaustMap(() => {
-      debugger;
+      
       if (!this.isUserLoggedIn()) {
         alert('Please login to add products to your cart.');
         this.closeCartModel();
         this.router.navigate(['/login']);
         return EMPTY; 
+      }
+      if (!Number.isFinite(this.cartQuantity) || this.cartQuantity <= 0) {
+        alert('Enter a quantity greater than zero.'); return EMPTY;
       }
       this.cartObj.customerId = this.userSrv.loggedInUser.userId;
       this.cartObj.quantity = this.cartQuantity;
@@ -119,7 +124,7 @@ export class Home implements OnInit, OnDestroy {
   ).subscribe((res: ApiResponseModel) => {
     alert('Product Added to Cart Success');
     this.closeCartModel();
-    this.cartQuantity = 0;
+    this.cartQuantity = 1;
     this.orderSrv.addtoCart$.next(true);
   });
       
@@ -155,7 +160,7 @@ export class Home implements OnInit, OnDestroy {
   }
 
   onSearchProducts() {
-    debugger
+    
     const queryParams: { productName?: string; categoryId?: number } = {};
     const productName = this.searchText.trim();
 

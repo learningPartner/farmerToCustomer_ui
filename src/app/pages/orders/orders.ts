@@ -25,9 +25,20 @@ export class Orders implements OnInit {
     this.loadOrders();
   }
 
+  updatingItem = signal<number | null>(null);
+  changeItemStatus(item: any, status: string) {
+    if (this.updatingItem() !== null) return;
+    this.updatingItem.set(item.orderItemId);
+    this.orderService.changeItemStatus(item.orderItemId, status).subscribe({
+      next: () => { this.updatingItem.set(null); this.loadOrders(); },
+      error: () => this.updatingItem.set(null)
+    });
+  }
+
   loadOrders() {
     const userId = this.userService.loggedInUser.userId;
     const orderRequest =
+      this.userService.loggedInUser.roleId === 1 ? this.orderService.getAllOrders() :
       this.userService.loggedInUser.roleId === 2
         ? this.orderService.getOrdersByFarmerId(userId)
         : this.orderService.getOrdersByCustomerId(userId);
@@ -36,7 +47,7 @@ export class Orders implements OnInit {
       next: (orders: IOrderList[]) => {
         this.orderList.set(orders ?? []);
         if (this.orderList().length > 0) {
-          this.openOrderDetails(this.orderList()[0]);
+          this.openOrderDetails(this.orderList().find(order => order.orderId === this.selectedOrderId()) ?? this.orderList()[0]);
         }
       },
       error: () => {
@@ -55,10 +66,12 @@ export class Orders implements OnInit {
 
     this.orderService.getOrderByOrderId(order.orderId).subscribe({
       next: (res: ApiResponseModel) => {
+        if (this.selectedOrderId() !== order.orderId) return;
         this.mapSelectedOrderResponse(res.data, order);
         this.isOrderLoading.set(false);
       },
       error: () => {
+        if (this.selectedOrderId() !== order.orderId) return;
         this.selectedOrder.set(order);
         this.selectedOrderItems.set([]);
         this.isOrderLoading.set(false);

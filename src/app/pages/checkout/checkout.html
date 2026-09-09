@@ -18,9 +18,9 @@
               <div class="small fw-bold text-uppercase" style="letter-spacing: 1.5px; color: var(--primary-light);">
                 Order Snapshot
               </div>
-              <div class="fw-bold" style="color: var(--text-main);">3 items from 2 farmers</div>
+              <div class="fw-bold" style="color: var(--text-main);">{{cartData().length}} items from {{farmerCount()}} farmers</div>
             </div>
-            <span class="badge rounded-pill px-3 py-2" style="background: var(--accent); color: #fff;">Ready</span>
+            <span class="badge rounded-pill px-3 py-2" style="background: var(--accent); color: #fff;">{{loading() ? "Loading" : "Review"}}</span>
           </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
             <h4 class="mb-1 fw-bold">Cart Details</h4>
             <p class="mb-0" style="color: var(--text-muted);">Selected products from your cart will appear here.</p>
           </div>
-          <span class="cat-pill active"><i class="bi bi-bag-check-fill"></i> 3 Cart Items</span>
+          <span class="cat-pill active"><i class="bi bi-bag-check-fill"></i> {{cartData().length}} Cart Items</span>
         </div>
 
         <div class="d-flex flex-column gap-3">
@@ -43,7 +43,7 @@
               <div class="col-md-2 col-sm-3">
                 <img
                   [src]="item.productImage"
-                  alt="Tomatoes"
+                  [alt]="item.productName"
                   class="w-100 rounded-4"
                   style="height: 110px; object-fit: cover;"
                 />
@@ -53,7 +53,7 @@
                   <span class="badge rounded-pill px-3 py-2" style="background: #d8f3dc; color: var(--primary-dark);">
                    {{item.productName}}
                   </span>
-                  <span class="farmer-tag mb-0">Category</span>
+                  
                 </div> 
                 <div class="p-farmer mb-2"><i class="bi bi-person-fill me-1"></i>{{item.farmerName}}</div>
                 
@@ -86,6 +86,9 @@
       </div>
     </div>
 
+    @if (loading()) { <p role="status">Loading your cart...</p> }
+    @if (error()) { <div class="alert alert-danger" role="alert">{{error()}} <button class="btn btn-outline-danger" (click)="getCartsItems()">Retry</button></div> }
+    @if (!loading() && !error() && !cartData().length) { <div class="alert alert-info">Your cart is empty. <a routerLink="/products">Browse products</a></div> }
     <div class="row g-4">
       <div class="col-lg-7">
         <div class="role-card shadow-sm h-100">
@@ -107,7 +110,7 @@
               <div class="col-md-6">
                 <label for="city" class="form-label fw-semibold">City</label>
                 <input
-                  id="city"
+                  id="city" required
                   type="text" [(ngModel)]="orderObj.city" name="city"
                   class="form-control form-control-lg rounded-4"
                   placeholder="Enter city"
@@ -117,7 +120,7 @@
               <div class="col-md-6">
                 <label for="state" class="form-label fw-semibold">State</label>
                 <input
-                  id="state"
+                  id="state" required
                   type="text"  [(ngModel)]="orderObj.state" name="state"
                   class="form-control form-control-lg rounded-4"
                   placeholder="Enter state"
@@ -127,7 +130,7 @@
               <div class="col-md-6">
                 <label for="pincode" class="form-label fw-semibold">Pincode</label>
                 <input
-                  id="pincode"
+                  id="pincode" required pattern="[1-9][0-9]{5}" maxlength="6" inputmode="numeric"
                   type="text"  [(ngModel)]="orderObj.pincode" name="pincode"
                   class="form-control form-control-lg rounded-4"
                   placeholder="Enter pincode"
@@ -137,7 +140,7 @@
               <div class="col-12">
                 <label for="addressLine1" class="form-label fw-semibold">Address Line 1</label>
                 <textarea
-                  id="addressLine1"
+                  id="addressLine1" required
                   class="form-control rounded-4"
                   rows="4"  [(ngModel)]="orderObj.addressLine1" name="addressLine1"
                   placeholder="House no, street name, colony"
@@ -164,25 +167,25 @@
           <div class="section-label mb-2" style="color: rgba(255, 255, 255, 0.72);">Final Order</div>
           <h2 class="mb-3" style="font-size: 2rem;">Order Summary</h2>
           <p class="mb-4">
-            A quick overview before placing the order. You can later connect these values with real cart data.
+            Review your product total before placing your order. No online payment is collected here.
           </p>
 
           <div class="bg-white rounded-4 p-4 mb-4" style="color: var(--text-main);">
             <div class="d-flex justify-content-between align-items-center py-2 border-bottom" style="border-color: #eef4ef !important;">
               <span>Cart Subtotal</span>
-              <strong>&#8377;670</strong>
+              <strong>{{total() | currency:'INR'}}</strong>
             </div>
             <div class="d-flex justify-content-between align-items-center py-2 border-bottom" style="border-color: #eef4ef !important;">
               <span>Delivery Charges</span>
-              <strong>&#8377;40</strong>
+              <strong>&#8377;0</strong>
             </div>
             <div class="d-flex justify-content-between align-items-center py-2 border-bottom" style="border-color: #eef4ef !important;">
               <span>Platform Fee</span>
-              <strong>&#8377;10</strong>
+              <strong>&#8377;0</strong>
             </div>
             <div class="d-flex justify-content-between align-items-center pt-3">
               <span class="fw-bold">Grand Total</span>
-              <strong style="font-size: 1.4rem; color: var(--primary);">&#8377;{{total()}}</strong>
+              <strong style="font-size: 1.4rem; color: var(--primary);">{{total() | currency:'INR'}}</strong>
             </div>
           </div>
 
@@ -201,8 +204,8 @@
             </div>
           </div>
 
-          <button (click)="onSaveOrder()" type="button" class="btn-cta-white w-100 py-3">
-            <i class="bi bi-bag-heart-fill me-2"></i>Place Final Order
+          <button [disabled]="saving() || loading() || !!error() || !cartData().length" (click)="onSaveOrder()" type="button" class="btn-cta-white w-100 py-3">
+            <i class="bi bi-bag-heart-fill me-2"></i>{{saving() ? 'Placing order...' : 'Place Order'}}
           </button>
           <div class="small mt-3" style="color: rgba(255, 255, 255, 0.72);">
             By placing the order, you confirm the cart items and delivery address.

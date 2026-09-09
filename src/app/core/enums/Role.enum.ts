@@ -1,5 +1,5 @@
 export enum Roles {
-    SuperAdmin= 0,
-    Farmer = 1,
-    Customer =2
+    SuperAdmin= 1,
+    Farmer = 2,
+    Customer =3
 }

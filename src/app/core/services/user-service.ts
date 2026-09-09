@@ -23,12 +23,19 @@ export class UserService {
   }
 
   getLoggedUser() {
-    const localDta =  localStorage.getItem(GlobalConstant.LOCAL_LOGIN_KEY);
-    if(localDta != null) {
-      this.loggedInUser =  JSON.parse(localDta)
-    }
+    this.loggedInUser = new UserModel();
+    try {
+      const data = JSON.parse(localStorage.getItem(GlobalConstant.LOCAL_LOGIN_KEY) || 'null');
+      if (data?.userId > 0) this.loggedInUser = data;
+    } catch { localStorage.removeItem(GlobalConstant.LOCAL_LOGIN_KEY); }
   }
 
+  logout() {
+    localStorage.removeItem(GlobalConstant.LOCAL_LOGIN_KEY);
+    localStorage.removeItem(GlobalConstant.TOKEN_KEY);
+    this.loggedInUser = new UserModel();
+    this.onLogin$.next(false);
+  }
 
   login(obj: UserLogin) :Observable<LoginResponse> {
     
@@ -40,7 +47,7 @@ export class UserService {
   }
 
   getUserById(id: number) {
-    return this.http.get(`${this.apiUrl}${GlobalConstant.API_ENDPOINTS.GET_USER_BY_ID} ${id}`)
+    return this.http.get(`${this.apiUrl}${GlobalConstant.API_ENDPOINTS.GET_USER_BY_ID}${id}`)
   }
 
    getAllUsers() :Observable<ApiResponseModel>{

@@ -8,7 +8,7 @@ import { FocusInDir } from '../../shared/directives/focus-in-dir';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-master',
-  imports: [ReactiveFormsModule, NgClass, FocusInDir],
+  imports: [ReactiveFormsModule, FocusInDir],
   templateUrl: './master.html',
   styleUrl: './master.css',
 })
@@ -38,6 +38,15 @@ export class Master implements OnInit, OnDestroy {
 
   toggleForm(tabeName: string) {
     this.currentTabVisiable.set(tabeName)
+  }
+
+  deleteRole(item: Role) {
+    if (!confirm('Delete role ' + item.roleName + '?')) return;
+    this.masterSrv.deleteRole(item.roleId).subscribe({next:()=>{this.getAllRole();this.createRoleForm();},error:()=>{}});
+  }
+  deleteCategory(item: Category) {
+    if (!confirm('Delete category ' + item.name + '?')) return;
+    this.masterSrv.deleteCategory(item.categoryId).subscribe({next:()=>{this.getAllCategory();this.createCategoryForm();},error:()=>{}});
   }
 
   onRoleEdit(roleData: Role) {
@@ -84,13 +93,14 @@ export class Master implements OnInit, OnDestroy {
   }
 
   onSaveRole() {
+    if (!this.roleForm.value.roleName?.trim()) return;
     const formValue = this.roleForm.value;
    const sub=  this.masterSrv.createRole(formValue).subscribe({
       next: (resposne: ApiResponseModel) => {
         alert("Role Saved");
         this.roleList.update(oldData => [...oldData, resposne.data])
         //this.getAllRole()
-        this.roleForm.reset()
+        this.createRoleForm()
       },
       error:(errro)=>{ 
       }
@@ -98,6 +108,7 @@ export class Master implements OnInit, OnDestroy {
     this.subList.push(sub);
   }
   onUpdateRole() {
+    if (!this.roleForm.value.roleName?.trim()) return;
     const formValue = this.roleForm.value;
     this.masterSrv.updateRole(formValue).subscribe({
       next: (resposne: ApiResponseModel) => {
@@ -122,6 +133,7 @@ export class Master implements OnInit, OnDestroy {
     })
   }
   onSaveCategory() {
+    if (!this.categoryForm.value.name?.trim()) return;
     const formValue = this.categoryForm.value;
     this.masterSrv.createCategory(formValue).subscribe({
       next: (resposne: ApiResponseModel) => {
@@ -131,6 +143,7 @@ export class Master implements OnInit, OnDestroy {
     })
   }
   onUpdateCategory() {
+    if (!this.categoryForm.value.name?.trim()) return;
     const formValue = this.categoryForm.value;
     this.masterSrv.updateCategory(formValue).subscribe({
       next: (resposne: ApiResponseModel) => {

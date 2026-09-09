@@ -12,9 +12,9 @@
             type="text"
             placeholder="Search for potatoes, tomatoes, wheat..."
             [(ngModel)]="searchText"
-            name="homeSearchText"
+            name="homeSearchText" aria-label="Search products"
             (keyup.enter)="onSearchProducts()" />
-          <select [(ngModel)]="selectedCategoryId" name="homeCategoryId">
+          <select [(ngModel)]="selectedCategoryId" name="homeCategoryId" aria-label="Product category">
             <option [ngValue]="0">All Categories</option>
             @for (category of categorListObs$ | async; track category.categoryId) {
             <option [ngValue]="category.categoryId">{{ category.name }}</option>
@@ -28,16 +28,16 @@
         </div>
         <div class="row g-3 mt-4">
           <div class="col-4 hero-stat">
-            <div class="num">1,200+</div>
-            <div class="lbl">Farmers</div>
+            <div class="num">Direct</div>
+            <div class="lbl">From farmers</div>
           </div>
           <div class="col-4 hero-stat">
-            <div class="num">8,500+</div>
+            <div class="num">Fresh</div>
             <div class="lbl">Products</div>
           </div>
           <div class="col-4 hero-stat">
-            <div class="num">45K+</div>
-            <div class="lbl">Customers</div>
+            <div class="num">Simple</div>
+            <div class="lbl">Ordering</div>
           </div>
         </div>
       </div>
@@ -48,15 +48,15 @@
           <div class="floating-card card-1">
             <div class="fc-icon green"><i class="bi bi-check-circle-fill"></i></div>
             <div class="fc-text">
-              <strong>Order Confirmed!</strong>
-              <span>2kg Potatoes from Ravi Farms</span>
+              <strong>Choose your produce</strong>
+              <span>Order directly from farmers</span>
             </div>
           </div>
           <div class="floating-card card-2">
             <div class="fc-icon orange"><i class="bi bi-star-fill"></i></div>
             <div class="fc-text">
-              <strong>4.9 Rating</strong>
-              <span>2,400+ Reviews</span>
+              <strong>Know your farmer</strong>
+              <span>Browse farmer profiles</span>
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@
   <div class="container">
     <div class="d-flex gap-3 overflow-auto pb-1">
       <div class="cat-pill " [ngClass]="selectedCategory() == 'All'?'active':''" (click)="getAllProduct()"><i
-          class="bi bi-grid-fill"></i> All - {{timer$|async}}</div>
+          class="bi bi-grid-fill"></i> All</div>
       @for (item of categorListObs$ |async; track $index) {
       <div class="cat-pill" [ngClass]="selectedCategory() == item.name ?'active':''" (click)="getProductByCateId(item)">
         <i class="bi bi-flower1"></i> {{item.name}}
@@ -99,7 +99,7 @@
         <div class="product-card">
           <div class="p-img"> 
             @defer (on viewport) {
-            <img [src]="item.productImage" alt="{{ item.productImage }}" loading="lazy" />
+            <img [src]="item.productImage" [alt]="item.productName" loading="lazy" />
             } @placeholder {
             <div class="image-placeholder">Loading...</div>
             }
@@ -184,7 +184,7 @@
           <ul>
             <li>Create and manage all product categories</li>
             <li>Define master product catalogue</li>
-            <li>Approve farmer registrations</li>
+            <li>Manage the product catalogue</li>
             <li>Monitor all platform activity</li>
             <li>Manage user roles and access</li>
           </ul>
@@ -197,9 +197,9 @@
           <ul>
             <li>Register and create seller profile</li>
             <li>List products from admin catalogue</li>
-            <li>Set own prices and stock quantity</li>
+            <li>Set prices and listing quantities</li>
             <li>Receive and manage incoming orders</li>
-            <li>Track sales and inventory</li>
+            <li>View orders and update listings</li>
           </ul>
         </div>
       </div>
@@ -212,7 +212,7 @@
             <li>View multiple farmers per product</li>
             <li>Add items from different farmers to cart</li>
             <li>Orders split automatically per farmer</li>
-            <li>Track order status in real-time</li>
+            <li>View order delivery status</li>
           </ul>
         </div>
       </div>
@@ -241,10 +241,8 @@
             alt="Farmer" class="farmer-avatar" />
           <h5>{{item.name}}</h5>
           <div class="loc"><i class="bi bi-geo-alt-fill"></i> {{item.address}}</div>
-          <div class="farmer-rating mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-              class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i> 4.8</div>
-          <div><span class="farmer-tag">Potatoes</span><span class="farmer-tag">Onions</span><span
-              class="farmer-tag">Wheat</span></div>
+
+<a routerLink="/products" [queryParams]="{farmerId: item.userId}" class="farmer-tag">View products</a>
         </div>
       </div>
       }
@@ -261,7 +259,7 @@
       <div class="row align-items-center g-4">
         <div class="col-lg-7">
           <h2>Are You a Farmer? Start Selling Today.</h2>
-          <p>Join thousands of farmers who are earning more by selling directly to customers. No commission, no
+          <p>Connect with customers by listing your farm produce. No commission, no
             middleman — just fair prices.</p>
         </div>
         <div class="col-lg-5 text-lg-end">
@@ -276,7 +274,7 @@
 </section>
 
 <div class="modal cart-modal"  #cartModel tabindex="-1" aria-labelledby="addToCartModalLabel"
-  aria-hidden="true">
+  role="dialog" aria-modal="true" (keydown.escape)="closeCartModel()">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
@@ -313,7 +311,7 @@
               <input type="number" [(ngModel)]="cartQuantity" class="form-control" placeholder="Enter quantity" min="1" />
               <span class="quantity-unit">Kg</span>
             </div>
-            <small class="form-text">You can bind this textbox to your quantity model before calling the API.</small>
+            <small class="form-text">Enter the quantity you would like to order in kilograms.</small>
           </div>
 
           <div class="cart-summary-box">
@@ -326,7 +324,7 @@
               <strong>Farmer Direct</strong>
             </div>
             <div class="summary-row total">
-              <span>Estimated Total</span> -- {{selectedProductData?.pricePerKg}} --{{cartQuantity}}
+              <span>Estimated Total</span>
               <strong>₹{{(selectedProductData != undefined ? selectedProductData.pricePerKg :0) * cartQuantity}}</strong>
             </div>
           </div>

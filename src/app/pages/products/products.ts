@@ -1,3 +1,5 @@
+import { OrderService } from '../../core/services/order-service';
+import { MessageService } from 'primeng/api';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MasterService } from '../../core/services/master';
 import { Observable } from 'rxjs';
@@ -21,6 +23,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class Products implements OnInit {
 
+  orderSrv = inject(OrderService);
+  messages = inject(MessageService);
+  adding = signal<number | null>(null);
+  listView = signal(false);
+  loading = signal(false);
+  loadError = signal(false);
   filterObj: ProductFilter = new ProductFilter();
   productList = signal<IProductList[]>([]);
   productSrv = inject(ProductService);
@@ -47,6 +55,8 @@ export class Products implements OnInit {
   setFiltersFromQueryParams() {
     const queryParams = this.route.snapshot.queryParamMap;
     const productName = queryParams.get('productName');
+    const farmerId = Number(queryParams.get('farmerId'));
+    if (farmerId > 0) this.filterObj.farmerId = farmerId;
     const categoryId = Number(queryParams.get('categoryId'));
 
     if (productName) {
@@ -86,14 +96,17 @@ export class Products implements OnInit {
   }
 
   applyFilters() {
+    this.loading.set(true); this.loadError.set(false);
     this.filterObj.pageNumber = this.currentPage();
     this.productSrv.filterProducts(this.filterObj).subscribe({
       next: (res: any) => {
+        this.loading.set(false);
         this.productList.set(res.data ?? []);
         this.totalProducts.set(res.totalRecords ?? 0);
         this.buildPages();
       },
       error: () => {
+        this.loading.set(false); this.loadError.set(true);
         this.productList.set([]);
         this.totalProducts.set(0);
         this.pagesArray = [];
@@ -114,7 +127,7 @@ export class Products implements OnInit {
   }
 
   onApplyFilters() {
-    const pageNumber = this.filterObj.pageNumber > 0 ? this.filterObj.pageNumber : 1;
+    const pageNumber = 1;
     this.filterObj.pageNumber = pageNumber;
     this.currentPage.set(pageNumber);
     this.applyFilters();
@@ -125,9 +138,17 @@ export class Products implements OnInit {
 
     if (this.userSrv.loggedInUser == undefined || this.userSrv.loggedInUser.userId <= 0) {
       alert('Please login to add products to your cart.');
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'], {queryParams:{returnUrl:'/products'}});
       return;
     }
+    if(this.adding() !== null) return;
+    this.adding.set(product.farmerProductId);
+    this.orderSrv.onSaveAddToCart({cartId:0, customerId:this.userSrv.loggedInUser.userId,
+      farmerProductId:product.farmerProductId, quantity:1, addedAt:new Date()}).subscribe({
+      next:()=>{this.adding.set(null);this.orderSrv.addtoCart$.next(true);
+        this.messages.add({severity:'success',summary:'Added to cart',detail:product.productName+' (1 kg)'});},
+      error:()=>this.adding.set(null)
+    });
   }
 
   onPageSizeChange() {

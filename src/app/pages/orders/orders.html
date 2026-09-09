@@ -230,6 +230,12 @@
                   </div>
                   <div class="p-farmer mb-1">
                     <i class="bi bi-person-fill me-1"></i>{{ getItemFarmerName(item) }}
+                    <div class="mt-2"><span class="badge text-bg-light">{{item.status}}</span></div>
+                    @if (userService.loggedInUser.roleId === 1 || (userService.loggedInUser.roleId === 2 && item.farmerId === userService.loggedInUser.userId)) {
+                      @if (item.status !== 'DELIVERED') {
+                        <button class="btn btn-sm btn-outline-success mt-2" [disabled]="updatingItem() !== null" (click)="changeItemStatus(item, 'DELIVERED')">Mark delivered</button>
+                      }
+                    }
                   </div>
                 </div>
                 <div class="col-md-2 col-6">

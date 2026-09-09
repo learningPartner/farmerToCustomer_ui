@@ -13,8 +13,8 @@
       </div>
       <div class="hero-search">
         <i class="bi bi-search"></i>
-        <input type="text" placeholder="Search farmer, city, pincode or product" />
-        <button type="button">Search</button>
+        <input type="text" placeholder="Search farmer, city, pincode or product" [(ngModel)]="search" (keyup.enter)="applyFilter()" />
+        <button type="button" (click)="applyFilter()">Search</button>
       </div>
     </div>
   </section>
@@ -28,7 +28,7 @@
               <div class="card-kicker">Filters</div>
               <h2>Find Farmers</h2>
             </div>
-            <button class="btn-icon-reset" type="button" title="Reset filters">
+            <button class="btn-icon-reset" type="button" title="Reset filters" (click)="resetFilters()">
               <i class="bi bi-arrow-counterclockwise"></i>
             </button>
           </div>
@@ -36,29 +36,29 @@
           <form class="filter-form">
             <div class="filter-group">
               <label for="farmerName">Farmer Name</label>
-              <input id="farmerName" type="text" placeholder="e.g. Ravi Kumar" />
+              <input id="farmerName" name="name" [(ngModel)]="name" type="text" placeholder="e.g. Ravi Kumar" />
             </div>
 
             <div class="filter-group">
               <label for="city">City</label>
-              <input id="city" type="text" placeholder="e.g. Pune" />
+              <input id="city" name="city" [(ngModel)]="city" type="text" placeholder="e.g. Pune" />
             </div>
 
             <div class="filter-group">
               <label for="pincode">Pincode</label>
-              <input id="pincode" type="text" placeholder="e.g. 411001" />
+              <input id="pincode" name="pincode" [(ngModel)]="pincode" type="text" placeholder="e.g. 411001" />
             </div>
 
             <div class="filter-group">
               <label for="products">Products</label>
-              <input id="products" type="text" placeholder="e.g. Tomato, Onion" />
+              <input id="products" name="product" [(ngModel)]="product" type="text" placeholder="e.g. Tomato, Onion" />
             </div>
 
             <div class="filter-actions">
               <button class="btn-apply-filter" type="button" (click)="applyFilter()">
                 <i class="bi bi-funnel-fill"></i>Apply Filters
               </button>
-              <button class="btn-clear-filter" type="button" (click)="applyFilter()">Clear</button>
+              <button class="btn-clear-filter" type="button" (click)="resetFilters()">Clear</button>
             </div>
           </form>
         </div>
@@ -72,30 +72,32 @@
             <p>Showing farmers registered on KisanToGrahak</p>
           </div>
           <div class="toolbar-actions">
-            <button class="view-toggle active" type="button" title="Grid view">
+            <button class="view-toggle" [class.active]="!listView()" (click)="listView.set(false)" type="button" title="Grid view">
               <i class="bi bi-grid-3x3-gap-fill"></i>
             </button>
-            <button class="view-toggle" type="button" title="List view">
+            <button class="view-toggle" [class.active]="listView()" (click)="listView.set(true)" type="button" title="List view">
               <i class="bi bi-list-ul"></i>
             </button>
           </div>
         </div>
 
         <div class="active-filter-row">
-          <span><i class="bi bi-geo-alt-fill me-1"></i>Nearby Farmers</span>
+          <span><i class="bi bi-geo-alt-fill me-1"></i>Farmer Profiles</span>
           <span><i class="bi bi-basket-fill me-1"></i>Fresh Produce</span>
-          <span><i class="bi bi-patch-check-fill me-1"></i>Verified Sellers</span>
+          <span><i class="bi bi-patch-check-fill me-1"></i>Registered Sellers</span>
         </div>
 
+        @if (loading()) { <p role="status">Loading farmers...</p> }
+        @if (!loading() && !farmers().length) { <p role="status">No farmers match your filters.</p> }
         <div class="row g-4">
-          @for (item of farmersList$|async; track item.userId) {
-             <div class="col-md-6 col-xl-4">
+          @for (item of farmers(); track item.userId) {
+             <div [class]="listView() ? 'col-12' : 'col-md-6 col-xl-4'">
             <article class="market-product-card">
               <div class="product-image">
                 <img
                   src="https://images.pexels.com/photos/2382904/pexels-photo-2382904.jpeg?auto=compress&cs=tinysrgb&w=700"
                   [alt]="item.name" />
-                <span class="product-badge">Verified</span>
+                <span class="product-badge">Farmer</span>
               </div>
               <div class="product-body">
                 <div class="product-meta-line">
@@ -107,8 +109,8 @@
                   <i class="bi bi-envelope-fill"></i>{{item.email}}
                 </div>
                 <div class="price-row">
-                  <strong>4.8<span>/5</span></strong>
-                  <small>12 products listed</small>
+                  <strong>{{listingCount(item.userId)}}<span> listings</span></strong>
+                  
                 </div>
                 <button type="button" class="btn-add-cart" (click)="openFarmerModal(item)">
                   <i class="bi bi-person-lines-fill"></i>View Farmer
@@ -160,7 +162,7 @@
               <div class="farmer-profile-summary">
                 <span class="farmer-status-pill">
                   <i class="bi bi-patch-check-fill"></i>
-                  Verified Farmer
+                  Registered Farmer
                 </span>
                 <h5>{{farmer.name}}</h5>
                 <p>{{farmer.address}}</p>

@@ -167,3 +167,31 @@
     .search-wrap select { border: none; outline: none; font-size: 0.9rem; color: var(--text-muted); border-left: 1px solid var(--border); padding: 0 12px; }
     .btn-search { background: var(--primary); color: #fff; border: none; border-radius: 10px; padding: 11px 22px; font-weight: 700; font-size: 0.9rem; transition: all 0.2s; white-space: nowrap; }
     .btn-search:hover { background: var(--primary-dark); color: #fff; }
+
+/* Shared responsive and accessible controls, using the existing theme. */
+img { max-width: 100%; }
+button:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid var(--accent-dark); outline-offset: 3px; }
+.search-wrap input { min-width: 0; }
+.product-card:has(form):hover { transform: none; }
+.cta-banner > *, .hero > .container { position: relative; z-index: 1; }
+@media (max-width: 575.98px) {
+ .search-wrap { flex-wrap: wrap; padding: 12px; }
+ .search-wrap input { flex-basis: 65%; }
+ .search-wrap select { max-width: 100%; }
+ .btn-search { flex: 1; }
+ .floating-card.card-1 { left: 0; } .floating-card.card-2 { right: 0; }
+ .cta-banner { padding: 28px 20px; border-radius: 20px; }
+ .hero { min-height: auto; padding: 48px 0; }
+ .role-card { padding: 24px 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+ *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}
+
+:root { color-scheme: light; }
+.search-wrap input, .search-wrap select { background: #fff; color: var(--text-main); }
+.hero .search-wrap input { flex: 1 1 120px; width: 120px; }
+.hero .search-wrap select { flex: 0 1 145px; width: 145px; }
+.hero .search-wrap .btn-hero-primary { padding: 12px 20px; }
+@media (max-width: 575.98px) { .hero .search-wrap input { flex-basis: 100%; width: 100%; } }
